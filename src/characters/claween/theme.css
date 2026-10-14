@@ -1,0 +1,86 @@
+/* Claween's extras on top of the shared character look. */
+
+/* Faint paw prints wandering across the page */
+body {
+    background-color: var(--background);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='%23d0783c' fill-opacity='0.06'%3E%3Cg transform='translate(30 40) rotate(-20)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3Cg transform='translate(120 120) rotate(15)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Sunara's warm glow behind the name */
+.character-header {
+    background: radial-gradient(ellipse 420px 180px at 50% 55%, rgba(255, 180, 110, .22), transparent 70%);
+}
+
+.character-header h1 {
+    text-transform: uppercase;
+}
+
+.character-icon {
+    display: inline-block;
+    transition: transform .4s ease;
+}
+
+.character-header:hover .character-icon {
+    transform: rotate(-12deg) scale(1.08);
+}
+
+.lore hr::after {
+    content: "······ 🐾 ······";
+}
+
+/* The "Evet, peki neden?" notes look like pinned scraps of paper */
+.lore-note {
+    transform: rotate(-.4deg);
+    box-shadow: 0 6px 18px rgba(164, 90, 42, .08);
+}
+
+.lore-note strong:first-child {
+    color: var(--title);
+    font-family: var(--heading-font);
+    font-size: 22px;
+    font-weight: normal;
+}
+
+/* Torn-paper edges on the reading card */
+.story-card {
+    box-shadow: 0 10px 30px rgba(164, 90, 42, .05);
+    clip-path: polygon(
+        0% 0%, 100px 15px, 200px 0px, 300px 20px, 400px 0px, 500px 15px, 600px 0px, 700px 20px, 800px 5px, 900px 15px, 100% 0%,
+        99% 10%, 100% 20%, 99% 30%, 100% 40%, 99% 50%, 100% 60%, 99% 70%, 100% 80%, 99% 90%, 100% 100%,
+        calc(100% - 100px) calc(100% - 15px), calc(100% - 200px) 100%, calc(100% - 300px) calc(100% - 20px), calc(100% - 400px) 100%, calc(100% - 500px) calc(100% - 15px), calc(100% - 600px) 100%, calc(100% - 700px) calc(100% - 20px), calc(100% - 800px) calc(100% - 5px), calc(100% - 900px) calc(100% - 15px), 0% 100%,
+        1% 90%, 0% 80%, 1% 70%, 0% 60%, 1% 50%, 0% 40%, 1% 30%, 0% 20%, 1% 10%
+    );
+    padding-top: 55px;
+    padding-bottom: 55px;
+}
+
+/* Chapters open with a big storybook letter and end with a paw */
+.category-bolumler .story-body > p:first-child::first-letter {
+    float: left;
+    margin: 6px 10px 0 0;
+    color: var(--accent);
+    font-family: var(--heading-font);
+    font-size: 64px;
+    line-height: .9;
+}
+
+.category-bolumler .story-body::after,
+.category-siirler .story-body::after {
+    display: block;
+    margin-top: 30px;
+    color: var(--accent);
+    content: "🐾";
+    text-align: center;
+}
+
+/* Poems: italic, in a narrower column like a page of verse */
+.category-siirler .story-body {
+    max-width: 640px;
+    margin-inline: auto;
+    font-style: italic;
+}
+
+.category-siirler .story-body p {
+    font-size: 18.5px;
+    line-height: 2;
+}

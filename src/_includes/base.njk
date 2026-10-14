@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% if pageTitle %}{{ pageTitle }} • {% endif %}{{ site.title }}</title>
+        <link rel="icon" href="/assets/images/logo1.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/site.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <header class="site-header">
+                <div class="decoration" aria-hidden="true"> ⊹ ࣪ ˖ 🌸 ⊹ ࣪ ˖ </div>
+                <img src="/assets/images/logo1.png" class="logo" alt="Hayal Bahçesi logosu" loading="eager">
+                <h1>{{ site.title }}</h1>
+                <p class="subtitle">{{ site.subtitle }}</p>
+                <nav aria-label="Ana gezinme">
+                    {%- for item in site.nav %}
+                    {% if not loop.first %}<span class="separator" aria-hidden="true">·</span>{% endif %}
+                    <a href="{{ item.url }}"{% if item.url == page.url %} class="active" aria-current="page"{% endif %}>{{ item.label }}</a>
+                    {%- endfor %}
+                </nav>
+            </header>
+
+            <main>
+                {{ content | safe }}
+            </main>
+
+            <footer class="site-footer">{{ site.footer }}</footer>
+        </div>
+    </body>
+</html>

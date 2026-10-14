@@ -1,0 +1,51 @@
+{%- set currentGroup = groups | findBy("key", storyCategory) %}
+<div class="reader">
+    <aside class="reader-nav" aria-label="Hikâyeler">
+        {%- for group in groups %}
+        <details class="menu-category"{% if not storyCategory or group.key == storyCategory %} open{% endif %}>
+            <summary class="menu-title">{{ group.label }}</summary>
+            <ol class="menu-list">
+                {%- for story in group.stories %}
+                <li><a href="{{ story.url }}"{% if story.url == page.url %} aria-current="page"{% endif %}>{{ story.data.title }}</a></li>
+                {%- endfor %}
+            </ol>
+        </details>
+        {%- endfor %}
+    </aside>
+
+    <article class="story-card">
+        {%- if pageKind == "stories-home" %}
+        <h2>{{ title }}</h2>
+        <div class="story-body">
+            {%- if c.storiesIntro %}<p>{{ c.storiesIntro }}</p>{% endif %}
+        </div>
+        <div class="story-index">
+            {%- for group in groups %}
+            <section>
+                <h3>{{ group.label }}</h3>
+                <ol>
+                    {%- for story in group.stories %}
+                    <li><a href="{{ story.url }}">{{ story.data.title }}</a> <span class="meta">~{{ story.content | readingMinutes }} dk</span></li>
+                    {%- endfor %}
+                </ol>
+            </section>
+            {%- endfor %}
+        </div>
+        {%- else %}
+        <p class="story-kicker">{{ currentGroup.label }} · ~{{ content | readingMinutes }} dk okuma</p>
+        <h2>{{ title }}</h2>
+        <div class="story-body">
+            {{ content | safe }}
+        </div>
+        {%- set around = currentGroup.stories | neighbours(page.url) %}
+        <nav class="story-pager" aria-label="Önceki ve sonraki">
+            {%- if around.previous %}
+            <a class="previous" href="{{ around.previous.url }}"><small>← Önceki</small>{{ around.previous.data.title }}</a>
+            {%- else %}<span></span>{% endif %}
+            {%- if around.next %}
+            <a class="next" href="{{ around.next.url }}"><small>Sonraki →</small>{{ around.next.data.title }}</a>
+            {%- endif %}
+        </nav>
+        {%- endif %}
+    </article>
+</div>

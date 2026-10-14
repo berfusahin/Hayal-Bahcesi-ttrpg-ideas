@@ -1,0 +1,64 @@
+{#- One layout for every character page: the profile, the stories home and each story. -#}
+{%- set profile = collections.characters | profileFor(characterId) -%}
+{%- set c = profile.data -%}
+{%- set groups = collections.stories | storyGroups(characterId, c.categories) -%}
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% if pageKind != "profile" %}{{ title }} • {% endif %}{{ c.name }} | {{ site.title }}</title>
+        {%- if c.portrait %}
+        <link rel="icon" href="{{ profile.url }}{{ c.portrait }}">
+        {%- endif %}
+        {%- if c.fonts %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="{{ c.fonts }}">
+        {%- endif %}
+        <link rel="stylesheet" href="/assets/css/character.css">
+        <style>
+            :root {
+                {%- for key, value in c.theme %}
+                --{{ key }}: {{ value | safe }};
+                {%- endfor %}
+            }
+        </style>
+        {%- if c.hasThemeCss %}
+        <link rel="stylesheet" href="{{ profile.url }}theme.css">
+        {%- endif %}
+    </head>
+    <body class="character-page character-{{ characterId }} page-{{ pageKind }}{% if storyCategory %} category-{{ storyCategory }}{% endif %}">
+        <div class="wrapper">
+            <header class="character-header">
+                <div class="character-icon" aria-hidden="true">{{ c.icon or "✦" }}</div>
+                <h1><a href="{{ profile.url }}">{{ c.name }}</a></h1>
+                {%- if c.subtitle %}
+                <p class="subtitle">{{ c.subtitle }}</p>
+                {%- endif %}
+                <nav class="character-links" aria-label="Karakter gezinme">
+                    {%- if pageKind == "profile" %}
+                    <a href="/characters/">← Bahçeye geri dön</a>
+                    {%- if groups.length %}<a href="{{ profile.url }}hikayeler/">Hikâyeler →</a>{% endif %}
+                    {%- else %}
+                    <a href="{{ profile.url }}">← {{ c.name }}</a>
+                    <a href="/characters/">Bahçe</a>
+                    {%- endif %}
+                </nav>
+            </header>
+
+            <main>
+                {%- if pageKind == "profile" %}
+                {%- include "partials/profile.njk" %}
+                {%- else %}
+                {%- include "partials/reader.njk" %}
+                {%- endif %}
+            </main>
+
+            <footer class="character-footer">{{ c.footer or "✦" }}</footer>
+        </div>
+
+        <dialog class="lightbox" aria-label="Büyütülmüş resim"><img alt=""></dialog>
+        <script src="/assets/js/lightbox.js" defer></script>
+    </body>
+</html>

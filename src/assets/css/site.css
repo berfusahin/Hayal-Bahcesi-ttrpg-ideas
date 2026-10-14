@@ -1,0 +1,327 @@
+:root {
+    --color-background: #fdf6f8;
+    --color-text: #72515f;
+    --color-subtitle: #987280;
+    --color-link: #9f6f82;
+    --color-decoration: #bf97a8;
+    --color-separator: #c8a5b2;
+    --color-border: #ebd7df;
+    --color-border-hover: #d8b0bf;
+    --color-surface: rgba(255, 255, 255, .72);
+    --color-surface-soft: rgba(255, 255, 255, .55);
+    --color-date: #b19aa3;
+    --font-heading: "Cormorant Garamond", serif;
+    --font-body: Georgia, serif;
+    --content-width: 820px;
+    --page-padding: 50px 20px;
+    --section-gap: 28px;
+    --corner-radius: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.9;
+    padding: var(--page-padding);
+}
+
+.wrapper {
+    max-width: var(--content-width);
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.decoration {
+    color: var(--color-decoration);
+    font-size: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.logo {
+    width: 120px;
+    display: block;
+    margin: 0 auto 18px;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 58px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: var(--color-subtitle);
+    font-style: italic;
+    margin-bottom: 28px;
+}
+
+nav {
+    font-size: 18px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--color-link);
+    transition: color .2s;
+}
+
+nav a:hover {
+    color: var(--color-text);
+}
+
+.separator {
+    margin: 0 10px;
+    color: var(--color-separator);
+}
+
+.active {
+    border-bottom: 1px solid var(--color-link);
+    padding-bottom: 2px;
+}
+
+.content-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--corner-radius);
+    padding: 32px;
+    margin-bottom: var(--section-gap);
+}
+
+.content-box h2 {
+    font-family: var(--font-heading);
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.content-box p {
+    margin-bottom: 0px;
+}
+
+.post-composer {
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.post-composer h2 {
+    margin-bottom: 6px;
+}
+
+.post-form {
+    display: grid;
+    gap: 4px;
+}
+
+.post-form label {
+    font-weight: 600;
+}
+
+.post-form textarea {
+    width: 100%;
+    min-height: 64px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border-hover);
+    border-radius: 8px;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, .8);
+    font: inherit;
+    resize: vertical;
+    margin-bottom: 12px;
+}
+
+.post-form textarea:focus {
+    outline: 2px solid var(--color-decoration);
+    outline-offset: 2px;
+}
+
+.post-form button {
+    justify-self: start;
+    padding: 6px 14px;
+    border: 1px solid var(--color-link);
+    border-radius: 8px;
+    color: #fff;
+    background: var(--color-link);
+    font: inherit;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.post-form button:hover {
+    background: var(--color-text);
+}
+
+.post-form button:focus-visible,
+.post-delete:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+}
+
+.post-status {
+    min-height: 1em;
+    margin-bottom: 7px !important;
+    color: var(--color-subtitle);
+    font-size: 15px;
+}
+
+.post-list {
+    display: grid;
+    gap: 16px;
+}
+
+.post-item {
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-surface-soft);
+}
+
+.post-item time {
+    display: block;
+    margin-bottom: 0px;
+    color: var(--color-date);
+    font-size: 11px;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.post-delete {
+    display: block;
+    margin: 0px 0 0 auto;
+    padding: 4px 8px;
+    border: 1px solid #e5d5db;
+    border-radius: 6px;
+    color: #987f89;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+}
+
+.post-delete:hover {
+    color: var(--color-text);
+    border-color: var(--color-separator);
+    background: rgba(255, 255, 255, .65);
+}
+
+.post-item p {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 15px;
+}
+
+.page-title {
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.page-description {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #9a7482;
+    font-style: italic;
+}
+
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.character-card {
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--corner-radius);
+    padding: 18px;
+    transition: transform .25s, border-color .25s;
+    text-align: center;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-hover);
+}
+
+.character-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.character-card h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.character-card--text-only {
+    display: grid;
+    align-content: center;
+    min-height: 160px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 55px;
+    color: #b18c99;
+    font-size: 15px;
+}
+
+@media (max-width: 700px) {
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .character-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Characters that don't have a page yet */
+.character-card--soon {
+    position: relative;
+    cursor: default;
+}
+
+.character-card--soon:hover {
+    transform: none;
+    border-color: var(--color-border);
+}
+
+.character-card--soon img {
+    filter: saturate(.45) opacity(.8);
+}
+
+.soon-badge {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--color-subtitle);
+    font-size: 13px;
+    font-style: italic;
+}

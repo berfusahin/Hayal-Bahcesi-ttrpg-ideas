@@ -1,0 +1,14 @@
+---
+# Makes a "Hikâyeler" page for every character that has stories.
+layout: character.njk
+pagination:
+  data: collections.characters
+  size: 1
+  alias: owner
+pageKind: stories-home
+eleventyComputed:
+  characterId: "{{ owner.data.characterId }}"
+  title: "{{ owner.data.storiesTitle or 'Hikâyeler Odası' }}"
+permalink: "/characters/{{ owner.data.characterId }}/hikayeler/"
+eleventyExcludeFromCollections: true
+---

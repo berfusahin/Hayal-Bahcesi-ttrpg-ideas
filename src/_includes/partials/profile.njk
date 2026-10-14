@@ -1,0 +1,43 @@
+{%- set sections = content | tableOfContents %}
+<section class="hero">
+    {%- if c.portrait %}
+    <figure class="hero-portrait">
+        <img src="{{ c.portrait }}" alt="{{ c.name }}" class="zoomable" loading="eager">
+    </figure>
+    {%- endif %}
+
+    <div class="hero-sheet">
+        {%- if c.stats %}
+        <dl class="stats">
+            {%- for stat in c.stats %}
+            <div class="stat">
+                <dt>{{ stat.label }}</dt>
+                <dd>{{ stat.value }}</dd>
+            </div>
+            {%- endfor %}
+        </dl>
+        {%- endif %}
+
+        {%- if sections.length > 1 %}
+        <nav class="toc" aria-labelledby="toc-title">
+            <h2 id="toc-title" class="toc-title">Bu sayfada</h2>
+            <ol>
+                {%- for section in sections %}
+                <li><a href="#{{ section.id }}">{{ section.label }}</a></li>
+                {%- endfor %}
+            </ol>
+        </nav>
+        {%- endif %}
+
+        {%- if groups.length %}
+        <a class="stories-button" href="hikayeler/">
+            <span>Hikâyeleri oku</span>
+            <small>{% for group in groups %}{{ group.label }} ({{ group.stories.length }}){% if not loop.last %} · {% endif %}{% endfor %}</small>
+        </a>
+        {%- endif %}
+    </div>
+</section>
+
+<div class="lore">
+    {{ content | safe }}
+</div>

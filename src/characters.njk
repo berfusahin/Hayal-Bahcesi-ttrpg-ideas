@@ -1,0 +1,31 @@
+---
+layout: base.njk
+pageTitle: Karakterler
+permalink: /characters/
+---
+<h2 class="page-title">Karakterler</h2>
+<p class="page-description">Bahçede dolaşan küçük hikâyeler...</p>
+
+
+<div class="character-grid">
+    {%- for profile in collections.characters %}
+    <a class="character-card" href="{{ profile.url }}">
+        {%- if profile.data.portrait %}
+        <img src="{{ profile.url }}{{ profile.data.portrait }}" alt="">
+        {%- endif %}
+        <h2>{{ profile.data.name }}</h2>
+    </a>
+    {%- endfor %}
+
+    {%- for character in upcomingCharacters %}
+    {%- if not (collections.characters | profileFor(character.folder)) %}
+    <div class="character-card character-card--soon{% if not character.image %} character-card--text-only{% endif %}">
+        {%- if character.image %}
+        <img src="{{ character.image }}" alt="">
+        {%- endif %}
+        <h2>{{ character.name }}</h2>
+        <span class="soon-badge">yakında</span>
+    </div>
+    {%- endif %}
+    {%- endfor %}
+</div>
