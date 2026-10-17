@@ -1,0 +1,38 @@
+{#- Character cards shared by the Characters page and the main page. -#}
+
+{# A character with a page: a pinned photo, taped on in the character's own colour. #}
+{% macro polaroid(c) -%}
+<a class="polaroid" href="{{ c.url }}"{% if c.accent %} style="--accent: {{ c.accent }}"{% endif %}>
+    <span class="tape" aria-hidden="true"></span>
+    <span class="photo">
+        {%- if c.image %}<img src="{{ c.image }}" alt="">{% endif -%}
+    </span>
+    <span class="caption">
+        <span class="name">{{ c.name }}</span>
+        {%- if c.tagline %}<span class="tagline">{{ c.tagline }}</span>{% endif %}
+        {%- if c.tags and c.tags.length %}
+        <span class="tags">{% for tag in c.tags %}<span class="tag">{{ tag }}</span>{% endfor %}</span>
+        {%- endif %}
+    </span>
+    <span class="visit" aria-hidden="true">sayfasına git →</span>
+</a>
+{%- endmacro %}
+
+{# A character without a page yet. #}
+{% macro seedling(c) -%}
+<div class="seedling{% if not c.image %} seedling--bare{% endif %}">
+    <span class="photo">
+        {%- if c.image %}<img src="{{ c.image }}" alt="">{% else %}<span class="sprout" aria-hidden="true">🌱</span>{% endif -%}
+    </span>
+    <span class="name">{{ c.name }}</span>
+    <span class="soon">yakında</span>
+</div>
+{%- endmacro %}
+
+{# A small round portrait for the main page. #}
+{% macro bloom(c) -%}
+<a class="bloom" href="{{ c.url }}"{% if c.accent %} style="--accent: {{ c.accent }}"{% endif %}>
+    <span class="bloom-face">{% if c.image %}<img src="{{ c.image }}" alt="">{% endif %}</span>
+    <span class="bloom-name">{{ c.name.split(" - ")[0] }}</span>
+</a>
+{%- endmacro %}

@@ -1,19 +1,48 @@
 ---
 layout: base.njk
 ---
-<section class="content-box post-composer" aria-labelledby="post-form-title">
-    <h2 id="post-form-title">Post an Update</h2>
-    <form class="post-form" id="post-form">
-        <textarea id="post-content" name="content" required placeholder="Write something..."></textarea>
-        <button type="submit">Publish Post</button>
-        <p class="post-status" id="post-status" role="status" aria-live="polite"></p>
-    </form>
+{%- from "partials/cards.njk" import bloom -%}
+{%- set garden = collections.characters | garden(upcomingCharacters) %}
+
+<section class="garden-strip" aria-labelledby="garden-title">
+    <header class="strip-head">
+        <div>
+            <p class="eyebrow">tarladan masanıza</p>
+            <h2 id="garden-title">Bahçedekiler</h2>
+        </div>  
+        <a class="see-all" href="/characters/">tüm karakterler <span aria-hidden="true">→</span></a>
+    </header>
+    <div class="blooms">
+        {%- for c in garden.planted %}
+        {{ bloom(c) }}
+        {%- endfor %}
+        {%- if garden.sprouting.length %}
+        <a class="bloom bloom--more" href="/characters/#seeds-title">
+            <span class="bloom-face"><span>+{{ garden.sprouting.length }}</span></span>
+            <span class="bloom-name">filizlenen</span>
+        </a>
+        {%- endif %}
+    </div>
 </section>
 
-<section class="content-box" aria-labelledby="posts-title">
-    <h2 id="posts-title">Posts</h2>
-    <div class="post-list" id="post-list" aria-live="polite"></div>
-</section>
+<div class="journal">
+    <section class="note-card post-composer" aria-labelledby="post-form-title">
+        <span class="pin" aria-hidden="true"></span>
+        <p class="eyebrow">aklına bir şey mi geldi?</p>
+        <h2 id="post-form-title">Paylaşım Yap!</h2>
+        <form class="post-form" id="post-form">
+            <textarea id="post-content" name="content" required placeholder="aklında ne var???"></textarea>
+            <button type="submit">Yayınla!</button>
+            <p class="post-status" id="post-status" role="status" aria-live="polite"></p>
+        </form>
+    </section>
+
+    <section class="posts" aria-labelledby="posts-title">
+        <p class="eyebrow">bahçe günlüğü</p>
+        <h2 id="posts-title">Paylaşımlar</h2>
+        <div class="post-list" id="post-list" aria-live="polite"></div>
+    </section>
+</div>
 
 <script>window.HayalBahcesiConfig = {{ site.posts | dump | safe }};</script>
 <script src="/assets/js/posts.js" defer></script>

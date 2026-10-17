@@ -1,39 +1,38 @@
 ---
 layout: base.njk
 pageTitle: Karakterler
+pageClass: characters
 permalink: /characters/
 ---
-<h2 class="page-title">Karakterler</h2>
-<p class="page-description">Bahçede dolaşan küçük hikâyeler...</p>
+{%- from "partials/cards.njk" import polaroid, seedling -%}
+{%- set garden = collections.characters | garden(upcomingCharacters) %}
 
+<section class="intro">
+    <p class="eyebrow">bahçede dolaşan</p>
+    <h2 class="page-title">Karakterler</h2>
+</section>
 
-<div class="character-grid">
-    {%- for profile in collections.characters %}
-    <a class="character-card" href="{{ profile.url }}">
-        {%- if profile.data.portrait %}
-        <img src="{{ profile.url }}{{ profile.data.portrait }}" alt="">
-        {%- endif %}
-        <h2>{{ profile.data.name }}</h2>
-    </a>
-    {%- endfor %}
-
-    {%- for character in upcomingCharacters %}
-    {%- if collections.characters | profileFor(character.folder) %}
-    {%- elif character.url %}
-    <a class="character-card" href="{{ character.url }}">
-        {%- if character.image %}
-        <img src="{{ character.image }}" alt="">
-        {%- endif %}
-        <h2>{{ character.name }}</h2>
-    </a>
-    {%- else %}
-    <div class="character-card character-card--soon{% if not character.image %} character-card--text-only{% endif %}">
-        {%- if character.image %}
-        <img src="{{ character.image }}" alt="">
-        {%- endif %}
-        <h2>{{ character.name }}</h2>
-        <span class="soon-badge">yakında</span>
+<section class="garden-bed" aria-labelledby="planted-title">
+    <header class="bed-head">
+        <h2 id="planted-title">Blooming Flowers</h2>
+        <p>Birine tıkla, yolculuğa başla!</p>
+    </header>
+    <div class="polaroid-wall">
+        {%- for c in garden.planted %}
+        {{ polaroid(c) }}
+        {%- endfor %}
     </div>
-    {%- endif %}
-    {%- endfor %}
-</div>
+</section>
+
+{%- if garden.sprouting.length %}
+<section class="garden-bed garden-bed--seeds" aria-labelledby="seeds-title">
+    <header class="bed-head">
+        <h2 id="seeds-title">Still a little sapling, just a sprout</h2>
+    </header>
+    <div class="seed-tray">
+        {%- for c in garden.sprouting %}
+        {{ seedling(c) }}
+        {%- endfor %}
+    </div>
+</section>
+{%- endif %}

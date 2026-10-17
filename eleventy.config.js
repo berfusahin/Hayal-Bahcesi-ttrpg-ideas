@@ -78,6 +78,24 @@ export default function (eleventyConfig) {
             .map(([key, items]) => ({ key, label: labels[key] || key, stories: items }));
     });
 
+    // Every character as one card list: { planted: has a page, sprouting: "yakında" }.
+    eleventyConfig.addFilter("garden", (profiles = [], upcoming = []) => {
+        const planted = profiles.map((p) => ({
+            name: p.data.name,
+            url: p.url,
+            image: p.data.portrait ? p.url + p.data.portrait : null,
+            tagline: p.data.subtitle,
+            tags: p.data.cardTags || [],
+            accent: p.data.theme?.accent
+        }));
+        const sprouting = [];
+        for (const c of upcoming) {
+            if (profiles.some((p) => p.data.characterId === c.folder)) continue;
+            (c.url ? planted : sprouting).push(c);
+        }
+        return { planted, sprouting };
+    });
+
     eleventyConfig.addFilter("findBy", (items = [], key, value) =>
         items.find((item) => item[key] === value));
 

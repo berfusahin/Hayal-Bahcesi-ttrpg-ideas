@@ -5,6 +5,7 @@ icon: 🐾
 subtitle: keeper of forgotten stories
 portrait: assets/portrait.png     # karakterler sayfasındaki kart + profildeki büyük resim
 order: 1                          # karakterler sayfasındaki sıra
+cardTags: [Tabaxi, Keşiş]           # karakter kartındaki etiketler
 footer: 🐾 ✦ 🐾
 
 # ── Karakter kartı (istediğin kadar satır ekleyebilirsin) ──
