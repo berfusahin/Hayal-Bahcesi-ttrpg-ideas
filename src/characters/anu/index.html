@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anu Mukhtar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Rozha+One&display=swap">
+<link rel="stylesheet" href="stil.css">
+<style>
+  /* ——— Hero ——— */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(24px, 5vw, 72px); align-items: center; padding-block: clamp(40px, 7vw, 96px); }
+  .hero-text { min-width: 0; }
+  .lineage { color: var(--emerald); }
+  .name { margin-top: 14px; font-size: clamp(4rem, 8.6vw, 8.4rem); line-height: 0.86; letter-spacing: -0.01em; }
+  .name span { display: block; }
+  .name .sur { color: var(--crimson); padding-left: clamp(16px, 4vw, 64px); }
+  .born { margin: 18px 0 0; font-family: var(--f-label); color: var(--muted); font-size: 1rem; }
+  .born b { color: var(--ink); font-weight: 600; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, minmax(0, auto)); justify-content: start; gap: 8px 32px; margin: 32px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); }
+  .facts div { min-width: 0; }
+  .facts dt { font-family: var(--f-label); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 2px 0 0; font-family: var(--f-display); font-size: 1.25rem; line-height: 1.2; }
+  @media (max-width: 560px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .motto { margin: 36px 0 0; max-width: 34ch; font-style: italic; font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.5; }
+  .motto::before { content: ""; display: block; width: 48px; height: 3px; background: var(--crimson); margin-bottom: 14px; border-radius: 2px; }
+
+  .portrait { position: relative; justify-self: end; width: min(100%, 420px); }
+  .portrait img { width: 100%; aspect-ratio: 736 / 1308; max-height: 78vh; object-fit: cover; object-position: center top; border-radius: 200px 200px 6px 6px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
+  .portrait figcaption { margin-top: 10px; text-align: right; font-family: var(--f-label); font-size: 0.82rem; color: var(--muted); }
+  .ring { position: absolute; inset: -18px; border: 1px solid var(--crimson); border-radius: 220px 220px 12px 12px; opacity: .5; pointer-events: none; }
+
+  @media (max-width: 820px) {
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); }
+    .portrait { justify-self: center; width: min(100%, 280px); order: -1; }
+    .portrait img { max-height: 50vh; }
+  }
+
+  /* ——— Traits ——— */
+  .traits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .trait { padding: 28px 28px 32px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .trait:nth-child(odd) { border-right: 1px solid var(--line); }
+  .trait:nth-child(even) { padding-left: 28px; padding-right: 0; }
+  .trait h3 { font-size: 1.9rem; display: flex; align-items: center; gap: 12px; }
+  .trait h3 svg { width: 26px; height: 26px; flex: none; color: var(--crimson); }
+  .trait p { margin: 10px 0 0; max-width: 46ch; }
+  .trait .aside { display: block; margin-top: 12px; font-family: var(--f-label); font-size: 0.9rem; color: var(--emerald); }
+  @media (max-width: 720px) {
+    .traits { grid-template-columns: minmax(0, 1fr); }
+    .trait, .trait:nth-child(even) { padding: 24px 0; border-right: 0 !important; }
+  }
+
+  /* ——— Timeline ——— */
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: 220px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .timeline li { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 4px 40px; padding-bottom: 36px; position: relative; }
+  .timeline li::after { content: ""; position: absolute; left: 215px; top: 9px; width: 11px; height: 11px; border-radius: 50%; background: var(--paper); border: 2px solid var(--crimson); }
+  .timeline li.dark::after { background: var(--crimson); }
+  .timeline li.turn::after { border-color: var(--emerald); background: var(--emerald); }
+  .timeline .when { font-family: var(--f-label); font-weight: 600; font-size: 0.85rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; text-align: right; padding-right: 10px; }
+  .timeline h3 { font-size: 1.55rem; }
+  .timeline p { margin: 8px 0 0; max-width: var(--measure); }
+  .timeline em.voice { display: block; margin-top: 10px; color: var(--crimson); }
+  @media (max-width: 720px) {
+    .timeline::before { left: 5px; }
+    .timeline li { grid-template-columns: minmax(0, 1fr); padding-left: 32px; }
+    .timeline li::after { left: 0; }
+    .timeline .when { text-align: left; padding: 0; }
+  }
+
+  /* ——— Big quote ——— */
+  .breath { position: relative; overflow: hidden; background: var(--ink); color: var(--paper); --streak: var(--streak-inv); }
+  .breath .wrap { position: relative; padding-block: clamp(64px, 10vw, 128px); }
+  .breath blockquote { margin: 0; max-width: 22ch; font-family: var(--f-display); font-size: clamp(2rem, 5.2vw, 3.9rem); line-height: 1.12; text-wrap: balance; }
+  .breath blockquote em { font-style: normal; color: var(--crimson); }
+  .breath p { margin: 22px 0 0; font-family: var(--f-label); color: color-mix(in srgb, var(--paper) 70%, transparent); }
+  .breath .wind { opacity: .6; }
+
+  /* ——— People ——— */
+  .groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 48px); }
+  .group h3 { font-size: 1.45rem; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .group ul { list-style: none; margin: 0; padding: 0; }
+  .group li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .group .who { font-weight: 600; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 8px; }
+  .group .what { display: block; font-size: 0.95rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+  .tag { font-family: var(--f-label); font-size: 0.7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; }
+  .tag.dead { color: var(--crimson); }
+  .tag.unsure { color: var(--gold); }
+  .tag.kin { color: var(--emerald); }
+  .tag.heart { color: var(--crimson); background: color-mix(in srgb, var(--crimson) 12%, transparent); border-color: transparent; }
+  .gone { text-decoration: line-through; text-decoration-color: var(--crimson); color: var(--muted); }
+  @media (max-width: 900px) { .groups { grid-template-columns: minmax(0, 1fr); } }
+
+  /* ——— Chapters teaser ——— */
+  .chapters { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .chapters a { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 22px 20px 20px; text-decoration: none; background: var(--wash); border-radius: 4px; border-top: 3px solid var(--crimson); transition: transform .25s, background .25s; }
+  .chapters a:hover { transform: translateY(-4px); }
+  .chapters .num { font-family: var(--f-label); font-size: 0.75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--crimson); }
+  .chapters .t { font-family: var(--f-display); font-size: 1.4rem; line-height: 1.12; }
+  .chapters .s { font-size: 0.92rem; color: var(--muted); line-height: 1.5; margin-top: auto; }
+  @media (max-width: 960px) { .chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .chapters { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .chapters a { transition: none; } .chapters a:hover { transform: none; } }
+
+  .cta { margin-top: 32px; display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-label); font-weight: 600; text-decoration: none; padding: 12px 22px; border-radius: 999px; background: var(--crimson); color: #fff; }
+  .cta:hover { filter: brightness(1.08); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h16a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg>
+      Anu
+    </a>
+    <nav class="topnav" aria-label="Sayfalar">
+      <a href="../">← Bahçe</a>
+      <a href="index.html" aria-current="page">Karakter</a>
+      <a href="bolumler.html">Bölümler</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas class="wind" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="label lineage">Chandok soyu · Rüzgârla konuşanlar</div>
+      <h1 class="name"><span>Anu</span><span class="sur">Mukhtar</span></h1>
+      <p class="born">Doğduğu ad <b>Anu Chandok</b>. Lhasari kolonisinin güney vadilerinden.</p>
+      <dl class="facts">
+        <div><dt>Irk</dt><dd>İnsan</dd></div>
+        <div><dt>Yaş</dt><dd>25</dd></div>
+        <div><dt>Sınıf</dt><dd>Hava Bükücü</dd></div>
+        <div><dt>Unvan</dt><dd>Eğitmen</dd></div>
+      </dl>
+      <p class="motto">Ben taht peşinde değildim. Zincir takmak değil, kırmaktı benim amacım.</p>
+      <a class="cta" href="bolumler.html">Bölümleri oku <span aria-hidden="true">→</span></a>
+    </div>
+    <figure class="portrait">
+      <span class="ring" aria-hidden="true"></span>
+      <img src="anu.png" alt="Kırmızı ve beyaz giysiler içinde, saçları rüzgârda savrulan, dans eder gibi dönen Anu'nun resmi" width="736" height="1308">
+      <figcaption>Hint / Pers esintili koloni kültürü</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="yolculuk">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="label">Yolculuk</div>
+      <h2>Bölümler</h2>
+      <p>Feranpolis'teki isyandan Pharm kuşatmasına, Anu'nun kendi ağzından.</p>
+    </div>
+    <ol class="chapters">
+      <li><a href="bolumler.html#bolum-1"><span class="num">Bölüm 1</span><span class="t">İsyana Açılan Kapılar</span><span class="s">Ares kayıp, Lord Dura'nın ihaneti ve Veritas'la tanışma.</span></a></li>
+      <li><a href="bolumler.html#bolum-2"><span class="num">Bölüm 2</span><span class="t">Belanın Ateşinde Kavrulmak</span><span class="s">Glorin'in sırrı, arena ve Lord Tion'un sarayında düello.</span></a></li>
+      <li><a href="bolumler.html#bolum-3"><span class="num">Bölüm 3</span><span class="t">Pharm'a Dönüş</span><span class="s">Öğrencilerin ölüm haberi ve Kishore'la kavuşma.</span></a></li>
+      <li><a href="bolumler.html#bolum-4"><span class="num">Bölüm 4</span><span class="t">Savaştan Sonraki Meltem</span><span class="s">Kuşatma, Noles'in ölümü ve eve dönüş yolu.</span></a></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="mizac">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="label">Mizaç</div>
+      <h2>Rüzgâr gibi: sakin görünür, içinde fırtına taşır.</h2>
+      <p>Öğrencileri ona hayranlıkla bakar. Aristokratların kasıntı toplantılarında ise yalnızca sessizliğini bulursunuz.</p>
+    </div>
+    <div class="traits">
+      <article class="trait">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 8c3 0 4 3 7 3s4-3 7-3"/><path d="M5 16c3 0 4-3 7-3s4 3 7 3"/></svg>Çelişkili</h3>
+        <p>Artris'te güç ve ayrıcalık elde etti, ama bu gücün kökeni adaletsizliğe dayanıyor. Bunu bilerek yaşamak ona içsel bir ikilem yaşatıyor.</p>
+        <span class="aside">Bir zamanlar köleydi. Şimdi kölelerin kaçırılmasını örgütleyen bir eğitmen.</span>
+      </article>
+      <article class="trait">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3a9 9 0 0 1 9 9"/><path d="M12 21a9 9 0 0 1-9-9"/></svg>Karizmatik</h3>
+        <p>İnsanları etkileyen bir ses tonu ve sükûneti var. Elementlerin yalnızca savunmak ya da dövüşmek için değil, <em>yürümek</em> için olduğunu öğretir.</p>
+        <span class="aside">Saraydaki elementalist çocuklara "ablalık" yaptı.</span>
+      </article>
+      <article class="trait">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>Sadakatli ama seçici</h3>
+        <p>Eski toprağındaki halkına karşı sorumluluk hissediyor. Ama intikam yolunun yanlış olduğuna, yalnızca adaletin sahici olduğuna inanıyor.</p>
+        <span class="aside">"Ben artık geçmiş için değil, gelecek için dövüşüyorum."</span>
+      </article>
+      <article class="trait">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>Taktik zekâlı</h3>
+        <p>Politik manevralarda ve büyüsel stratejilerde oldukça becerikli. Hava kanallarında sürünür, rüzgâr çemberiyle her yönden gelen sesi dinler.</p>
+        <span class="aside">"Savaşı daha az kayıpla bitirecek her şey doğrudur."</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gecmis">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="label">Geçmiş</div>
+      <h2>Zincirden eğitmenliğe</h2>
+      <p>Rüzgâr ona önce intikam fısıldadı. Yıllar içinde sesini değiştirdi.</p>
+    </div>
+    <ol class="timeline">
+      <li>
+        <div class="when">Önceki kuşaklar</div>
+        <div>
+          <h3>Rüzgârla konuşanlar</h3>
+          <p>Potens bölgesindeki Lhasari kolonisinin verimli güney vadilerinde Chandok ailesi, toprağın gerçek sahiplerindendi. Artris Krallığı istila ettiğinde halkı örgütleyip direndiler, ama Artris'in zırhı ve disiplini karşısında sonunda boyun eğdiler.</p>
+        </div>
+      </li>
+      <li>
+        <div class="when">Çocukluk</div>
+        <div>
+          <h3>Köprü kuran bir aile</h3>
+          <p>Anne ve babası, Artris boyunduruğundaki Lhasari'nin yerel yöneticileriydi. Zarif, adil ve halkın sevgilisiydiler. Artris ile yerel halk arasında köprü kurmaya çalıştılar.</p>
+        </div>
+      </li>
+      <li class="dark">
+        <div class="when">8 yaşında</div>
+        <div>
+          <h3>Bıçağın gölgesinde</h3>
+          <p>Ailenin öbür kolundan amcası Vareesh ve yandaşları bir gece saraya süzüldü. Anne ve baba öldü, çocuklar dağıldı. Anu'yu ormana kaçıran teyzesi haydutlarca gözleri önünde katledildi. Anu bir hava elementalistiydi, bu yüzden öldürülmedi. Satıldı.</p>
+        </div>
+      </li>
+      <li class="dark">
+        <div class="when">Esaret yılları</div>
+        <div>
+          <h3>Kan kokan intikam</h3>
+          <p>Açlık, aşağılanma ve tokatla gelen emirler arasında büyüdü. Bir gece öfkesine teslim oldu ve efendisini, onun karısını ve üç çocuğunu rüzgârla öldürdü. Bekçiler onu bir atın arkasına bağlayıp kilometrelerce taş üstünde sürüklediler.</p>
+          <em class="voice">İntikam tatlı değildi, kan kokuyordu.</em>
+        </div>
+      </li>
+      <li class="turn">
+        <div class="when">Çölde</div>
+        <div>
+          <h3>Bir rahibin merhameti</h3>
+          <p>Ölü sanılıp çölde bırakılan çocuğu Artrisli bir soylunun rahibi buldu ve şehre taşıdı. Leydi Leyena izin verdi, ama şartla: getireceği her bela rahibin kellesiyle ödenecekti. Rahip onu kendi evladı gibi büyüttü.</p>
+        </div>
+      </li>
+      <li class="turn">
+        <div class="when">Gençlik</div>
+        <div>
+          <h3>Köleden savaşçıya, savaşçıdan ablaya</h3>
+          <p>Gücü kabardıkça Leydi Leyena'nın ilgisini çekti. Saraya getirilen elementalist kölelerle ve asker çocuklarıyla ilgilendi, sonra eğitmen oldu. Gizli metinlere, eski tekniklere, unutturulmuş nefeslere erişti. Çabuk öğrenmesi ve öğretmesiyle ün saldı.</p>
+        </div>
+      </li>
+      <li class="turn">
+        <div class="when">4 yıl önce</div>
+        <div>
+          <h3>Ares'in sarayında</h3>
+          <p>Elementalistlerin değerini bilen nadir Artris soylularından Ares, adamlarını eğitmesi için onu istedi. Artık bir köle değil, bir eğitmendi. Ares, onun köle tacirlerinin elinden elementalist kurtarmasına göz yumdu, hatta destek oldu.</p>
+        </div>
+      </li>
+      <li>
+        <div class="when">Oyundan hemen önce</div>
+        <div>
+          <h3>Ölü sanılan kardeş</h3>
+          <p>Küçük kardeşi Kishore yaşıyordu ve amcaları Vareesh'i devirip tahtı geri almak istiyordu. Anu önce reddetti. Ama Kishore'un gözlerinde babasını gördü ve özgürlüğünü bahşettiği öğrencilerinden bazılarını onun yanına gönderdi.</p>
+          <em class="voice">"Ben artık geçmiş için değil, gelecek için dövüşüyorum."</em>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="breath" aria-label="Alıntı">
+  <canvas class="wind" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <blockquote>Rüzgâr, hâlâ onunla konuşuyor ama artık <em>intikam fısıldamıyor.</em></blockquote>
+    <p>Amacı: elementalistleri zincirden, nefretten ve umutsuzluktan kurtarmak. Onlara özgürlükle birlikte yön vermek.</p>
+  </div>
+</section>
+
+<section class="section" id="kisiler">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="label">Rüzgârın taşıdığı isimler</div>
+      <h2>Tanıdıkları</h2>
+      <p>Yol arkadaşları, geçmişten kalanlar ve isyanın ortasında tanıştıkları.</p>
+    </div>
+    <div class="groups">
+      <div class="group">
+        <h3>Yol arkadaşları</h3>
+        <ul>
+          <li><span class="who">Anu Mukhtar (Chandok) <span class="tag kin">ben</span></span></li>
+          <li><span class="who gone">Stephen Vincent</span><span class="what">Metin'in karakteri. Mucit.</span></li>
+          <li><span class="who">Raymond Pharm</span><span class="what">Mahmut'un karakteri. Ares'in kardeşi, yıldırım bükücü.</span></li>
+          <li><span class="who">Enyalios Valebrin</span><span class="what">Çağrı'nın karakteri. Bebe sırdaş.</span></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Geçmişten gelenler</h3>
+        <ul>
+          <li><span class="who">Kishore Chandok <span class="tag kin">kardeş</span></span><span class="what">Şu an tahtta oturuyor. İsyana katıldı. Baba oldu.</span></li>
+          <li><span class="who">Vareesh <span class="tag dead">öldü</span></span><span class="what">Amcası. Ailesini katleden.</span></li>
+          <li><span class="who">Leydi Leyena</span><span class="what">Onu ilk eğitmen yapan kişi.</span></li>
+          <li><span class="who">Leydi Leyena'nın rahibi</span><span class="what">Onu çölde bulan ve büyüten kişi.</span></li>
+          <li><span class="who">Ares</span><span class="what">Onu ordu eğitimleri için alan derebey. Köle kaçırmasını destekliyor. Artık isyanın lideri.</span></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Oyunda tanışılanlar</h3>
+        <ul>
+          <li><span class="who">Veritas <span class="tag heart">♥</span></span><span class="what">Ares'in yetiştirdiği 18 yaşında bir yetim. Anu'nun bastırmaya çalıştığı his.</span></li>
+          <li><span class="who">Lord John</span><span class="what">Ares'in oğlu. Ölü sanıldı, yaşıyor.</span></li>
+          <li><span class="who">Lord Dura Nemi <span class="tag dead">öldü</span></span><span class="what">Nüfuzlu bir lord. Hain (?).</span></li>
+          <li><span class="who">Jacop <span class="tag unsure">öldü?</span></span><span class="what">Lord Dura'nın oğlu, Anu'nun öğrencisi.</span></li>
+          <li><span class="who">Sir Jural</span><span class="what">Hazinedar.</span></li>
+          <li><span class="who">Lord Donald</span><span class="what">Ares'in IQ'suz kardeşi.</span></li>
+          <li><span class="who">Sir Ferus</span><span class="what">Şövalyebaşı. Ka'el Taruh'un adamıydı.</span></li>
+          <li><span class="who">Noles <span class="tag dead">öldü</span></span><span class="what">İsyanın başı, kendini "İmparator" ilan etti.</span></li>
+          <li><span class="who">Glorin Thirst</span><span class="what">İsyanın büyük başlarından. Arenada onlarla konuşan.</span></li>
+          <li><span class="who">Aldor</span><span class="what">Glorin'in adamı, gümüş yaylı.</span></li>
+          <li><span class="who">Lord Tion</span><span class="what">Virelian'ın derebeyi.</span></li>
+          <li><span class="who">Leydi Lin</span><span class="what">Lord Tion'un kız kardeşi. İmparatorluktan evlenecek adamın eski nişanlısı.</span></li>
+          <li><span class="who">Lord Yunderloft</span><span class="what">Shahmaran derebeyi.</span></li>
+          <li><span class="who">Leydi Sara</span><span class="what">Yunderloft'un kız kardeşi, Raymond'un yavuklusu. İmparatorlukla evlendirilecek.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Anu Mukhtar · bir TTRPG karakteri</span>
+    <a href="bolumler.html">Bölümler →</a>
+  </div>
+</footer>
+
+<script src="ruzgar.js"></script>
+</body>
+</html>

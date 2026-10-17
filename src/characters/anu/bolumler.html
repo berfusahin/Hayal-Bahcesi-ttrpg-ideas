@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anu'nun Bölümleri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Rozha+One&display=swap">
+<link rel="stylesheet" href="stil.css">
+<style>
+  .intro { position: relative; overflow: hidden; }
+  .intro .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 32px 64px; align-items: end; padding-block: clamp(40px, 7vw, 88px) clamp(32px, 5vw, 56px); }
+  .intro h1 { font-size: clamp(3.2rem, 9vw, 6.6rem); line-height: .9; margin-top: 12px; }
+  .intro h1 em { font-style: normal; color: var(--crimson); }
+  .intro .lead { margin: 20px 0 0; max-width: 46ch; color: var(--muted); font-size: 1.1rem; }
+
+  .toc { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .toc a { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); text-decoration: none; transition: color .2s, padding .2s; }
+  .toc a:hover { color: var(--crimson); padding-left: 6px; }
+  .toc .n { font-family: var(--f-display); font-size: 1.3rem; color: var(--crimson); }
+  .toc-label { margin-bottom: 8px; }
+  @media (max-width: 820px) { .intro .wrap { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } .toc a:hover { padding-left: 0; } }
+
+  .chapter { border-top: 1px solid var(--line); padding-block: clamp(48px, 8vw, 96px); scroll-margin-top: 64px; }
+  .chapter > * { max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+  .ch-head { margin-bottom: clamp(24px, 4vw, 44px); }
+  .ch-head .label { color: var(--crimson); }
+  .ch-head h2 { font-size: clamp(2.3rem, 5.6vw, 4.2rem); margin-top: 8px; max-width: 18ch; }
+
+  .ch-grid { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 32px clamp(32px, 5vw, 72px); align-items: start; }
+  .ch-aside { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px); display: grid; gap: 22px; min-width: 0; }
+  .ozet { margin: 0; font-style: italic; color: var(--muted); font-size: 0.98rem; line-height: 1.6; padding-left: 14px; border-left: 2px solid var(--emerald); }
+  .kese { background: var(--wash); border-radius: 4px; padding: 14px 16px; font-family: var(--f-label); font-size: 0.92rem; }
+  .kese .label { color: var(--gold); margin-bottom: 6px; }
+  .kese ul { list-style: none; margin: 0; padding: 0; }
+  .kese li, .kese .total { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; font-variant-numeric: tabular-nums; }
+  .kese li { border-bottom: 1px dashed var(--line); }
+  .kese .total { font-weight: 600; padding-top: 8px; }
+  .kese .plus { color: var(--emerald); font-weight: 600; }
+  .kese .minus { color: var(--crimson); font-weight: 600; }
+
+  .ch-text { min-width: 0; max-width: var(--measure); }
+  .ch-text p { margin: 0 0 1.15em; }
+  .ch-text p:first-child::first-letter { font-family: var(--f-display); float: left; font-size: 4.2em; line-height: .82; padding: 6px 10px 0 0; color: var(--crimson); }
+  .ch-text p:last-child { font-style: italic; }
+
+  .ch-nav { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 40px; font-family: var(--f-label); font-weight: 600; }
+  .ch-nav a { text-decoration: none; color: var(--crimson); padding: 8px 0; border-bottom: 1px solid transparent; }
+  .ch-nav a:hover { border-bottom-color: var(--crimson); }
+
+  @media (max-width: 820px) {
+    .ch-grid { grid-template-columns: minmax(0, 1fr); }
+    .ch-aside { position: static; }
+  }
+
+  .back { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .back img { width: 88px; height: 88px; object-fit: cover; object-position: center 12%; border-radius: 50%; border: 2px solid var(--crimson); }
+  .back h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+  .back a.cta { display: inline-flex; margin-top: 10px; font-family: var(--f-label); font-weight: 600; text-decoration: none; padding: 10px 20px; border-radius: 999px; background: var(--crimson); color: #fff; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h16a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg>
+      Anu
+    </a>
+    <nav class="topnav" aria-label="Sayfalar">
+      <a href="../">← Bahçe</a>
+      <a href="index.html">Karakter</a>
+      <a href="bolumler.html" aria-current="page">Bölümler</a>
+    </nav>
+  </div>
+</header>
+
+<section class="intro">
+  <canvas class="wind" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <div class="label">Anu Mukhtar · 4 bölüm</div>
+      <h1>Rüzgârın <em>defteri</em></h1>
+      <p class="lead">Feranpolis'teki isyandan Pharm kuşatmasına kadar olanlar, Anu'nun kendi ağzından.</p>
+    </div>
+    <nav aria-label="İçindekiler">
+      <div class="label toc-label">İçindekiler</div>
+      <ol class="toc">
+      <li><a href="#bolum-1"><span class="n">1</span><span>İsyana Açılan Kapılar</span></a></li>
+      <li><a href="#bolum-2"><span class="n">2</span><span>Belanın Ateşinde Kavrulmak</span></a></li>
+      <li><a href="#bolum-3"><span class="n">3</span><span>Pharm’a Dönüş</span></a></li>
+      <li><a href="#bolum-4"><span class="n">4</span><span>Savaştan Sonraki Meltem</span></a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<main>
+  <article class="chapter" id="bolum-1">
+    <header class="ch-head">
+      <div class="label">Bölüm 1</div>
+      <h2>İsyana Açılan Kapılar</h2>
+    </header>
+    <div class="ch-grid">
+      <aside class="ch-aside">
+        <p class="ozet">Lord Ares kayıp. Lord Dura&#x27;nın ihaneti ortaya çıkıyor, John&#x27;un öldüğü haberi geliyor ve Ares&#x27;in kılıcının yanında Veritas beliriyor.</p>
+        <div class="kese"><div class="label">Kese</div><ul><li><span>Balon kirası</span><span class="minus">-15</span></li><li><span>Balon depozitosu</span><span class="minus">-10</span></li></ul><div class="total"><span>Bölüm toplamı</span><span>-25 altın</span></div></div>
+      </aside>
+      <div class="ch-text">
+      <p>Feranpolis'teki isyan her gün daha da büyümekteydi. Derebeyimiz Lord Ares, bu başkaldırıyla ilgili görüşmeler için İmparatorluğun emir eriyle birlikte yola çıkalı bir hafta olmuştu ve hâlâ dönmemişti. Onun yokluğu herkesi telaşa kaptırmıştı. Bugün, sarayın yüksek meclisi bu konuda bir araya gelecekti. Ben de bu görüşmeye çağrılanlardan biriydim. Rüzgar çok sertti, büyük bir fırtına kopacağı kesindi.</p>
+      <p>Bekleme salonunda, Lord Dura Nemi ve Ares’in oğlu, tahtın genç varisi Lord John, fısıldaşıyordu. Bir köşede hazinedar Sir Jural, sırtını duvara vermiş, gölgelerin içinde duruyordu. Ares’in akli dengesi yerinde olmayan kardeşi Lord Donald ise anlamsız adımlarla etrafta dolaşıyordu.</p>
+      <p>Toplantı salonunun kapısı açıldı. Şövalyebaşı Sir Ferus içeri girdi ve tok sesiyle bizi toplantı salonuna çağırdı. Tahta sandalyelere oturduk, bu toplantıda olmak istemiyordum. Aristokratlardan, soylulardan, genel olarak üst kesimden ve onların yaptığı bu kasıntı toplantılardan nefret ediyordum. Hemen bitse de gitse modumdaydım.</p>
+      <p>Saray mucidi Vincent ayağa kalktı. Elinde garip bir pusula tutuyordu. Titrek ama kararlı bir sesle konuştu: “Ben… Lord Ares’in nerede olduğunu biliyor olabilirim. Kendisinin kullandığı kılıç, çok özel ve benzersiz bir metalden dövülmüştü. Bu pusula, yalnızca o metale tepki veriyor. Eğer bu doğruysa… Kılıç neredeyse, Lord Ares de oradadır.”</p>
+      <p>Bunun üzerine genç Lord John ayağa kalktı, sesi kulak tırmalıyıcı ama kararlıydı: “Babamı en kısa zamanda bulmalıyız. Amcam Lord Raymond, Sırdaş Enyalios, Mucid Vincent ve Eğitmen Anu… Siz bu görevi üstleneceksiniz.”</p>
+      <p>Birbirimize bakarak başımızı salladık. Toplantı bitti, herkes sarayın iç koridorlarına dağıldı. Gece bastığında, beklenmedik bir şekilde Sırdaş Enyalios beni gizlice çağırttı. Kapıdan içeri girdiğimde Lord Dura’yı gördüm. Bir masaya sabitlenmişti; parmağı kesilmiş, elinden hançerle yere çakılmıştı. Enyalios elindeki mektubu gösterdi.</p>
+      <p>“Bu onun yazısı, kendi itirafı, o bir hain.” dedi. Mektupta şunlar yazıyordu: “Sevgili Noles, Kapılar açılabilir. Burada kuzgunlar olmayacak. 78 bıçak onlara gidiyor.”</p>
+      <p>Noles. İsyanın başı. Lord Dura, isyancılarla iş birliği yapıyordu. Hain olduğu kesindi.</p>
+      <p>Sorguya çekildiğinde, “Noles benim uzaktan kuzenim,” diyerek kurtulmaya çalıştı ama yalanlarıyla kimseyi inandıramadı. İyice sıkışınca, cübbesinin içinden çıkardığı zehri içti ve kimse müdehale dahi edemeden öldü.</p>
+      <p>Kısa bir süre sonra Lord John geldi. Olanları ona anlattığımızda gözleri yaşla doldu. Küçük bir çocuk gibi hıçkırarak yere çöktü. “Babamı bulun... Ben bu yükü kaldıramam... Ben lider olamam...” Lord Raymond, genç varisi kolundan tutup sarstı; ama ağlaması durmadı.</p>
+      <p>Tam o sırada Jacop, benim öğrencim ve Lord Dura’nın oğlu, odaya daldı. Hemen onu uzaklaştırdım, kendi odasına götürdüm. Ona her şeyi anlatmasını söyledim. Sessizce, “Sadece babamın Lord Donald’la çok yakın olduğunu biliyorum.” dedi.</p>
+      <p>Bir süre sonra Lord Raymond geldi. Mucid Vincent’ı da alarak kutsal koruluğa gitmemizi emretti. O giderken Jacop’la neler konuştuğunu gizlice dinledim. Lord Raymond, ona umut vermeye çalışıyor, korkmaması gerektiğini söylüyordu.</p>
+      <p>Vincent’ı buldum, eşyalarımızı toplayıp koruluğa yürüdük. Oraya vardığımızda Lord Raymond ve Enyalios bizi bekliyordu. Planımız, Myrien üzerinden Virelian’a, oradan da Belcoran şehrine gitmekti.</p>
+      <p>Yolculuk öncesi yakınlardaki kasabaya gitmek için çantamı küçük bir planöre dönüştürdüm. Hava bükücü yeteneğimle planörü havalandırdım, kasabaya vardım ve bir fayton kiraladım. Hepimiz yola koyulduk. Yolda bir “rüzgar çemberi” oluşturdum. Her yönden gelen sesi içime çeken bir teknikti bu. Bir pusu yakaladım: dört çapulcu. Savaştık. Hafif sıyrıklarla atlattık.</p>
+      <p>10 saat sonra kasabaya vardık. Bir hana gidip dinlenmek üzereydik ki... Gazeteyi gördük. “Pharm Hanedanı’nda iç savaş çıktı. Taht varisi John Pharm öldürüldü. İsyancıların saraya sızdığı, Lord Donald’ın başa geçeceği bildirildi.”</p>
+      <p>Sir Ferus’un bizi buraya uzaklaştırmak için göndermişti. O da hainler arasındaydı. Gözlerimiz kanla doldu. Uyuyamazdık artık, pusulayı takip etmeliydik. Daha hızlı olmak için bir balon kiraladım (15 altın + 10 altın depozito).</p>
+      <p>Pusulanın gösterdiği yere ulaştık. Evin kapısı açıktı, içeride kimse görünmüyordu. Enyalios’la yukarı kata çıktık. Vincent ve Lord Raymond bodruma indi. Biz, eski yemek artıkları ve değerli bir cevherden yapılmış gibi gözüken bir kolye bulduk. Vincent’a gösterdiğimizde yüzü soldu. “Bu... Bu Dört Parmak klanına ait. Onlar İmparatorluğun kirli işlerini yapan paralı askerlerdir. Hiçbir etik algıları yoktur.” dedi.</p>
+      <p>Bodrumda kan vardı. Çatışma izleri. İki ölü Pharm şövalyesi ve... Ares’in kılıcı. Pusula tam da onu gösteriyordu. Bir ses duyuldu. Biri eve girmişti. Enyalios hızla medivenlerin başından durdu ve adam bodruma inerken boynuna bıçak dayadı. Gelen genç bir oğlandı, 18’lerinde. Adı Veritas’tı.</p>
+      <p>“Lord Ares nerede?” dedi. “Beni buraya çağırmıştı. Üç gün önce haber gönderdi. O benim abim gibiydi. Onu şehirden çıkartıp geri götürecektim...” dedi, “Onu en son bir yıl önce gördüm. Ben bir yetimim, o beni büyütüp yetiştirdi.” dedi. İçten konuşuyordu, ona inandık ve onu yanımıza almayı kabul ettik.</p>
+      <p>Ama elimizde hâlâ bir şey yoktu. Ares kayıptı. Kanlı ipuçları, yarım kalmış planlar ve içimizde büyüyen öfkeyle doluyduk. Şimdi ne yapacaktık?</p>
+      </div>
+    </div>
+    <nav class="ch-nav" aria-label="Bölümler arası"><a href="index.html">← Karakter</a><a href="#bolum-2">Bölüm 2 →</a></nav>
+  </article>
+  <article class="chapter" id="bolum-2">
+    <header class="ch-head">
+      <div class="label">Bölüm 2</div>
+      <h2>Belanın Ateşinde Kavrulmak</h2>
+    </header>
+    <div class="ch-grid">
+      <aside class="ch-aside">
+        <p class="ozet">Anu, Glorin Thirst&#x27;ün gizli görüşmesini rüzgârla dinliyor. Arenada ve Lord Tion&#x27;un sarayında işler kızışıyor, Veritas yaralanıyor.</p>
+        <div class="kese"><div class="label">Kese</div><ul><li><span>Sungurlar Oteli&#x27;nde oda</span><span class="minus">-1</span></li><li><span>Arena bileti</span><span class="minus">-1</span></li><li><span>Depozito iadesi</span><span class="plus">+10</span></li></ul><div class="total"><span>Bölüm toplamı</span><span>+8 altın</span></div></div>
+      </aside>
+      <div class="ch-text">
+      <p>Enyalios yanımızdan ayrıldı ama Veritas bizimle kaldı. Lord Raymond, Vincent ve ben sorgu odasına bir kez daha araştırdık. İçerideki kargaşa barizdi. Kapılar içeri doğru tekmelenerek açılmıştı, içerideki eşyalar darmadağın, zemin ise kanla kaplıydı. Bu işte üç ayrı tarafın parmağı olduğu açıktı. Kim önce gelmişti, kim kime saldırmıştı; çıkaramıyorduk. Ama burada büyük bir kavga kopmuştu.</p>
+      <p>Lord Raymond odadan çıkarken kararlı bir şekilde konuştu: “Ben hanedanlığa bir mektup yazacağım. Onlara bağlılık yemini edeceğim ki peşimize düşmesinler. Ayrıca buranın lorduyla da görüşüp destek istemeliyiz. Onlar da süregelen politikadan memnun değil, belki bize yardım ederler.”</p>
+      <p>Tam binadan çıkmıştık ki aniden küçük bir ok Lord Raymond’ın omzuna saplandı. Ufak ama hedefe yönelik bir atıştı. Oku dikkatle çıkardı. Ucuna iliştirilmiş minik bir kağıtta yalnızca üç karakter yazıyordu: “34C.” Göz göze geldik. Bu bir mesajdı, ama ne anlama geldiğini kimse bilmiyordu.</p>
+      <p>Okun geldiği yönü takip ettim, seslere odaklandım. İki kişinin atılan ok hakkında konuştuğunu duydum. Sesler faytonlardan geliyordu ama hangisinden çıktığını tam kestiremiyordum. O sırada şüpheli faytonlardan biri ve hemen arkasındaki birlikte hareket etti. Onları takibe aldım. İki fayton da, Sungurlar Oteli adlı bir otel zincirinin önünde durdu. İçeri girdiler, ben de peşlerinden girip girişteki konuşmalarını rüzgarımla dinledim. Adamların biri sırtında parıldayan gümüş bir yay taşıyordu. Gümüş yaylı adam – daha sonra adının Aldor olduğunu öğrenecektim – en üst katta oda kiraladı. Onları takip ederken otel çalışanı tarafından fark edildim ama tuvaleti aradığımı söyleyerek şüpheleri savuşturdum.</p>
+      <p>Daha sonra aşağı indim ve 1 altın vererek en üst katta bir oda tuttum. Odam, onların odasının hemen iki yanındaydı. İçeri girer girmez odanın havalandırma sistemini aradım, hava bükerek tüneli tespit ettim ve tünele sessizce girdim. Sürünerek onların odasına yaklaştım, içerideki konuşmaları dinlemeye başladım.</p>
+      <p>Aldor, gümüş yaylı olan, diğer adama şöyle diyordu: “Efendimiz Glorin—Glorin Thirst—, Lord Raymond Pharm ile görüşecek. Bizim niyetimiz iyi ama ben bu adamlara güvenmiyorum. Efendinin neden bu adamlar konusunda bu kadar istekli olduğunu anlamıyorum. Raymond iyi niyetli olmayabilir, zaten bu adamlar genel olarak işe yaramaz.” Ve ardından: “Efendi onlarla görüşürken biz de arenada onları gözetleyeceğiz. Her ihtimale karşı.” dedi.</p>
+      <p>Akşam onların peşinden fark ettirmeden arenaya gittim. Onları uzaktan izleyebileceğim bir yerden bilet aldım (–1 altın). Arena kalabalıktı. 34C yazılı koltuğa bir adam oturdu. Rüzgarımı kullanarak konuşmalarını duydum. Adamın adı Glorin’di. 50’li yaşlarında, kararlı bakışlı biriydi.</p>
+      <p>Glorin konuştu: “İsyan için ittifak topluyorum. Pharm hanesi hakkında duyduklarınız gerçeği yansıtmıyor. Ölenlerin hiçbiri isyan nedeniyle ölmedi. Onlar, içerideki farklı planları olan bir grup tarafından ortadan kaldırıldı. Ares’i Dört Parmak’ın elinden biz kurtardık. Şu anda Ares bizimle. Kimse bilmiyor ama o artık hanenizin başına bizim adımıza geçti.” Sözleri netti ve devam etti: “Shahmaran ailesi ve İmparatorluk arasında gizli bir ittifak var. Biz bunu dağıtmak istiyoruz.”</p>
+      <p>Sonra Ares’ten geldiğini söylediği bir mektubu uzattı, mektupta şunlar yazıyordu: “İşler çok karıştı. İmparatorluk Pharm’lara ihanet etti. Veritas size emanet. Eğer Pharm’a yardım etmek isterseniz, koruluk yolundan gelin ve bu parolayı kullanın. Bu topraklarda büyük bir savaş çıkacak.”</p>
+      <p>Glorin sözlerine devam etti: “Ka’el Taruh adında bir tarikat var. Kara büyüye tapan, saf kötülükten beslenen bir yapı. İşaretleri pentagram. İmparatorluktaki birçok suç örgütü de bu tarikata bağlantılı. Sir Ferus da onların adamıydı.” dedi ve ekledi, “John ve Vincent’ın arkadaşı hâlâ yaşıyor. Ama Jacop öldü.” Jacop’dan bahsettiğinde benim olduğum tarafa bir bakış attı. Benim onları izlediğimi nasıl fark edebilmişti?</p>
+      <p>Raymond’a döndü: “Senin sevdiğin kadın ise şu an Shahmaran’ların planladığı bir evlilikte kullanılmak üzere. İmparatorluğun bir adamıyla evlendirilecek. Biz bu evliliği engellemek istiyoruz çünkü Shahmaranlar daha fazla güç kazanmamalı.”</p>
+      <p>Son olarak küçük bir mühür verdi: “Bize ulaşmak isterseniz bu pulu Virelian postanelerinden birine bırakın. İsmimizi kullanmayın. Bizim gönderdiğimiz mektuplara karşılık verin. Bu bizim son görüşmemiz.”</p>
+      <p>Glorin ve adamları arenadan ayrıldı. Ben de hızla Lord Raymond ve Vincent’ın yanına gittim. Onlara konuşmaları duyduğumu belli ettim ve mektubu okudum.</p>
+      <p>Arenada dövüşçüler sahneye çıkmıştı. Çığlıklar eşliğinde iki güçlü savaşçı mücadele ediyordu. O anda Lord Raymond yerinden kalktı ve gitti. Birden gökyüzünden iki şimşek düşüp en güçlü dövüşçüye çarptı. İkimiz de bunun Lord Raymond’ın yıldırım bükme gücü olduğunu anlamıştık ama bu başımıza büyük bir bela yarattı.</p>
+      <p>Men in Black’ler arenada harekete geçti. Bunlar Tanrıların Kalesi’nden gelen, kontrolden çıkmış bükücüleri avlayan eğitimli askerlerdi. Neredeyse evrenin bükücü ahlak polisleri…</p>
+      <p>Durumu fark eden Vincent, hazırladığı bir robotu ileri gönderip patlattı. Ön saflarda kargaşa çıktı. Biz de bu fırsatı değerlendirip arenadan sıvıştık. Lord Raymond ve Vincent saraya doğru yola çıktı. Ben de balonumu bıraktığım yere dönüp depozitomu geri aldım. (+10 altın)</p>
+      <p>Saraya vardığımızda, Lord Raymond üzerindeki kirli kıyafetlerine baktı ve bana dönerek üstü kapalı bir biçimde yıkamamı ima etti. Ona temizlikçi olmadığımı, bu işin bana düşmediğini söyledim. Aramızdaki bu kısa gerilimli konuşma havada asılı kaldı ama daha önemli meseleler vardı. Veritas da bizimle birlikteydi. Sarayla olan bağlantılarını kullanarak bizim için önemli bir görüşme ayarlamıştı.</p>
+      <p>Görüşme öncesi onunla kısa bir sohbet etme fırsatımız oldu. O kadar içtendi ki... Yetim olduğunu söylemesi, benim kendi geçmişimi hatırlattı. Koloniciliğe karşı oluşu ve hayata bakışı bana kendimi yakın hissettirdi. Yaşı benden küçük olmasına rağmen, ona karşı arkadaşlıktan daha farklı duygular beslemeye başladığımı fark ettim. Tatlıydı. Gerçekten çok tatlı.</p>
+      <p>Sonunda sarayın içlerine alındık ve Derebeyi Tion’un huzuruna çıktık. Bizi büyük bir ciddiyetle karşıladı: “Lord Yunderloft—Shahmaran Derebeyi ve Sara’nın ağabeyi— bu evlilik yoluyla büyük bir ittifak sağlayacak. Leydi Sara ile Lord Raymond’un geçmişini biliyoruz,” dedi. “Benim kız kardeşim Leydi Lin, İmparatorluktaki evlenecek olan adamla nişanlıydı. Bu zorla yapılacak ittifak engellenmeli. Yoksa kan dökülecek. Düğün günü için bir planımız var. Siz katılır mısınız bilemem, ama biz harekete geçeceğiz.”</p>
+      <p>Lord Raymond, Lord Ares’in kılıcını bu şehirede bulduğumuzu ve ondan haber alıp almadıklarını sordu. Lord Tion, Lord Ares’in buralarda görülmediğini söyledi. Ardından Lord Raymond, yanımızda taşıdığımız Dört Parmak kolyesini çıkardı. “Bu kolyeyle iki tarafı birbirine düşürebiliriz.” dedi.</p>
+      <p>Ancak Leydi Lin, kolyeyi görünce huzursuzlandı. “O kolye benim dostuma ait. Onu böyle kullanamazsınız. Sahibi de burada, bana kolyeyi verin.” dedi ama Lord Raymond kolyeyi vermedi. Leydi Lin ise giderek sinirlendi ve bize sataşmaya başladı, beni hedef alarak: “Kolonilerde ilk ayaklanan kimdi biliyor musun? Senin klanın. Aslanlar! Hemen Noles’in tarafına geçtiler.” dedi. Ne kadar uğraşsa da onu görmezden geldim. Yutkundum ama cevap vermedim. İstediği kadar kudurabilir, benden asla politik bir yanıt alamayacak. Politikadan, aristokratlardan ve onların köpeklerinden nefret ediyordum.</p>
+      <p>Sonra içeri yüzünde dövmeler olan, sinsi bakışlı, hıyara benzeyen biri girdi. Üstten konuşuyordu. Ateş elementi kullanan Dört Parmak’tandı ve kolyeyi istedi. Kışkırtmak için: “Abinin çığlıkları çok güzeldi,” dediğinde Lord Raymond deliye döndü. Hiç beklemeden adamın üstüne atladı. Saray kurallarına göre birebir düello kabul edilmemişti, bu nedenle Dört Parmak’tan birine saldırmak idam sebebiydi ama Lord Raymond bunu umursamadı.</p>
+      <p>Hemen hava bükme yeteneğimle savaş alanını sisle çevreledim. Görüşü kapattım ve dış müdahaleyi engellemeye çalıştım. Belki birebir bir düello olduğunu düşünebilirlerdi. Lord Raymond’un saldırılarına destek oldum. Gazı kullanarak düşmanın alevlerinin şiddetini azaltmaya çalıştım. Vincent uzaktaydı ama yanımıza garip robotlar göndererek düşmanı yıpratıyordu.</p>
+      <p>İşler bizim lehimize gitmiyordu. Savaş uzadıkça yenileceğimizi anladım. Planörümü çıkarıp Raymond’u kaçırmak istedim ama o binmedi. Gururu veya öfkesi galip geldi. Aristokratlardan ve aptal gururlarından nefret ediyordum. Bu sırada Vincent’ın yakalandığını fark ettim. Onu kurtarmak için ileri atıldım ama tam o anda zaman dondu. Her şey sessizliğe gömüldü.</p>
+      <p>Hepimiz, zamanın durduğunu fiziksel olarak hissettik. Muhafızlar ve soylular birer birer bayıldı. Nasıl olduğunu bilmesek de bu duraklama belli ki bizim için yapılmıştı. Vincent kendini toparladı, sanki bu zaman büyüsünden bir şekilde sıyrılmıştı. Daha sonra ben ve Lord Raymond da kendine geldi. Ben kaçmak istedim ama Lord Raymond hala kibirinden önünü görmüyordu. Yerde baygın yatan ateş bükücüyü uyandırdı ve dövüşü devam ettirdi. Zar zor da olsa galip geldik.</p>
+      <p>Tam saraydan kaçmaya hazırlanırken Veritas’ı gördüm. Karnından kılıç yemişti. Vincent hemen ilk yardım uyguladı. Onu planörüme yerleştirdim ve kaçmaya başladık. Geriye baktığımda Man in Black’lerin saraya doğru geldiğini gördüm. Saklanarak ilerledik. Şimdilik kurtulmuştuk ama sonrası belirsizdi. Saray bu olayları sonsuza kadar hatırlayacaktı. Peki şimdi biz ne yapacaktık?</p>
+      </div>
+    </div>
+    <nav class="ch-nav" aria-label="Bölümler arası"><a href="#bolum-1">← Bölüm 1</a><a href="#bolum-3">Bölüm 3 →</a></nav>
+  </article>
+  <article class="chapter" id="bolum-3">
+    <header class="ch-head">
+      <div class="label">Bölüm 3</div>
+      <h2>Pharm’a Dönüş</h2>
+    </header>
+    <div class="ch-grid">
+      <aside class="ch-aside">
+        <p class="ozet">Pharm&#x27;da Ares&#x27;le buluşma. Öğrencilerin ölüm haberi, Kishore&#x27;la yıllar sonra kavuşma ve Noles&#x27;in kibirli dayatması.</p>
+        <div class="kese"><div class="label">Kese</div><ul><li><span>Lord Raymond&#x27;dan</span><span class="plus">+50</span></li><li><span>Üç günlük hızlı balon</span><span class="minus">-40</span></li></ul><div class="total"><span>Bölüm toplamı</span><span>+10 altın</span></div></div>
+      </aside>
+      <div class="ch-text">
+      <p>Lord Raymond, en hızlı balonu kiralamam için bana 50 altın uzattı. Uçarak hızlıca balon parkına gittim, en sağlam ve hızlı görünen hava aracını seçtim, üç günlüğüne 40 altın vererek kiraladım. Acelem vardı bu yüzden fiyata takılmadım. Bizimkilerin tarafına balonla gittim ve yoldan Lord Raymond’ı, Vincent’ı ve hâlâ yaralı olan Veritas’ı aldım.</p>
+      <p>Yolun yarısına geldiğimizde artık yorulmuştuk, dinlenmemiz lazımdı. Veritas artık kendini tamamen iyileşmiş gibi hissediyordu. İki tepenin arasına, kuytu bir çukura indik. Sessizce uyuyorduk ki… yüksek bir sesle irkilerek uyandık. Gök gürültüsü değil, motor sesi, uçak motoru, hem de sayıları bir hayli fazla. Ufukta onlarca imparatorluğun renklerini taşıyan savaş uçağı isyan yönüne ilerliyordu. Rüzgâr bile endişeyle esti o an. Herkes dinlendiğinde tekrar havalandık.</p>
+      <p>Veritas ve Vincent konuşurken Veritas’ın gülümsediğini gördüm. Gülümsediğinde içimde ezilen bir şey oldu. Gözleri parlıyordu, adeta kör edercesine… Ona baktıkça bir şeylerin değiştiğini hissettim. Galiba ona karşı içimde hiç olmaması gereken ahlaksız hisler tomurcuklanmaya başlıyordu. Veritas’ın benden yaşça küçük olması ve ikimizin başka dünyaların insanları olmamız sebebiyle, hislerimi bastırmam en doğrusu olacaktı.</p>
+      <p>Pharm’a yaklaşırken büyük bir imparatorluk ordusu önümüzde belirdi. Balonumuzu görmüşlerdi. Durdurulduk. “Balonla giriş yasak. Yere inin.” dedi komutanları. Kimliğimizi gizledik ve yola yürüyerek devam ettik. Toplamda 2000 asker, Pharm’a doğru ilerliyordu. Görkemlilerdi ama ben onlar adına zafer değil, toprak kokusu alıyordum.</p>
+      <p>Ormana vardığımızda yolumuz kesildi. Karşımızdakilere mektuptaki şifreyi söyledik, onlar da kim olduğumuzu anladı ve bize kaleye kadar eşlik ettiler. Kapıda bizi Lord Ares karşıladı. Lord Raymond’a sarıldı, gözlerinde büyük bir sevinç ve özlem vardı. Bana karşı da samimi bir gülümseme gönderdi. Bize: “Yaklaşık bir gün sonra savaş başlayacak,” dedi. “Ve Anu… kardeşinle de tanıştım. O da bizimle birlikte. İsyan ordusunda savaşa katılacak.”</p>
+      <p>Damarlarımda kanın ters aktığını hissettim. Kishore… Yaşıyordu ve buradaydı. Ona her ne kadar beladan uzak dur dediysem de yine belanın göbeğinde belirivermişti. Ares Raymond’a bakarak devam etti: “Noles’le Leydi Sara adına bir anlaşma yaptık. Noles İmparatorluk koltuğuna oturduğunda bizzat nikâhınızı kıyacak.”</p>
+      <p>Lord Raymond pek bir tepki vermedi çünkü ne isyana ne de İsyancı İmparator Noles’e inanıyordu. Sonra Lord Ares devam etti: “Başın sağ olsun Anu. Tüm öğrencilerin öldü.”</p>
+      <p>Tüm rüzgar sustu, kulaklarım bir anlık duymaz oldu. Göğsümde alevler hissettim. Dünyam yıkılmış gibi hissettim ama ağlamadım ya da ne hissettiğimi belli etmedim. Rüzgarda eğilip bükülen bir saz olmalıydım, bir ağaç değil, yoksa güçlü bir fırtına beni köklerimden söküp atardı.</p>
+      <p>Lord Ares, savaş öncesi bana 3 ateş ve 2 hava enerjisti vereceğini söyledi. Hepsi emrimdeydi. Pharm artık isyanın merkeziydi. Noles de başkomutan ve “İmparator” olarak buradaydı.</p>
+      <p>İçeri biri girdi, John Pharm! Ölmemişti. Yüzü solgundu ama dimdik yürüyordu. İhanet edip ölen Sir Ferus’un yerine artık Sir Dunker vardı..</p>
+      <p>Bulduğum bir boşlukta öğrencilerimin mezarlarına gittim. İsimlerini taşıyan taşların önünde diz çöktüm. Rüzgârı çağırdım. Onların nefesini, kahkahalarını, umutlarını hatırladım. Onları kurtaramadığım için kendimi bağışlayamayacağımı söyledim. Meditasyona daldım. Ruhum ağırdı. Yağmur başladı. Kara bulutlar gökyüzünü örttü. İçimdeki fırtınaya dışarısı da eşlik etti.</p>
+      <p>Sonra kaleye geri döndüm. “İmparator” Noles gelmişti, isyan ordusu ile beraber. Ve sonra onu gördüm, Kishore! Gözlerim kardeşime takıldı. Boyu uzamış, yüzü sertleşmişti ama hâlâ eskisi gibi çocuktu. Göz göze geldik, o da beni görünce heyecanlandı. Uzun uzun sarıldık, tüm yılların hasretini atarcasına. Zaman durmuş gibiydi.</p>
+      <p>Kishore buraların yabancısı olduğunu biraz fazla belli ediyordu ve çok iyi niyetliydi. Lord Raymond ve Vincent onun tecrübesizliği ile, dalga geçtiler. Canım sıkıldı ama sustum, yıllar sonra kardeşimi tekrar görmüştüm. Olay çıkarıp tat kaçırmayacaktım. Kardeşim, kalbi temiz kardeşim… Neler yaşarsa yaşasın kalbi kararmamıştı, hala eskisi gibidi, bir çocuk gibi tertemizdi. Bu nadir görülen bir erdemdi.</p>
+      <p>İmparator Noles’le görüşmeye taht odasına gittik. İmparator Noles: “Gücünüzü kanıtladınız,” dedi. “Shahmaran’lardan Leydi Sara’yı kaçırma görevi de size düşüyor.”</p>
+      <p>Kimseye bir şey sormadan bizim adımıza karar vermişti ve daha efendimiz olarak onu kabul etmemiş olmamıza rağmen. Fazlasıyla kibirliydi. Sonra devam etti: “İsyan sona erince Aslan Dişlerine bu kıtada toprak verilecek. Sen de abinle birlikte yönetime geçebilirsin.”</p>
+      <p>İşte o an içimden bir şey koptu. Ben? Yönetime? Ben isteseydim, yıllar önce topraklarıma dönmüş ve kardeşimin yanındaki koltukta hakkım olan yerde oturuyor olurdum. Ama ben taht peşinde değildim. Zincir takmak değil kırmaktı benim amacım. Gaspçı İmparator Noles kimdi ki benim adıma karar veriyordu? Ellerinde güç olunca başkalarının adına karar verebileceğini sanan bu kalın kafalı aristokratlar… Hepsi aynıydı.</p>
+      <p>Gözlerine baktım ama hiçbir şey söylemedim. Anu, rüzgârla konuşanlar soyundandı. Ve rüzgâr, gerektiğinde susardı.</p>
+      </div>
+    </div>
+    <nav class="ch-nav" aria-label="Bölümler arası"><a href="#bolum-2">← Bölüm 2</a><a href="#bolum-4">Bölüm 4 →</a></nav>
+  </article>
+  <article class="chapter" id="bolum-4">
+    <header class="ch-head">
+      <div class="label">Bölüm 4</div>
+      <h2>Savaştan Sonraki Meltem</h2>
+    </header>
+    <div class="ch-grid">
+      <aside class="ch-aside">
+        <p class="ozet">Kuşatma, Kishore&#x27;la omuz omuza savaş ve Noles&#x27;in ölümü. Anu, yıllar önce kaçırıldığı topraklara dönüyor.</p>
+      </aside>
+      <div class="ch-text">
+      <p>Kuşatma öncesi son hazırlıklar başlamıştı. Sir Dunker ile kale haritası üstünde eğildik. O bir askerdi, bense rüzgârı tanırdım, ikimiz de savaşın bir yüzünü biliyorduk. Sonra taht odasına çağrıldım. İsyancı Noles tahtta oturuyordu. Bir elini tahtın yanından sarkıtıyordu, diğerini de çenesine kaldırmıştı. Lord Raymond, Vincent ve Veritas da oradaydı.</p>
+      <p>İsyancı Noles önce boğazını temizledi ve konuşmaya başladı: "Önce düello meselesi," dedi. "Savaş başlamadan önce hem elementalistler hem şövalyeler arası birer düello yapılacak. Elementalist düellosunda Milas bizi temsil edecek. Şövalyede ise, eğer karşıda bir Shahmaran olursa, Raymond düelloya çıkacak." Kısa bir sessizlik oldu ardından devam etti: "İmparatorun oğlu James, Raise Punk kıtasına ordu toplamaya gitti. Geride sadece imparator ve küçük oğlu kaldı. Bu kadar insanın ölmesindense, onları suikastla ortadan kaldırmanın daha mantıklı olduğuna inanıyorum. Siz ne düşünüyorsunuz?"</p>
+      <p>Lord Raymond, Vincent ve Veritas, suikastın savaş etiğine aykırı olduğunu söyleyerek bu fikre karşı çıktılar. Ben ise farklı fikrilere sahiptim: “Savaş genel olarak etik dışıdır. Bu yüzden onu daha az kayıpla sonlandıracak her şeyin doğru olduğuna inanıyorum.”</p>
+      <p>İsyancı Noles sinirlendi, elini tahtın koluna vurdu: “Siz Ka’el Taruh’u hafife alıyorsunuz! İlk İblis’in soyundan gelen bu tarikat, pentagramların ardında dünyayı zehirliyor. Onların tek bir iblise inancı var. Yalnızca eski peygamber Hektor onu alt edebilirdi ama Hektor da öldü. Bugünkü imparatorun onun soyundan geldiği iddiası yalan! Aksine onlar Ka’el Taruh’u destekliyor!”</p>
+      <p>Lord Raymond ve Veritas bir şey söylemedi ama Veritas fazla hararetlenip elini silahına atınca hemen dışarı çıkarıldı. Noles’in gözleri kısıldı, histerikleşti, herkese ayrı ayrı hakaretler etti ve odadan çıktı. O çıktıktan sonra Lord Ares konuştu: “İki yıldır isyanla gizlice iletişimdeydim. Gerçek amaç Noles’i tahta geçirmek değil. Gerçek imparatoru, Hektor’un soyundan gelen Voris’i tahta çıkarmak. Noles onun için savaşıyor. Bu savaştan önce ya da sonra gitmekte özgürsünüz, size bir şey dayatmayacağım. Ama kalbim, bizim yanımızda olmanızdan yanadır.”</p>
+      <p>Koridorda Veritas’la karşılaştık, Vincent’la tartıştı. Veritas dişlerini sıktı, sonra kelimeleri tükürür gibi söyledi: “Bu savaştan sonra imparator kanı taşıyan kimse kalmayacak. Ve onlar ne beklerse beklesin… ben de tahta geçmeyeceğim. Savaşta düşmanın yanında insan dışı bir varlık olacak, o zaman her şey bitecek. Tahta geçmek istemiyorum. Kendimi öldüreceğim.”</p>
+      <p>Yutkundum. Vincent ona bir şeyler fısıldadı ama Veritas yüzünü çevirdi ve gitti. İçimde fırtına koptu ama benim hiçbir şey demeye hakkım yoktu. Hem onun hayatında hem de bu konuda, ben önemsiz biriydim.</p>
+      <p>Daha sonra Kishore yanıma geldi ve savaş öncesi son kez konuştuk. Koloni günlerinden beri ilk kez bu kadar dürüsttü. Kishore: “Kardeşim... Ben Noles’le anlaşma yaptım. Eğer kazanırsak bize bağımsızlık verecek. Ama... Ne yapacağımı bilmiyorum. Ben zeki biri değilim. Koloniyi bile zar zor ayakta tuttum. Ekonomi çökerse, ben ne yaparım?”</p>
+      <p>Omzuna dokundum. Gözlerimin içine baktı. “Senin kanın hak kandır. Bizim atalarımız, halkı korumayı bildi. Ekonomi, savaş sonrası çözülür. Sen kalbini kaybetme. Ben senin yanındayım.” Sonra sustu, yavaşça: “Bunu hiç söylemedim ama… Ben baba oldum Anu, yeğenin doğdu.” Kalbim genişledi, gözlerim doldu. Ona sarıldım ve hiç bırakmak istemedim. Ona söz verdim: “Bu savaştan sağ çıkacağız. Ve birlikte kolonimize geri döneceğiz.”</p>
+      <p>Ama sonra... ilk defa bu kıtada evimde hissettim. Bahsedilen birkaç bükücüden daha fazlası vardı. Hissediyordum. Rüzgar şiddetleniyordu.</p>
+      <p>Savaş saati geldi. Düşman 2000 – belki 2500 kişilik beklenirken, 5000’den fazlaydı. Kale tamamen çembere alınmıştı. Lord Raymond ve Shahmaran’lardan Yaven düelloya çıktı. Lord Raymond kazandı. Ardından Milas ve Visten Vardin karşı karşıya geldi. Savaşları o kadar büyüktü ki ordu sınırlarının ötesine taştı. Ve o an... düşman saldırdı. Milas ve Visten ise gözden kayboldular.</p>
+      <p>Yine o hissi hissettim: Evimde. Yerin dibinden bir alev yükseldi, toprak yarıldı. 60 kadar elementalist yerin altından çıkıp düşmana saldırdı. Sonra Kishore’u gördüm. Kale dışına çıkmış, bana bakıyordu. Düşman komutanı da ona doğru at sürüyordu. Hiç düşünmedim, surlardan atladım ve rüzgarı çağırdım, Kishore’la birlikte komutanı öldürdük. Kardeşimle omuz omuza savaşa girmek kalbimi yumuşatmıştı, çocukluğumuz aklıma geldi, ona karşı duyduğum gurur arttı, kalbim kuş gibi heyecandan atıyordu resmen.</p>
+      <p>Savaşı biz kazandık. Sonra... göz ucuyla düşmanları tek tek bale yapar gibi öldüren birini gördüm. Yüzünde palyaço makyazı vardı ve kıyafetleri de sirkten çıkmış gibiydi. Bizden değildi ama savaş alanında Tanrı gibi dolaşıyordu. Lord Raymond’a doğru baktı ve kısık sesle fısıldadı: “Sana yazık olacak, çünkü Sara ölecek.”</p>
+      <p>Lord Raymond bunu duyar duymaz kaşlarını çattı, öfkeyle havalandı ve Shahmaran’lara doğru uçtu. Sonra bizim taraftan bir ses yankılandı: “İmparator Noles öldü! Geri çekilin!”</p>
+      <p>Savaş bitmişti. Lord Ares, yeni isyan lideri olmuştu. O gün onunla bir kez daha görüştük. Lord Ares bana: “Savaş bitti ama isyan daha yeni başlıyor. İmparatorluk düşünce bu topraklarda, Artrist’te, size bölge verilecek,” dedi. “Aslan Dişleri artık unutulmayacak. Sadece sen ve Kishore, bize yardım etmeye devam edin.”</p>
+      <p>Kishore sessizdi sonra elimi tuttu. “Kardeşim,” dedi. “Biz bir sonraki hamleye kadar koloniye dönüyoruz. Sen de gel.”</p>
+      <p>Dönüp gökyüzüne baktım. Rüzgar hafifti. Savaş bitmişti ama içimde başka bir yolculuk başlıyordu. Yıllar önce kaçırıldığım ve bir daha dönmem dediğim topraklara… kardeşimle birlikte geri dönmek üzere yola çıktım.</p>
+      </div>
+    </div>
+    <nav class="ch-nav" aria-label="Bölümler arası"><a href="#bolum-3">← Bölüm 3</a><a href="index.html">Anu'ya dön →</a></nav>
+  </article>
+</main>
+
+<section class="section">
+  <div class="wrap back">
+    <img src="anu.png" alt="Anu'nun portresi" width="88" height="88">
+    <div>
+      <h2>Rüzgâr şimdilik hafif esiyor.</h2>
+      <a class="cta" href="index.html">Anu'nun sayfasına dön <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Anu Mukhtar · bir TTRPG karakteri</span>
+    <a href="index.html">← Karakter</a>
+  </div>
+</footer>
+
+<script src="ruzgar.js"></script>
+</body>
+</html>

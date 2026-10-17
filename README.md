@@ -108,6 +108,17 @@ Every picture on a character page can be clicked to see it bigger.
 4. Remove the name from `src/_data/upcomingCharacters.js`. (If you forget, it's fine: the card
    switches to the real page as soon as `index.md` exists.)
 
+## Hand-made character pages
+
+Anu, Crystal, Ekin, Robin and Samantha have their own fully designed pages instead of an
+`index.md` profile: plain `.html`, `.css` and `.js` files in `src/characters/<name>/`. They are
+copied to the site exactly as they are (no shared layout), and their Characters card links to
+`index.html` automatically. Edit them like normal web pages. Every page has a "← Bahçe" link back.
+
+Pictures they expect but that aren't in the folder yet (drop them into that character's `assets/`):
+Ekin `Zehra.png`; Robin `Billy.png`, `Asiel.png`, `Hamath.png`; Samantha `Muhammed.png`,
+`Zaynab.png`, `Leila.png`.
+
 ## Putting it online later
 
 `npm run build` creates the finished site in `_site/`. Those files can go to any static host

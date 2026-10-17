@@ -35,8 +35,16 @@ export default function (eleventyConfig) {
     // "src/characters/**/*.png" pattern: that pattern stops the dev server from noticing
     // edits to .md files in the same folders.)
     eleventyConfig.addPassthroughCopy("src/characters", {
-        filter: ["**/*.{png,jpg,jpeg,jfif,webp,gif,svg,avif,css}", "**/*.{PNG,JPG,JPEG,JFIF,WEBP,GIF,SVG,AVIF,CSS}"]
+        filter: [
+            "**/*.{png,jpg,jpeg,jfif,webp,gif,svg,avif,css,js,html}",
+            "**/*.{PNG,JPG,JPEG,JFIF,WEBP,GIF,SVG,AVIF,CSS,JS,HTML}",
+            "!**/*.11tydata.js",
+            "!**/*_sablon.html"
+        ]
     });
+    // Hand-made character sites (plain .html pages, e.g. characters/anu/index.html) are
+    // copied as they are, without the shared character layout.
+    eleventyConfig.ignores.add("src/characters/**/*.html");
 
     // ── Collections ──────────────────────────────────────────
     const byPath = (a, b) => a.inputPath.localeCompare(b.inputPath, "tr", { numeric: true });

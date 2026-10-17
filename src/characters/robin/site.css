@@ -1,0 +1,88 @@
+/* Layout concept: an underground fight poster that turns into a case file —
+   loud stacked type up top, the story told as numbered rounds down a ring rope. */
+:root {
+  --ink: #140d13;        /* page ground: bruised black */
+  --ink-2: #1e1520;      /* raised panels */
+  --rope: #3b2a38;       /* rules, borders */
+  --bone: #f3e7ec;       /* body text */
+  --mute: #ab95a2;       /* secondary text */
+  --pink: #ff4f9a;       /* Pembe Panter */
+  --pink-dim: #8c2f5a;
+  --dead: #7a6c78;
+  --warn: #ffb547;
+
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  --f-scrawl: "Caveat Brush", "Segoe Print", "Comic Sans MS", cursive;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-inline: 16px;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--pink); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+.wrap { max-width: 1080px; margin-inline: auto; }
+
+/* ---------- top bar ---------- */
+.bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rope);
+  margin-inline: -16px;
+  padding: 10px 16px;
+}
+.bar .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; justify-content: space-between; }
+.bar .tag {
+  font-family: var(--f-display); font-weight: 900; font-size: 1.35rem;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--pink); text-decoration: none;
+}
+.bar nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.bar nav a {
+  font-family: var(--f-mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--mute); text-decoration: none;
+}
+.bar nav a:hover, .bar nav a[aria-current="page"] { color: var(--bone); }
+.bar nav a.go { color: var(--pink); }
+
+/* ---------- shared bits ---------- */
+.eyebrow {
+  font-family: var(--f-mono); font-size: .75rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--pink);
+}
+.scrawl { font-family: var(--f-scrawl); color: var(--pink); line-height: 1.15; }
+.section { padding-block: 72px 24px; }
+.section > h2 {
+  font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: .95; letter-spacing: .01em;
+  margin-top: 6px; margin-bottom: 28px;
+}
+.dead-mark {
+  font-family: var(--f-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dead); border: 1px solid var(--dead); padding: 1px 6px; white-space: nowrap;
+}
+.foot {
+  border-top: 1px solid var(--rope); margin-top: 80px; padding-block: 28px 48px;
+  font-family: var(--f-mono); font-size: .78rem; color: var(--mute);
+  display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

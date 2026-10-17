@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robin — Pembe Panter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Big+Shoulders+Display:wght@700;900&family=Caveat+Brush&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* ---------- hero: the fight poster ---------- */
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    gap: 40px; align-items: end; padding-block: 48px 24px;
+  }
+  .hero .bill { min-width: 0; }
+  .hero .real { font-family: var(--f-mono); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  .hero h1 {
+    font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(4.2rem, 15vw, 10.5rem); line-height: .82; letter-spacing: -.005em;
+    margin-block: 12px 18px;
+  }
+  .hero h1 span { display: block; animation: jab .5s cubic-bezier(.2,.9,.25,1.2) both; }
+  .hero h1 .p2 { color: var(--pink); animation-delay: .12s; padding-left: .35em; }
+  @keyframes jab { from { transform: translateX(-28px) skewX(-8deg); } to { transform: none; } }
+
+  .hero .quote { font-size: clamp(1.5rem, 3.4vw, 2rem); transform: rotate(-2deg); max-width: 26ch; margin-block: 8px 28px; }
+
+  /* tale of the tape */
+  .tape { border-top: 3px solid var(--pink); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tape div { border-bottom: 1px solid var(--rope); padding: 10px 12px 10px 0; min-width: 0; }
+  .tape dt { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+  .tape dd { margin: 2px 0 0; font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; line-height: 1.1; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  .tape dd.hot { color: var(--pink); }
+
+  .portrait { position: relative; min-width: 0; }
+  .portrait img { width: 100%; aspect-ratio: 564 / 776; object-fit: cover; filter: contrast(1.05) saturate(1.1); }
+  .portrait::after {
+    /* halftone over the poster print */
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(circle, color-mix(in srgb, var(--pink) 55%, transparent) 1px, transparent 1.6px) 0 0 / 6px 6px;
+    mix-blend-mode: screen; opacity: .35;
+  }
+  .portrait .stamp {
+    position: absolute; z-index: 1; left: -14px; bottom: 26px;
+    background: var(--pink); color: var(--ink);
+    font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 1.15rem; letter-spacing: .06em;
+    padding: 4px 14px; transform: rotate(-4deg);
+  }
+
+  /* ---------- the nickname ---------- */
+  .nick { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; border: 1px solid var(--rope); margin-top: 40px; }
+  .nick > div { padding: 22px 24px; min-width: 0; }
+  .nick > div + div { border-left: 1px solid var(--rope); }
+  .nick .then { color: var(--mute); }
+  .nick .then s { text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
+  .nick .big { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 1.9rem; line-height: 1; margin-block: 6px 10px; }
+  .nick .now .big { color: var(--pink); }
+  .nick p { margin: 0; max-width: 46ch; }
+
+  /* ---------- the bout: story as rounds ---------- */
+  .rounds { position: relative; display: grid; gap: 44px; }
+  .rounds::before { /* ring rope */
+    content: ""; position: absolute; top: 6px; bottom: 6px; left: 46px; width: 3px;
+    background: repeating-linear-gradient(var(--pink) 0 18px, var(--pink-dim) 18px 24px);
+  }
+  .round { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px; position: relative; }
+  .round .no { text-align: center; }
+  .round .no b {
+    display: inline-grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
+    background: var(--ink); border: 3px solid var(--pink);
+    font-family: var(--f-display); font-weight: 900; font-size: 1.9rem; position: relative;
+  }
+  .round .no small { display: block; font-family: var(--f-mono); font-size: .66rem; letter-spacing: .1em; color: var(--mute); margin-top: 6px; text-transform: uppercase; }
+  .round .body { min-width: 0; padding-top: 4px; }
+  .round h3 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 2rem; line-height: 1; }
+  .round .when { font-family: var(--f-mono); font-size: .75rem; color: var(--pink); letter-spacing: .08em; margin-block: 6px 12px; }
+  .round p { margin: 0 0 12px; max-width: 64ch; }
+  .round .has-pic { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 24px; align-items: start; }
+  .round figure { margin: 0; }
+  .round figure img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid var(--rope); }
+  .round figcaption { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin-top: 6px; }
+  .round figcaption a { color: var(--bone); }
+  .round.ko .no b { background: var(--pink); color: var(--ink); }
+  .round.ko h3 { color: var(--pink); }
+  .verdict {
+    display: inline-block; margin-top: 4px; border: 2px solid var(--pink); color: var(--pink);
+    font-family: var(--f-display); font-weight: 900; text-transform: uppercase; letter-spacing: .06em;
+    padding: 2px 12px; transform: rotate(-2deg);
+  }
+  a.who { color: var(--bone); text-decoration-color: var(--pink); text-decoration-thickness: 2px; font-weight: 600; }
+  a.who:hover { color: var(--pink); }
+
+  /* ---------- who he is ---------- */
+  .traits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rope); border: 1px solid var(--rope); }
+  .trait { background: var(--ink); padding: 22px; min-width: 0; }
+  .trait h3 { font-family: var(--f-display); font-weight: 700; text-transform: uppercase; font-size: 1.45rem; line-height: 1.05; margin-bottom: 8px; }
+  .trait p { margin: 0; color: var(--mute); }
+  .trait .scrawl { display: block; margin-top: 12px; font-size: 1.2rem; }
+
+  /* ---------- the oath ---------- */
+  .oath { background: var(--ink-2); border-top: 3px solid var(--pink); margin-top: 24px; padding: 40px clamp(20px, 5vw, 56px); }
+  .oath .line { font-size: clamp(2rem, 5.5vw, 3.4rem); transform: rotate(-1.5deg); max-width: 22ch; }
+  .oath .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; margin-top: 36px; }
+  .oath h3 { font-family: var(--f-mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); font-weight: 600; margin-bottom: 12px; }
+  .hit { list-style: none; margin: 0; padding: 0; }
+  .hit li { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; border-bottom: 1px dashed var(--rope); padding-block: 10px; }
+  .hit li span:first-child { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; text-transform: uppercase; }
+  .hit .lvl { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--pink); white-space: nowrap; }
+  .wanted p { margin: 0 0 14px; max-width: 46ch; }
+  .wanted a.btn {
+    display: inline-block; background: var(--pink); color: var(--ink); text-decoration: none;
+    font-family: var(--f-display); font-weight: 900; text-transform: uppercase; letter-spacing: .05em; font-size: 1.2rem;
+    padding: 8px 18px;
+  }
+  .wanted a.btn:hover { background: var(--bone); }
+
+  @media (max-width: 780px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; }
+    .portrait { max-width: 380px; }
+    .nick, .oath .grid { grid-template-columns: 1fr; }
+    .nick > div + div { border-left: 0; border-top: 1px solid var(--rope); }
+    .traits { grid-template-columns: 1fr; }
+    .round .has-pic { grid-template-columns: 1fr; }
+    .round figure { max-width: 220px; }
+  }
+  @media (max-width: 520px) {
+    .rounds::before { left: 25px; }
+    .round { grid-template-columns: 52px minmax(0, 1fr); gap: 14px; }
+    .round .no b { width: 46px; height: 46px; font-size: 1.5rem; }
+    .round .no small { display: none; }
+    .tape { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="tag" href="index.html">Pembe Panter</a>
+    <nav aria-label="Sayfa">
+      <a href="../">← Bahçe</a>
+      <a href="#lakap">Lakap</a>
+      <a href="#hikaye">Hikâye</a>
+      <a href="#karakter">Karakter</a>
+      <a href="#yemin">Yemin</a>
+      <a class="go" href="tanidiklar.html">Tanıdıklar →</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" aria-labelledby="ad">
+    <div class="bill">
+      <div class="real">Gerçek adı: Robin · Neo-Nova doğumlu</div>
+      <h1 id="ad"><span class="p1">Pembe</span><span class="p2">Panter</span></h1>
+      <p class="scrawl quote">“Alay etmek için taktılar bu lakabı. Sonra tribünden bağırmaya başladılar.”</p>
+      <dl class="tape">
+        <div><dt>Yaş</dt><dd>25</dd></div>
+        <div><dt>Doğum yeri</dt><dd>Neo-Nova</dd></div>
+        <div><dt>Modifikasyon</dt><dd class="hot">Yok</dd></div>
+        <div><dt>Ringde</dt><dd>15–19 yaş</dd></div>
+        <div><dt>İş</dt><dd>Jhon'un Tavernası</dd></div>
+        <div><dt>Durum</dt><dd class="hot">Sürgün</dd></div>
+      </dl>
+    </div>
+    <figure class="portrait" style="margin:0">
+      <img src="assets/alternate.jpg" alt="Robin: turuncu-kızıl saçlar, aynalı güneş gözlüğü, dövmeli kollar ve yüzükler. Elini çenesine koymuş, bir şeyler tartıyor.">
+      <span class="stamp">%100 et ve kemik</span>
+    </figure>
+  </section>
+
+  <section id="lakap" class="nick" aria-label="Lakabın hikâyesi">
+    <div class="then">
+      <div class="eyebrow">Önce</div>
+      <div class="big"><s>“Pembe Panter”</s></div>
+      <p>Rakiplerinden biri ringde onunla dalga geçmek için uydurdu. Saçları, tavrı, ne varsa. Salonda gülüştüler.</p>
+    </div>
+    <div class="now">
+      <div class="eyebrow">Sonra</div>
+      <div class="big">Pembe Panter</div>
+      <p>Robin kazanmaya başlayınca aynı isim tezahürata döndü. Lakabı değiştirmedi. Herkese ezberletti.</p>
+    </div>
+  </section>
+
+  <section id="hikaye" class="section" aria-labelledby="hikaye-h">
+    <div class="eyebrow">Maç kartı</div>
+    <h2 id="hikaye-h">Altı raunt</h2>
+
+    <ol class="rounds" style="list-style:none;margin:0;padding:0">
+      <li class="round">
+        <div class="no"><b>1</b><small>0–15 yaş</small></div>
+        <div class="body">
+          <h3>Neo-Nova sokakları</h3>
+          <div class="when">Alt sınıf bir ailenin tek çocuğu</div>
+          <p>Okulda kavgadan çıkmazdı. Yine de etrafı hep kalabalıktı; ağzı ne kadar bozuksa o kadar çok arkadaşı vardı. Robin'i sevmek kolaydı, onunla kavga etmek pahalı.</p>
+        </div>
+      </li>
+
+      <li class="round">
+        <div class="no"><b>2</b><small>15–19 yaş</small></div>
+        <div class="body">
+          <h3>Modsuz ring</h3>
+          <div class="when">Yeraltı dövüşleri · implant yok, krom yok</div>
+          <p>15 yaşında arkadaşları onu modifikasyonu olmayanların dövüştüğü salonlara götürdü. Herkesin koluna metal taktırdığı bir şehirde Robin çıplak yumrukla kazanmayı öğrendi. “Pembe Panter” burada doğdu, burada hak edildi.</p>
+        </div>
+      </li>
+
+      <li class="round">
+        <div class="no"><b>3</b><small>19–22 yaş</small></div>
+        <div class="body has-pic">
+          <div>
+            <h3>Uzun Burun Billy</h3>
+            <div class="when">Bir turnuva · bir yaş büyük · kafaları hemen uyuştu</div>
+            <p>Turnuvada tanıştığı çocuk her seferinde kim olduğuna dair başka bir yalan anlatıyordu, lakabı da oradan geliyordu. Gerçek adı <a class="who" href="tanidiklar.html#laban">Laban</a>'dı. Arkadaşlık kısa sürede arkadaşlıktan fazlası oldu.</p>
+            <p>Laban'ın yalanlarının bir sebebi vardı: lideri “antik Tanrılarla konuştuğunu” söyleyen küçük bir tarikatın üyesiydi. Tarikat üyeleri yalnızca birbirleriyle birlikte olabiliyordu. Bu yüzden ilişki üç yıl boyunca gizli kaldı.</p>
+            <p>Robin bu sürede ringi bıraktı ve bir atölyede düzenli bir işe girdi. Birisi için bir şeyleri bırakmayı ilk kez burada öğrendi.</p>
+          </div>
+          <figure>
+            <img src="assets/Billy.png" alt="Laban: siyah takım elbiseli, sigara içen koyu saçlı genç adam.">
+            <figcaption><a href="tanidiklar.html#laban">Laban</a> · Uzun Burun Billy</figcaption>
+          </figure>
+        </div>
+      </li>
+
+      <li class="round">
+        <div class="no"><b>4</b><small>Laban 23</small></div>
+        <div class="body has-pic">
+          <div>
+            <h3>Düğün</h3>
+            <div class="when">Liderin kararı · itiraz yok</div>
+            <p>Korkulan oldu. Tarikatın lideri Laban'ın <a class="who" href="tanidiklar.html#asiel">Asiel</a> ile evlenmesine karar verdi. Asiel 13 yaşında, dünyadan habersiz bir kızdı. Laban'a göre başka yol yoktu; karşı çıkarsa tarikat Robin'e de zarar verecekti.</p>
+            <p>Robin onu kaçırmak istedi ama cebindeki para ancak kendine yetiyordu. Laban evlendi. İkisi gizlice görüşmeye devam etti. Laban Asiel'e hiç dokunmadı.</p>
+          </div>
+          <figure>
+            <img src="assets/Asiel.png" alt="Asiel: dalgalı turuncu saçlar, çiller, gerdanlık ve koyu kırmızı elbise; çiçeklerin arasında pencereden bakıyor.">
+            <figcaption><a href="tanidiklar.html#asiel">Asiel</a></figcaption>
+          </figure>
+        </div>
+      </li>
+
+      <li class="round">
+        <div class="no"><b>5</b><small>bir yıl sonra</small></div>
+        <div class="body has-pic">
+          <div>
+            <h3>Tuzak</h3>
+            <div class="when">Ablalar · ağabey · lider onay veriyor</div>
+            <p>Bir yıl sonra Asiel durumu ablalarından birine anlattı. Ablalar bir şeylerin döndüğünü hemen anladı ve ağabeyleri <a class="who" href="tanidiklar.html#hamath">Hamath</a>'a gitti. Hamath haftalarca Laban'ı takip etti ve her şeyi öğrendi.</p>
+            <p>Kardeşinin “namusunu temizlemek” ve tarikatın onurunu kurtarmak için liderden izin aldı. Laban'ı diğer müritlerle birlikte vahşice öldürdü. Cinayet en baştan Robin'in üstüne kalacak şekilde kurgulanmıştı.</p>
+          </div>
+          <figure>
+            <img src="assets/Hamath.png" alt="Hamath: dağınık beyaz saçlı, sakallı, yeşil gözlü, sinsice gülümseyen adam.">
+            <figcaption><a href="tanidiklar.html#hamath">Hamath</a> · hedef</figcaption>
+          </figure>
+        </div>
+      </li>
+
+      <li class="round ko">
+        <div class="no"><b>6</b><small>~1,5 yıldır</small></div>
+        <div class="body">
+          <h3>Writopia</h3>
+          <div class="when">Mahkeme · hüküm · sürgün</div>
+          <p>Mahkemenin gözünde Robin, sevgilisinin evlenmesini kıskanan metresti. Aşk cinayeti için sahne hazırdı. Robin asıl katilin Hamath olduğunu biliyordu; Laban ona, karısının ağabeyinin tuhaf davrandığını önceden söylemişti. Ne dediyse fark etmedi. Tarikat birbirinin arkasını kolladı.</p>
+          <span class="verdict">Hüküm: suçlu · Writopia'ya sürgün</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="karakter" class="section" aria-labelledby="karakter-h">
+    <div class="eyebrow">Köşesinde kim var</div>
+    <h2 id="karakter-h">Robin nasıl biri</h2>
+    <div class="traits">
+      <div class="trait">
+        <h3>Önce yumruk, sonra soru</h3>
+        <p>Okul bahçesinden yeraltı ringine kadar sorunları elleriyle çözdü. Hâlâ en rahat olduğu dil bu.</p>
+      </div>
+      <div class="trait">
+        <h3>Herkesin arkadaşı</h3>
+        <p>Kavgacı ama yalnız değil. İnsanlar ona yapışıyor. Şimdi Writopia'da bir tavernada çalışıyor, bir arkadaşının evinde kalıyor.</p>
+      </div>
+      <div class="trait">
+        <h3>Ağzı bozuk, dili sivri</h3>
+        <p>Ölümü bile espriyle karşılar. Neo-Nova'nın sokakları ona yas tutmayı değil, gülüp geçmeyi öğretti.</p>
+        <span class="scrawl">“Kamü öldü. Haha.”</span>
+      </div>
+      <div class="trait">
+        <h3>Sonuna kadar sadık</h3>
+        <p>Üç yıl saklandı, ringi bıraktı, sevdiği adamın başkasıyla evlenmesine katlandı. Sevdiği biri için her şeye razı.</p>
+      </div>
+      <div class="trait">
+        <h3>Bazı şeyleri görmez</h3>
+        <p>Kavgada her hareketi okur, ama kendisine yönelik ilgiyi asla. Jhon'un kızı Medeline ona açıkça ilgi gösteriyor; Robin hâlâ fark etmedi.</p>
+      </div>
+      <div class="trait">
+        <h3>Unutmaz</h3>
+        <p>Sürgünde geçen bir buçuk yıl öfkesini söndürmedi, keskinleştirdi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="yemin" class="section" aria-labelledby="yemin-h">
+    <div class="eyebrow">Her gece, yastığa başını koyduğunda</div>
+    <h2 id="yemin-h">Yemin</h2>
+    <div class="oath">
+      <p class="scrawl line">“Laban'ın intikamını alacağım. Hepsinden.”</p>
+      <div class="grid">
+        <div>
+          <h3>Hesabı kapanmayanlar</h3>
+          <ul class="hit">
+            <li><span><a class="who" href="tanidiklar.html#hamath">Hamath</a></span><span class="lvl">Laban'ı öldürdü</span></li>
+            <li><span>Tarikatın lideri</span><span class="lvl">İzni o verdi</span></li>
+            <li><span>Müritler</span><span class="lvl">Cinayete ortak, mahkemede yalancı</span></li>
+          </ul>
+        </div>
+        <div class="wanted">
+          <h3>Aranıyor</h3>
+          <p>Robin Writopia'daki bir buçuk yılını plana yardım edecek insanları arayarak geçirdi. Kime güvenip kime güvenmediğini kendi notlarından okuyabilirsin.</p>
+          <a class="btn" href="tanidiklar.html">Tanıdıklar →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Robin · Pembe Panter · Neo-Nova → Writopia</span>
+    <a href="tanidiklar.html">Tanıdıklar listesi →</a>
+  </footer>
+</main>
+</body>
+</html>

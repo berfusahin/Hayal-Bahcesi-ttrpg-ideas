@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sam'in Dosyaları</title>
+<meta name="description" content="Samantha Oakley'nin tanıdığı, sevdiği, şüphelendiği ve hakkında fazla şey bildiği herkes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .page-head { padding: 48px 0 8px; }
+  .page-head h1 { font-size: clamp(48px, 8vw, 88px); margin: 12px 0 10px; }
+  .page-head p { max-width: 640px; color: var(--ink-dim); margin: 0; }
+
+  .db-status {
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--term);
+    background: #050506;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .db-status .dim { color: var(--ink-faint); }
+  .db-status .warn { color: var(--blood-bright); }
+
+  .filters {
+    position: sticky;
+    top: 57px;
+    z-index: 20;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 14px 0;
+    margin-top: 28px;
+    background: linear-gradient(var(--bg) 75%, transparent);
+  }
+  .filters button {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  .filters button:hover { color: var(--ink); }
+  .filters button[aria-pressed="true"] {
+    color: var(--bg);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .filters button .n { opacity: 0.6; margin-left: 6px; }
+
+  .group { scroll-margin-top: 120px; }
+  .group[hidden] { display: none; }
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 56px 0 8px;
+  }
+  .group-head h2 { font-size: clamp(28px, 4.5vw, 38px); }
+  .group-head .num { font-family: var(--mono); font-size: 13px; color: var(--gold-dim); }
+  .group-intro { color: var(--ink-dim); font-style: italic; margin: 0 0 24px; max-width: 700px; }
+
+  /* ---------- feature (with portrait) ---------- */
+  .feature {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 32px;
+    padding: 28px;
+    margin-bottom: 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    scroll-margin-top: 130px;
+  }
+  .feature .pic {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 1;
+    background: #000;
+  }
+  .feature .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .feature.monster .pic img { object-position: center 20%; }
+
+  /* ---------- card grid ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    position: relative;
+    padding: 24px 24px 22px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    scroll-margin-top: 130px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:target, .feature:target {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold-dim), 0 20px 60px -30px rgba(201,165,74,0.4);
+  }
+
+  .sigil {
+    width: 52px; height: 52px;
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    transform: rotate(45deg);
+    margin: 6px 6px 18px;
+    flex-shrink: 0;
+  }
+  .sigil span { transform: rotate(-45deg); }
+  .card.enemy .sigil { color: var(--blood-bright); border-color: var(--blood); }
+
+  .who h3 { font-size: 28px; }
+  .feature .who h3 { font-size: 40px; }
+  .role {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 6px 0 12px;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-dim);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 10px 3px 8px;
+    margin-bottom: 14px;
+  }
+  .status::before {
+    content: "";
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--term);
+  }
+  .status.lost::before { background: var(--gold); }
+  .status.dead::before { background: var(--blood-bright); }
+  .status.unknown::before { background: var(--ink-faint); }
+
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    font-size: 17px;
+    color: #d0c8bb;
+  }
+  .facts li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+  .facts li::before { content: "·"; position: absolute; left: 2px; color: var(--gold-dim); }
+
+  .note {
+    margin-top: auto;
+    padding: 12px 14px;
+    border-left: 2px solid var(--blood);
+    background: rgba(158, 27, 34, 0.07);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .note::before {
+    content: "Sam'in notu";
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blood-bright);
+    margin-bottom: 4px;
+  }
+  .feature .note { margin-top: 6px; font-size: 18px; }
+
+  .seen {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+  .seen a { color: var(--ink-dim); border-bottom: 1px dotted var(--line); }
+  .seen a:hover { color: var(--gold); }
+
+  /* redacted secret */
+  .redact {
+    background: var(--ink);
+    color: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    font-style: normal;
+    padding: 0 2px;
+  }
+  .redact:hover, .redact:focus, .redact.shown {
+    background: rgba(158, 27, 34, 0.3);
+    color: var(--ink);
+    outline: none;
+  }
+
+  @media (max-width: 760px) {
+    .feature { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+    .feature .pic { max-width: 260px; }
+    .cards { grid-template-columns: 1fr; }
+    .filters { top: 0; position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bismillah" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="prompt"><span class="user">sam@lagim</span>:<span class="path">~/dosyalar</span>$ ls -la<span class="cursor"></span></div>
+    <nav class="nav">
+      <a class="up" href="../">bahçe</a>
+      <a href="index.html">sam</a>
+      <a href="kisiler.html" aria-current="page">kişiler</a>
+      <a href="bolumler.html">günlük</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="page-head fade-in">
+    <div class="eyebrow">Tanınan kişiler</div>
+    <h1>Dosyalar</h1>
+    <p>Bir kere adını duyduysam, gerisini bulurum. Sevdiklerim, bana emir verenler, peşime takılan yarım akıllılar ve sırlarını benden saklayamayanlar — hepsi burada.</p>
+    <div class="db-status">
+      <span class="dim">[db]</span> bağlantı kuruldu · şifreleme aktif · tracker: <span class="dim">devre dışı</span><br>
+      <span class="dim">[db]</span> 26 kayıt yüklendi · son güncelleme: 1 Temmuz 2024, sabaha karşı<br>
+      <span class="warn">[!]</span> sire ile bağlantı yok — Zaynab Shah mesajlara cevap vermiyor
+    </div>
+  </section>
+
+  <div class="filters" role="toolbar" aria-label="Gruba göre süz">
+    <button type="button" data-filter="all" aria-pressed="true">hepsi</button>
+    <button type="button" data-filter="kalp">kalbim &amp; kanım</button>
+    <button type="button" data-filter="koteri">koteri</button>
+    <button type="button" data-filter="camarilla">camarilla</button>
+    <button type="button" data-filter="tehdit">tehditler</button>
+    <button type="button" data-filter="james">james'in dosyası</button>
+    <button type="button" data-filter="diger">diğerleri</button>
+  </div>
+
+  <!-- ============ KALBİM & KANIM ============ -->
+  <section class="group" data-group="kalp">
+    <div class="group-head"><span class="num">01</span><h2>Kalbim &amp; Kanım</h2></div>
+    <p class="group-intro">Beni sevmeye devam eden adam, beni yaratan kadın ve bana bir amaç veren kız kardeşim.</p>
+
+    <article class="feature" id="muhammed">
+      <div class="pic"><img src="assets/Muhammed.png" alt="Muhammed: kapüşonlu, sakallı, koyu gözlü bir adam"></div>
+      <div class="who">
+        <h3>Muhammed</h3>
+        <div class="role">Touchstone · Sevgili · Ölümlü</div>
+        <span class="status lost">Mısır'da — hâlâ dönemedi</span>
+        <ul class="facts">
+          <li>Sam'in dolandırıcılık oyunu sırasında tanıştığı adam; açıklarını bulmak için başladığı görüşmeler gerçek bir ilişkiye dönüştü.</li>
+          <li>Sam'e yaptıklarının kul hakkı olduğunu söyleyen, onu unuttuğu inancına geri döndüren kişi.</li>
+          <li>Onu New York'ta Müslümanların toplandığı bir hidayet toplantısına götürdü; sürekli evlilikten bahsediyordu.</li>
+          <li>Apar topar Mısır'a gitmek zorunda kaldı. Vize sıkıntısı, uzayan işler derken bir türlü Amerika'ya dönemedi.</li>
+          <li>Zaynab'ın izniyle Sam'le yalnızca geceleri konuşuyorlar.</li>
+        </ul>
+        <div class="note">Bu yüzü görse bile beni sevmeye devam eder mi? Yeterince yükselirsem belki onu yanımda tutabilirim. Belki.</div>
+      </div>
+    </article>
+
+    <article class="feature monster" id="zaynab">
+      <div class="pic"><img src="assets/Zaynab.png" alt="Zaynab Shah: uzun siyah saçlı, dumanlı, sivri kulaklı, ürkütücü bir Nosferatu"></div>
+      <div class="who">
+        <h3>Zaynab Shah</h3>
+        <div class="role">Sire · Nosferatu · Pakistan kökenli</div>
+        <span class="status lost">Kayıp — Central Park'tan beri cevap yok</span>
+        <ul class="facts">
+          <li>Sam yalnızken evine girdi, uyurken kanını son damlasına kadar emdi ve ona kendi kanından bahşetti.</li>
+          <li>Kültürünü ve dini kullanarak Sam'in aklına girdi: kindred olmanın Allah'a hakaret olmadığını, hâlâ O'nun izinden gidebileceğini söyledi.</li>
+          <li>Banu Haqim ile ortak projeler yürütüyor: Orta Doğu'daki eski mabetlerden antik eşyalar, mezarların sırları, eski yazıtların deşifresi.</li>
+          <li>Sam'i bu projelere yönlendirerek kendine bağladı.</li>
+          <li>Primojen Kalebros da ondan haber alamadı; ama yeraltında hiçbir Haven basılmamış.</li>
+        </ul>
+        <div class="note">Mesaj attım, dönmedi. Kalebros'a bildirdim. Belki de hâlâ hayattadır… Allah'ım, ona bir şey olduysa ben ne yapacağım?</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </div>
+    </article>
+
+    <article class="feature" id="leila">
+      <div class="pic"><img src="assets/Leila.png" alt="Leila Halabi: çöl kentinde, başörtülü, uzun siyah saçlı bir kadın"></div>
+      <div class="who">
+        <h3>Leila Halabi</h3>
+        <div class="role">Banu Haqim · En yakın bağlantı · Arap kökenli</div>
+        <span class="status">Bağlantı aktif</span>
+        <ul class="facts">
+          <li>Zaynab'ın Orta Doğu projeleri sırasında Sam'in Banu Haqim'ler arasındaki en yakın bağlantısı oldu.</li>
+          <li>Sam, Banu Haqim'deki tanıdıkları için küçük bilgiler edinip karşılığında para ya da bilgi alıyor.</li>
+        </ul>
+        <div class="note">Zaynab'dan haber çıkmazsa Banu Haqim'lerden yardım istemek zorunda kalacağım. Kapısını çalacağım ilk kişi o.</div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ KOTERİ ============ -->
+  <section class="group" data-group="koteri">
+    <div class="group-head"><span class="num">02</span><h2>Koteri</h2></div>
+    <p class="group-intro">Central Park yanarken aklını kaybetmeyen nadir kindred'lar. Beni zorla bir araya koydukları yarım akıllılar.</p>
+
+    <div class="cards">
+      <article class="card" id="soli">
+        <div class="sigil"><span>S</span></div>
+        <div class="who">
+          <h3>Soli</h3>
+          <div class="role">Sarışın · Insta influencer'ı</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Genç, hayat dolu; parkta smokinli bir centilmenle yüksek sesle konuşuyordu.</li>
+          <li>Durduk yere "Mina" adını sayıkladı ve James'i delirtti.</li>
+          <li>Sam kontrolünü kaybedip ghoul'un kanına saldırdığında onu sakinleştiren oydu.</li>
+          <li>Yaşlı Ayşe'den aldığı Kur'an-ı Kerim'i Sam'e hediye etti, İslam ile ilgilendiğini söyleyip Nas Suresi'ni okudu.</li>
+          <li>Gangrel'in evindeki cesetlerin yerini değiştirip sallanarak dualar etti.</li>
+        </ul>
+        <div class="note">İğrenç, iki yüzlü, asla güvenilmez. Gülerek arkandan bıçaklar. Ama o Kur'an… Hâlâ ne düşüneceğimi bilmiyorum.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="james">
+        <div class="sigil"><span>J</span></div>
+        <div class="who">
+          <h3>James</h3>
+          <div class="role">Göçmen · Şoför · Şaklaban</div>
+          <span class="status dead">Resmî kayıt: kaçtı</span>
+        </div>
+        <ul class="facts">
+          <li>Esmer, kıvırcık siyah saçlı. Bir karavanı ve <a href="#salvador">Salvador</a> adında bir köpeği var.</li>
+          <li>Telefonunu kendi eliyle Sam'e uzattı; tüm verileri Sam'e geçti.</li>
+          <li>Nosferatu'lar tarafından sevilen biri; Arthur'dan çok kez bilgi almış, Victor Drake ile işbirliği içinde.</li>
+          <li>Karavanında sahte kimlikler, farklı kıyafetler, biri kanla dolu iki şırınga ve Priyah'a yazılmış mektuplar.</li>
+          <li>Joyce tarafından üç kez vuruldu, ardından yaşlı Ayşe'nin evine girdi.</li>
+        </ul>
+        <div class="note">Resmî hikâye: kadına sapıklık yaptı, kadın direnince camdan atlayıp kaçtı. Nereye gitti bilinmiyor, nokta. Gerçek: <span class="redact" tabindex="0" title="göster">Ayşe kendini savunurken onu öldürdü. Bunu benden başka kimse bilmemeli.</span></div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a> · son: <a href="bolumler.html#bolum-3">Bölüm 3</a></div>
+      </article>
+
+      <article class="card" id="joyce">
+        <div class="sigil"><span>J</span></div>
+        <div class="who">
+          <h3>Joyce</h3>
+          <div class="role">"Jilet çocuk"</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Prens'in karşısında konuşmanın çoğunu o yaptı.</li>
+          <li>Ayşe'nin çay teklifini Sam'le birlikte reddeden, "kafası çalışan" iki kişiden biri.</li>
+          <li>Sabrı taşınca James'i üç kez vurdu; silahını Sam aldı.</li>
+          <li>Alexander ile Fil Dişi Kule hakkında konuştu.</li>
+        </ul>
+        <div class="note">Grubun en mantıklısı. Prens'in önünde konuşmayı ona bıraktığım için çok rahatladım. Ama sinirliyken silahını elinden almak lazım.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="sarah">
+        <div class="sigil"><span>S</span></div>
+        <div class="who">
+          <h3>Sarah</h3>
+          <div class="role">Elisium sahibi · Adını herkes bilir</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Kızıl, küt saçlı. Parktan kaçışı birlikte planladılar.</li>
+          <li>Kör Ily ile birlikte işlettikleri gece kulübü — Elisium'larına — grubu götürdü.</li>
+          <li>Uşakları Lamar'lar, tanıdığı Jonathan.</li>
+          <li>Hayatta kalanların Prens Helen Panar'a bilgi vermesini istedi.</li>
+        </ul>
+        <div class="note">Bu zorlama "görev"den rahatsız oldum ama benden rütbece büyük bu kindred'a karşı koyamazdım.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="ily">
+        <div class="sigil"><span>I</span></div>
+        <div class="who">
+          <h3>Kör Ily</h3>
+          <div class="role">Sarah'ın söylentideki sevgilisi</div>
+          <span class="status dead">Muhtemelen öldü</span>
+        </div>
+        <ul class="facts">
+          <li>Central Park yanarken geride kaldı.</li>
+          <li>Sarah ile birlikte bir gece kulübü işletiyordu.</li>
+        </ul>
+        <div class="note">Parkı saran alevleri düşününce hayatta kalması imkânsız. Sarah yıkıldı. (Artık o kulübe "onların" Elisium'u mu demeli, "onun" mu?)</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="salvador">
+        <div class="sigil"><span>🐕</span></div>
+        <div class="who">
+          <h3>Salvador</h3>
+          <div class="role">James'in köpeği</div>
+          <span class="status unknown">Sahibi "kayıp"</span>
+        </div>
+        <ul class="facts">
+          <li>Parktan kaçarken gruptaydı.</li>
+        </ul>
+        <div class="note">Köpeğin olduğu yere melekler girmez. Ama Allah zor zamanlar için kullarını yargılamaz ve canlılara merhameti öğütler. O yüzden sesimi çıkarmadım.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CAMARILLA ============ -->
+  <section class="group" data-group="camarilla">
+    <div class="group-head"><span class="num">03</span><h2>Camarilla &amp; Otorite</h2></div>
+    <p class="group-intro">Önünde kekelememek için dua ettiğim, emirlerini sorgulamadığım ya da sorgulamaya cesaret edemediğim kişiler.</p>
+
+    <div class="cards">
+      <article class="card" id="helen-panar">
+        <div class="sigil"><span>H</span></div>
+        <div class="who">
+          <h3>Helen Panar</h3>
+          <div class="role">New York Prensi</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Mark Pierce adına kan avı başlattı.</li>
+          <li>Park katliamında yetmiş küsür, ardından teker teker sıkıştırılarak otuz kandaşın öldüğünü söyledi.</li>
+          <li>İnsanların elinde eskiden olmayan büyüler ya da ittifaklar olabileceğini düşünüyor.</li>
+          <li>Grubu Arthur'un Haven'ını araştırmaya gönderdi ve onlara bir Haven tahsis etti.</li>
+        </ul>
+        <div class="note">Prens'in karşısına çıkma onurunu her zaman elde edemeyecektim. Bunu batırmak istemezdim.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="baykus">
+        <div class="sigil"><span>B</span></div>
+        <div class="who">
+          <h3>Baykuş</h3>
+          <div class="role">Prens'in Habercisi</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>Kısa, kel ve bembeyaz.</li>
+          <li>Central Park'ta son ses çığırarak Anarch'ların California'dan geleceğini ve kan avını duyurdu.</li>
+        </ul>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="kalebros">
+        <div class="sigil"><span>K</span></div>
+        <div class="who">
+          <h3>Kalebros</h3>
+          <div class="role">Nosferatu Primojeni</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Sam, Zaynab'ın kayboluşunu ona bildirdi ve Shrecknet'in ele geçirilme ihtimalini sordu.</li>
+          <li>Zaynab'dan o da haber alamamış; ama yeraltında hiçbir Haven basılmamış, network'lere sızılmamış.</li>
+        </ul>
+        <div class="note">Cevap geç geldi ama geldi. Belki de Zaynab hâlâ hayattadır?</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+
+      <article class="card" id="qadir">
+        <div class="sigil"><span>Q</span></div>
+        <div class="who">
+          <h3>Şerif Qadir</h3>
+          <div class="role">Şerif</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Grup, bildiği her şeyi ona anlatmaya karar verdi; belki onları bir yerlere yönlendirebilir.</li>
+        </ul>
+        <div class="note">Yarın ona gideceğiz. Tabii benim ek olarak yapacaklarım da var.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-3">Bölüm 3</a></div>
+      </article>
+
+      <article class="card" id="alexander">
+        <div class="sigil"><span>A</span></div>
+        <div class="who">
+          <h3>Alexander</h3>
+          <div class="role">Fil Dişi Kule · Prens'in gönderdiği</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Dev gibi, siyah takım elbiseli, gri saçlı, çok güçlü bir auraya sahip.</li>
+          <li>Kimliği sorulduğunda çok üstten cevaplar verdi.</li>
+          <li>Kaçışta Sam ve baygın esirle birlikte çalıntı kamyonete bindi.</li>
+        </ul>
+        <div class="note">Düşman değil. Ama kibrinden de bir şey kaybetmemiş.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-3">Bölüm 3</a></div>
+      </article>
+
+      <article class="card" id="nathen">
+        <div class="sigil"><span>N</span></div>
+        <div class="who">
+          <h3>Nathen</h3>
+          <div class="role">Prens'in kapısındaki ghoul</div>
+          <span class="status">Hayatta</span>
+        </div>
+        <ul class="facts">
+          <li>Helen Panar ile görüşmeyi onun aracılığıyla ayarladılar.</li>
+        </ul>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+
+      <article class="card" id="jonathan">
+        <div class="sigil"><span>J</span></div>
+        <div class="who">
+          <h3>Jonathan</h3>
+          <div class="role">Sarah'ın tanıdığı</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>1.80 boyunda, rampa saçlı, sarı gözlüklü.</li>
+          <li>Büyük bir çanta taşıyor ve çantasıyla konuşuyor.</li>
+        </ul>
+        <div class="note">Bir deli.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="lamar">
+        <div class="sigil"><span>L</span></div>
+        <div class="who">
+          <h3>Lamar'lar</h3>
+          <div class="role">Sarah'ın uşakları</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>Elisium'da grubu bir odada toplayanlar.</li>
+        </ul>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ TEHDİTLER ============ -->
+  <section class="group" data-group="tehdit">
+    <div class="group-head"><span class="num">04</span><h2>Tehditler</h2></div>
+    <p class="group-intro">Peşimizdekiler. Telefonları bana bir şeyler anlatıyor.</p>
+
+    <div class="cards">
+      <article class="card enemy" id="mark-pierce">
+        <div class="sigil"><span>M</span></div>
+        <div class="who">
+          <h3>Mark Pierce</h3>
+          <div class="role">Anarch · California · "Patron"</div>
+          <span class="status dead">Kan avı ilan edildi</span>
+        </div>
+        <ul class="facts">
+          <li>Kaslı, kısa-gri saçlı, sol kolunda dövme var.</li>
+          <li>Utanmadan diablerie yapmasıyla biliniyor.</li>
+          <li>Grubu takip eden ghoul'un telefonunda "Patron" diye kayıtlı; tek mesaj: "Bu adamları takip et". California kodlu numara.</li>
+        </ul>
+        <div class="note">Bu numaranın kime ait olduğu öğle güneşi kadar apaçık. Bizimkiler de ghoul'u sorgulayıp aynı sonuca vardı.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card enemy" id="esir">
+        <div class="sigil"><span>?</span></div>
+        <div class="who">
+          <h3>Zırhlı araçtaki adamlar</h3>
+          <div class="role">Avcılar? · Biri esir</div>
+          <span class="status unknown">Biri Haven'da</span>
+        </div>
+        <ul class="facts">
+          <li>Gangrel'in binasının önüne siyah, zırhlı bir araçla geldiler; dört silahlı adam.</li>
+          <li>Gözcü kalanı Sam demir sopayla bayılttı ve aracı telefonundan sürerek kaçırdı.</li>
+          <li>Telefonunda kindred isim listesi, haven ve kutsal mekan fotoğrafları vardı.</li>
+          <li>Akıl manipülasyonu bile işe yaramadı: bazı bilgileri istese de veremiyor.</li>
+          <li>Bölgede 1000+ telefona bağlı bir ağ var; bu adamın ağı ise ghoul takipçilerden farklı.</li>
+        </ul>
+        <div class="note">Tremere'lerin böyle kan büyüleri bildiği hep söylenirdi. Yine bu işin içine Tremere'leri dahil edecek bir ipucu.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-3">Bölüm 3</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ JAMES'İN DOSYASI ============ -->
+  <section class="group" data-group="james">
+    <div class="group-head"><span class="num">05</span><h2>James'in Dosyası</h2></div>
+    <p class="group-intro">Telefonunu bana kendi eliyle uzattı. Bu enayi teklifi tabii ki geri çevirmedim.</p>
+
+    <div class="cards">
+      <article class="card" id="mina">
+        <div class="sigil"><span>M</span></div>
+        <div class="who">
+          <h3>Mina</h3>
+          <div class="role">James'in albino eski nişanlısı</div>
+          <span class="status dead">Öldürüldü</span>
+        </div>
+        <ul class="facts">
+          <li>Soli adını sayıklayınca James kafayı yedi — zayıf noktası.</li>
+          <li>Katillerinden birini James bulup öldürmüş; iki kişi daha kalmış, biri Gangrel.</li>
+        </ul>
+        <div class="note">Bu Mina her kimse öğrenmeden huzur bulamayacaktım. Ve sonunda buradaydı. Gönderilen adam fotoğraflarının kaç tanesinin onunla alakası var?</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-1">Bölüm 1</a></div>
+      </article>
+
+      <article class="card" id="priyah">
+        <div class="sigil"><span>P</span></div>
+        <div class="who">
+          <h3>Priyah</h3>
+          <div class="role">James'in mektuplarının alıcısı</div>
+          <span class="status dead">James tarafından öldürülmüş</span>
+        </div>
+        <ul class="facts">
+          <li>James'in karavanında ona yazılmış bir sürü mektup var; bazıları özürle bitiyor.</li>
+          <li>En şoke edici olanlarda James, onu öldürdüğü için pişman olduğunu yazıyor.</li>
+        </ul>
+        <div class="note">Öldürdüğün kadınlara mektup mu yazıyorsun James? Allah yardımcın olsun, sen iflah olmaz bir manyaksın.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+
+      <article class="card" id="victor-drake">
+        <div class="sigil"><span>V</span></div>
+        <div class="who">
+          <h3>Victor Drake</h3>
+          <div class="role">CEO · Suikastçı birliği lideri · Kandaş</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>Adı sanı duyulmuş bir şirketin CEO'su, alttan alta suikastçı birliği lideri.</li>
+          <li>James'e konum ve insan atıyor; en son Timothy Hunter'ın bilgileri.</li>
+          <li>James, Mina'nın kalan katillerini onun yardımıyla bulacağını yazmış.</li>
+        </ul>
+        <div class="note">Bu kadar eli kolu uzun bir adamdan James gibi birinin çok isteği olsa gerek, değil mi?</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+
+      <article class="card" id="arthur-nosferatu">
+        <div class="sigil"><span>A</span></div>
+        <div class="who">
+          <h3>Arthur</h3>
+          <div class="role">Nosferatu klandaşı</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>James birçok kez ondan bilgi almış.</li>
+        </ul>
+        <div class="note">Kendi klanımdan biri. James'le ne kadar iş yaptığını sormak lazım.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+
+      <article class="card" id="timothy-hunter">
+        <div class="sigil"><span>T</span></div>
+        <div class="who">
+          <h3>Timothy Hunter</h3>
+          <div class="role">Gangrel · Liberty Park</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>Liberty Park'ta yaşayan bir "orman çocuğu".</li>
+          <li>Bilgileri Victor Drake tarafından James'e en son gönderilen kişi.</li>
+        </ul>
+        <div class="note">Mina'nın kalan katillerinden biri Gangrel'di. Tesadüf mü?</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ DİĞERLERİ ============ -->
+  <section class="group" data-group="diger">
+    <div class="group-head"><span class="num">06</span><h2>Diğerleri</h2></div>
+    <p class="group-intro">Yollarımın kesiştiği, ama hiçbir listeye sığmayanlar.</p>
+
+    <div class="cards">
+      <article class="card" id="ayse">
+        <div class="sigil"><span>A</span></div>
+        <div class="who">
+          <h3>Ayşe</h3>
+          <div class="role">Yaşlı Müslüman komşu · Ölümlü</div>
+          <span class="status">Hayatta — korunmalı</span>
+        </div>
+        <ul class="facts">
+          <li>Gangrel'in binasında, 3. katta yaşıyor; James ve Soli'ye çay ikram etti.</li>
+          <li>Soli'ye bir Kur'an-ı Kerim hediye etti.</li>
+          <li>Görünmez olmama rağmen beni gördü. Kara çarşafımdan beni Azrail sandı.</li>
+        </ul>
+        <div class="note">Ona Azrail değil, melek gibi yaklaştım. "Allah seni görüyor" dedim, Ayet-el Kürsi okudum. Masquerade için zarar görmesine izin vermeyeceğim.</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-3">Bölüm 3</a></div>
+      </article>
+
+      <article class="card" id="arthur-gangrel">
+        <div class="sigil"><span>A</span></div>
+        <div class="who">
+          <h3>Arthur</h3>
+          <div class="role">Gangrel · "Orman çocuğu"</div>
+          <span class="status unknown">Bilinmiyor</span>
+        </div>
+        <ul class="facts">
+          <li>Prens'in yaveri grubu onun ev adresine gönderdi; Haven'ı Liberty Park'ın yakınında.</li>
+          <li>Daha önce avcılar baskın atmış. İçerisi tamamen yanmış ama alevler dışarı sıçramamış.</li>
+          <li>İçeride yarısı yenmiş yemekler, çeşitli dinlere ait figürler ve kitaplar, yere dağılmış kazıklar ve altı ceset.</li>
+        </ul>
+        <div class="note">Bu, insanların kullandığı bir büyü olmalı. (Not: Nosferatu Arthur ile aynı kişi değil — sanırım.)</div>
+        <div class="seen">ilk geçtiği yer: <a href="bolumler.html#bolum-2">Bölüm 2</a></div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>// <a href="index.html">sam</a> · <a href="bolumler.html">günlük</a> · bu dosyalar başkasının eline geçerse kendini siler</span>
+    <button class="tesbih" type="button" title="Tesbih çek"><span class="bead"></span><span class="label">Estağfirullah</span><span class="count">0</span></button>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  (function () {
+    var buttons = document.querySelectorAll(".filters button");
+    var groups = document.querySelectorAll(".group");
+
+    buttons.forEach(function (b) {
+      var f = b.dataset.filter;
+      var n = f === "all"
+        ? document.querySelectorAll(".group .card, .group .feature").length
+        : document.querySelectorAll('.group[data-group="' + f + '"] .card, .group[data-group="' + f + '"] .feature').length;
+      var s = document.createElement("span");
+      s.className = "n";
+      s.textContent = n;
+      b.appendChild(s);
+
+      b.addEventListener("click", function () {
+        buttons.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        groups.forEach(function (g) { g.hidden = !(f === "all" || g.dataset.group === f); });
+      });
+    });
+
+    document.querySelectorAll(".redact").forEach(function (r) {
+      r.addEventListener("click", function () { r.classList.toggle("shown"); });
+    });
+  })();
+</script>
+</body>
+</html>

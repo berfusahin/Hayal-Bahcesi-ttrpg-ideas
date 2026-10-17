@@ -1,0 +1,115 @@
+/* Layout: a dancer mid-turn. Asymmetric hero cut by wind streaks, then one calm reading column with labels in the margin. */
+:root {
+  --paper: #f2f3ef;
+  --wash: #e5e8e2;
+  --ink: #1d1a24;
+  --muted: #5d5a66;
+  --crimson: #a5142c;
+  --emerald: #1d6a4d;
+  --gold: #9a6d16;
+  --line: rgba(29, 26, 36, 0.14);
+  --streak: rgba(29, 26, 36, 0.22);
+  --streak-inv: rgba(242, 243, 239, 0.24);
+
+  --f-display: "Rozha One", "Georgia", serif;
+  --f-body: "Literata", "Georgia", "Times New Roman", serif;
+  --f-label: "Hind", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 64ch;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #13131a;
+    --wash: #1d1d26;
+    --ink: #ece8e2;
+    --muted: #a39faa;
+    --crimson: #e2495e;
+    --emerald: #52b68b;
+    --gold: #d8ad56;
+    --line: rgba(236, 232, 226, 0.14);
+    --streak: rgba(236, 232, 226, 0.2);
+    --streak-inv: rgba(19, 19, 26, 0.22);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #13131a;
+  --wash: #1d1d26;
+  --ink: #ece8e2;
+  --muted: #a39faa;
+  --crimson: #e2495e;
+  --emerald: #52b68b;
+  --gold: #d8ad56;
+  --line: rgba(236, 232, 226, 0.14);
+  --streak: rgba(236, 232, 226, 0.2);
+  --streak-inv: rgba(19, 19, 26, 0.22);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--crimson); outline-offset: 3px; border-radius: 2px; }
+
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; line-height: 1.05; text-wrap: balance; margin: 0; }
+
+.label {
+  font-family: var(--f-label);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wrap { max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ——— Top bar ——— */
+.topbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { font-family: var(--f-display); font-size: 1.35rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.brand svg { width: 22px; height: 22px; color: var(--crimson); }
+.topnav { display: flex; gap: 4px; font-family: var(--f-label); font-weight: 600; font-size: 0.95rem; }
+.topnav a {
+  text-decoration: none; padding: 6px 12px; border-radius: 999px; color: var(--muted);
+  transition: color .2s, background .2s;
+}
+.topnav a:hover { color: var(--ink); background: var(--wash); }
+.topnav a[aria-current="page"] { color: var(--paper); background: var(--ink); }
+
+/* ——— Wind canvas ——— */
+.wind { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* ——— Section rhythm ——— */
+.section { padding-block: clamp(56px, 9vw, 112px); border-top: 1px solid var(--line); }
+.section-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; align-items: baseline; margin-bottom: clamp(28px, 4vw, 48px); }
+.section-head h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); }
+.section-head p { grid-column: 2; margin: 0; color: var(--muted); max-width: var(--measure); }
+@media (max-width: 720px) {
+  .section-head { grid-template-columns: minmax(0, 1fr); }
+  .section-head p { grid-column: 1; }
+}
+
+.footer { border-top: 1px solid var(--line); padding-block: 36px; color: var(--muted); font-family: var(--f-label); font-size: 0.9rem; }
+.footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+.footer a { color: var(--crimson); text-underline-offset: 3px; }

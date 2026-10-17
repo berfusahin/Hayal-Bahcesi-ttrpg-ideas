@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crystal Taelin · Tanıdıklar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&amp;family=Marcellus+SC&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+  .head { padding-block: clamp(2rem, 5vw, 3.2rem) 1.5rem; display: grid; gap: .9rem; }
+  .head h1 { font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .92; }
+
+  .tools { display: flex; flex-wrap: wrap; gap: .8rem 1.2rem; align-items: center; padding-block: 1rem 2rem; border-bottom: 1px solid var(--line); position: sticky; top: calc(env(safe-area-inset-top, 0px) + 3.3rem); background: var(--bg); z-index: 5; }
+  .search { flex: 1 1 16rem; min-width: 0; display: grid; gap: .3rem; }
+  .search label { font-family: var(--f-label); font-size: .72rem; letter-spacing: .14em; color: var(--muted); }
+  .search input {
+    font: inherit; font-size: 1rem; padding: .6rem .9rem; border-radius: 6px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink); width: 100%;
+  }
+  .search input:focus { outline: 2px solid var(--violet); outline-offset: 1px; }
+  .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .chips button {
+    font: inherit; font-family: var(--f-label); font-size: .78rem; letter-spacing: .08em; cursor: pointer;
+    padding: .4rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .chips button[aria-pressed="true"] { background: var(--violet); border-color: var(--violet); color: var(--bg); }
+
+  .group { padding-block: 2.2rem 1rem; display: grid; gap: 1rem; }
+  .group h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
+  .group h2 small { font-family: var(--f-label); font-size: .78rem; letter-spacing: .12em; color: var(--muted); font-weight: 400; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-family: var(--f-label); font-weight: 400; font-size: .72rem; letter-spacing: .14em; color: var(--muted); padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--line); }
+  td { padding: .9rem .8rem .9rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.who { width: 17rem; }
+  .who-in { display: flex; gap: .7rem; align-items: center; }
+  .avatar { width: 2.6rem; height: 2.6rem; border-radius: 50%; object-fit: cover; object-position: 50% 15%; border: 1px solid var(--line); flex: none; }
+  .initial { width: 2.6rem; height: 2.6rem; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--violet-soft); color: var(--violet); font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; }
+  .name { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; line-height: 1.15; }
+  td.desc { line-height: 1.6; }
+  td.desc strong { font-weight: 600; color: var(--ember); }
+  td.st { width: 9.5rem; }
+  tbody tr { scroll-margin-top: 9rem; }
+  tbody tr:target td { background: var(--violet-soft); }
+  tr.dead .name { color: var(--dead); text-decoration: line-through; text-decoration-thickness: 1px; }
+  tr.dead .avatar { filter: grayscale(1); opacity: .7; }
+  tr.love .initial { background: color-mix(in srgb, var(--ember) 15%, transparent); color: var(--ember); }
+  .tag.dead-tag { color: var(--dead); }
+  .tag.unknown-tag { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+  .tag.love-tag { color: var(--ember); border-color: color-mix(in srgb, var(--ember) 45%, transparent); }
+  .empty { padding-block: 3rem; color: var(--muted); }
+
+  @media (max-width: 680px) {
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr { padding-block: 1rem; border-bottom: 1px solid var(--line); display: grid; gap: .5rem; }
+    td { padding: 0; border: 0; }
+    td.who, td.st { width: auto; }
+    .tools { position: static; }
+  }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="sun" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="16" cy="16" r="6.5"/><path d="M16 2v6M16 24v6M2 16h6M24 16h6M6.1 6.1l4.2 4.2M21.7 21.7l4.2 4.2M6.1 25.9l4.2-4.2M21.7 10.3l4.2-4.2"/></g><path d="M17.5 10.2a6 6 0 1 1 0 11.6 5 5 0 0 0 0-11.6z" fill="currentColor"/></symbol></svg>
+<header class="bar">
+  <div class="wrap">
+    <a class="sigil" href="index.html"><svg aria-hidden="true"><use href="#sun"/></svg>TAELIN HANESİ</a>
+    <nav aria-label="Sayfalar">
+      <a href="../">← Bahçe</a>
+      <a href="index.html">Karakter</a>
+      <a href="bolumler.html">Bölümler</a>
+      <a href="tanidiklar.html" aria-current="page">Tanıdıklar</a>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+  <div class="head">
+    <p class="eyebrow">Tanıdıklar · Crystal'ın notlarından</p>
+    <h1>Tanıdıklar</h1>
+    <p class="lede">Crystal'ın yolunun kesiştiği herkes. 💀 ölü, ❔ durumu bilinmiyor, 💘 in love.</p>
+  </div>
+  <div class="tools">
+    <div class="search"><label for="ara">İsim ya da açıklamada ara</label><input id="ara" type="search" placeholder="ör. enerjist, Lonca, Hars" autocomplete="off"></div>
+    <div class="chips" role="group" aria-label="Duruma göre süz"><button type="button" data-filter="all" aria-pressed="true">Hepsi · 63</button><button type="button" data-filter="dead" aria-pressed="false">💀 Ölü · 11</button><button type="button" data-filter="unknown" aria-pressed="false">❔ Durumu bilinmiyor · 7</button><button type="button" data-filter="love" aria-pressed="false">💘 Aşık · 3</button></div>
+  </div>
+  <section class="group">
+    <h2>Taelinler <small>10 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="crystal-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><img class="avatar" src="img/crystal.jpg" alt="" loading="lazy"><span class="name">Crystal Taelin (24) (1.75 m)</span></div></td>
+        <td class="desc">Me - güç enerjisti</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="sylvia-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><img class="avatar" src="img/sylvia.jpg" alt="" loading="lazy"><span class="name">Sylvia Taelin (22) (1.50 m)</span></div></td>
+        <td class="desc">Öznur - sis - enerjisini keşfedemedi - nerd - diplomatik - senatoya girmeye çalışıyor - dedemle takılıyor - Mernos’un healing ikonası + lanetli saat</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="ephraim-epoch-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><img class="avatar" src="img/epoch.jpg" alt="" loading="lazy"><span class="name">Ephraim “Epoch” Taelin (18) (1.69 m)</span></div></td>
+        <td class="desc">Deha - bro - yurtdışında okudu, bize karşı mesafeli - yıldız enerjisti (kahin)</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="riddley-tealin" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">R</span><span class="name">Riddley Tealin (12)</span></div></td>
+        <td class="desc">En küçük bro - şapşal - enerjist değil</td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="elvar-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">E</span><span class="name">Elvar Taelin</span></div></td>
+        <td class="desc">Babam - annemin ölümü ve politik başarısızlıktan ötürü içe kapanık ve mutsuz - kendini sadece işine odaklamış - enerjist değil - <strong>ağır yaralı</strong></td>
+        <td class="st"></td>
+      </tr>
+      <tr id="juspen-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Juspen Taelin</span></div></td>
+        <td class="desc">Dedem (baba tarafı) - Kraliyet senatosunda üst rütbe - enerjist değil</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="marcia-taelin" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Marcia Taelin</span></div></td>
+        <td class="desc">Annem - yıllar önce öldü - Polentus'un <strong>Afinthilus</strong> bölgesinde yaşayan <strong>Hars</strong> milletinden (çingene çakması) - (<strong>Öldü</strong> = <strong>Ateş Kanseri</strong>) - enerjist değil</td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="naenariel-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">N</span><span class="name">Naenariel Taelin</span></div></td>
+        <td class="desc">Babaanne</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="oscar-taelin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">O</span><span class="name">Oscar Taelin</span></div></td>
+        <td class="desc">Amcam - babamdan 10 yaş küçük</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="maeny-taelin" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Maeny Taelin</span></div></td>
+        <td class="desc">Halam - <strong>yıllardır kayıp</strong></td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Yakın Çevre <small>4 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="irela" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">İ</span><span class="name">İrela</span></div></td>
+        <td class="desc">Bizim malikanenin baş hizmetçisi</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="warrior" class="" data-status="none">
+        <td class="who"><div class="who-in"><img class="avatar" src="img/warrior.jpg" alt="" loading="lazy"><span class="name">Warrior</span></div></td>
+        <td class="desc">MÜKEMMEL ÖTESİ ATIM</td>
+        <td class="st"> <span class="tag">At</span></td>
+      </tr>
+      <tr id="angel" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Angel</span></div></td>
+        <td class="desc">Sylvia’nın beyaz küçük atı</td>
+        <td class="st"> <span class="tag">At</span></td>
+      </tr>
+      <tr id="holocene" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">H</span><span class="name">Holocene</span></div></td>
+        <td class="desc">Epoch’un gri noktalı yük atı</td>
+        <td class="st"> <span class="tag">At</span></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Vask <small>2 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="ust-biyik" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">Ü</span><span class="name">Üst Bıyık</span></div></td>
+        <td class="desc">Millete iş dağıtmaya çalışan yaşlı bir işgüzar - slum’da vergisiz iş yapıyor</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="ikko-ikki-kukku" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">İ</span><span class="name">İkko İkki Kukku</span></div></td>
+        <td class="desc">Vask’ta para karşılığı rehberlik yapan adam</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Siyasi Çevre <small>5 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="mendor" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Mendor</span></div></td>
+        <td class="desc">Alves’ın sağ kolu</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="kaelor-montgomery" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><img class="avatar" src="img/kaelor.jpg" alt="" loading="lazy"><span class="name">Kaelor Montgomery</span></div></td>
+        <td class="desc">Charionet’in oğlu - başkentli - kötü biri değildi - <strong>öldü gg</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="charionet-montgomery" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Charionet Montgomery</span></div></td>
+        <td class="desc">Babamla konuşmaya gelen Lord - başkentli - <strong>şu an kayıp</strong></td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      <tr id="marianna-montgomery" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Marianna Montgomery</span></div></td>
+        <td class="desc">Charionet’in karısı - başkentli - <strong>şu an kayıp</strong></td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      <tr id="alderfen-ailesi" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Alderfen Ailesi</span></div></td>
+        <td class="desc">Vask’taki soylu bir aile - babamla bunların kızı bir zamanlar nişanlıymış</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Fiskar Çetesi <small>4 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="kinigar" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">K</span><span class="name">Kinigar</span></div></td>
+        <td class="desc">Çetesinin Lideri - çingen - lonca işi sırasında oğlu öldürmüş - Vask halkı liderlerden biri olarak onu görüyor, illegal ticaretin çoğunluğunu döndürüyor - çok adamı var ve suikast gerçekleştiriyorlar - nüfuslu - yıldız enerjisti - mutant askerleri var - <strong>KAYIPLARA KARIŞTI</strong></td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      <tr id="kasilyus" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">K</span><span class="name">Kasilyus</span></div></td>
+        <td class="desc">Kinigar’ın elçisi - karanlık enerjisti - portal açabiliyor</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="vema" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">V</span><span class="name">Vema</span></div></td>
+        <td class="desc">Kinigar’ın manevi kızı - aşşırı güçlü karanlık enerjisti - <strong>Kara Tavşan</strong> - Kaelor’ları öldüren piç - güçlü asası var</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="jacop" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Jacop</span></div></td>
+        <td class="desc">Kaelor’a saldıran görünmez haydut - <strong>hala aranıyor</strong></td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Güvenlik Loncası (Vask) <small>14 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="armest" class="love" data-status="love">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Armest</span></div></td>
+        <td class="desc">Babamın kallafi adamlarından - Hars’lı (ÇİNGEN) - Işık enerjisti - benim hoşlandığım - 28 yaşında - <strong>bir bacağı ve gözü gitti</strong></td>
+        <td class="st"><span class="tag love-tag">Aşık</span></td>
+      </tr>
+      <tr id="mernos" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Mernos</span></div></td>
+        <td class="desc">Babamın kallafi adamlarından - Kan enerjisti - Sylvia’a ona yanık - Aroshin kıtasından gelme - 32 yaşında - <strong>öldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="naviel" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">N</span><span class="name">Naviel</span></div></td>
+        <td class="desc">Babamın kallafi adamlarından - çok güçlü ama gizemli - ışık enerjisti - hırslı - 22 yaşında - <strong>öldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="asharen" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Asharen</span></div></td>
+        <td class="desc">Babamın çok yakın arkadaşı - gemilerde takılıyor - moruk - intel’ci</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="cevval-marcus" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Cevval Marcus</span></div></td>
+        <td class="desc">Babamızın her kirli işini yapan eleman - ranger - dark man - <strong>öldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="tilu" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">T</span><span class="name">Tilu</span></div></td>
+        <td class="desc">Babamın kallafi adamlarından - yalnız kurt - yıldırım enerjisti (Shahmeran’lı) - 26 yaşında - kolay kolay konuşmaz - budist - uçarak kıtalar arası gezebiliyor - <strong>Şu anda Shahmeran’da, bize bilgi getirecek</strong></td>
+        <td class="st"></td>
+      </tr>
+      <tr id="quill" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">Q</span><span class="name">Quill</span></div></td>
+        <td class="desc">Lonca’nın gök bilimcisi - 50 yaşında - tıknaz ve eğlenceli</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="baldemar" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">B</span><span class="name">Baldemar</span></div></td>
+        <td class="desc">Loncada - yol işinden anlayan biri - 45’li yaşlarda</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="corvin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Corvin</span></div></td>
+        <td class="desc">Loncada - şifacı</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="apollo" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Apollo</span></div></td>
+        <td class="desc">Riddley’in yakın korumasıydı, Fiskar çetesi tarafından <strong>öldürüldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="kru" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">K</span><span class="name">Kru</span></div></td>
+        <td class="desc">Lonca yeni yetmesi - kalkan enerjisti - <strong>öldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="carl" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Carl</span></div></td>
+        <td class="desc">lonca yeni yetmesi - ikona sahibi: kılıcı patlayıcı - enerjist değil - <strong>öldü</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="lucas" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">L</span><span class="name">Lucas</span></div></td>
+        <td class="desc">Locadan biri - hadım</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="mark" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">M</span><span class="name">Mark</span></div></td>
+        <td class="desc">Locadan biri</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Dravenholt <small>11 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="eryndor" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">E</span><span class="name">Eryndor</span></div></td>
+        <td class="desc">Yıldırım enerjisti + smeksi - iblis bilgisini bizi verdi ve Polentus’taki iblisi yok etmemizi istedi - Adalet Gözü warlock’u</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="kate-whistledown" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">K</span><span class="name">Kate Whistledown</span></div></td>
+        <td class="desc">Dravenholt ile Vask arasında yasa dışı ticaret gemisi işletiyor - işleri ifşa olduğu için lonca tarafından ölüm döşeğine getirilmiş - (Dragon Age 2 - Isabela) - Gemisinin adı Asuman</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="cafer-karaisik" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Cafer Karaışık</span></div></td>
+        <td class="desc">Hem karanlık hem de ışık enerjisti - limanlara yakın yaşıyor - <strong>ölmüş - ordu almak istemiş, kabul etmeyince idam edilmiş</strong></td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="aerie" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Aerie</span></div></td>
+        <td class="desc">Yolda karşılaştığımız kadın - bet yapmaya gelmiş Dravenholt turnuvasına - 24 yaşında - Epoch’a yandı</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="haris" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">H</span><span class="name">Haris</span></div></td>
+        <td class="desc">Aerie’nin efendisi</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="jemis" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Jemis</span></div></td>
+        <td class="desc">Aerie’nin yaşlı faytoncusu</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="elfin" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">E</span><span class="name">Elfin</span></div></td>
+        <td class="desc">Ciğercideki 6 yaşındaki kız</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="elva" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">E</span><span class="name">Elva</span></div></td>
+        <td class="desc">Ciğercideki 16 yaşındaki kız</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="jun" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Jun</span></div></td>
+        <td class="desc">8 yaşında yetim sokak çocuğu - yüzünde kara lekeler var (boyaymış) - 2 gold</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="charlie" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">C</span><span class="name">Charlie</span></div></td>
+        <td class="desc">Limandaki yetimlerden - 13 yaşında - 3 gold + Sylvia ve benle bir date sözü - artık bizi sevmiyor</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="hazineci-alfric" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">H</span><span class="name">Hazineci Alfric</span></div></td>
+        <td class="desc">Limanda satış yapan kişi</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Hükümdarlar, Tanrılar ve Tarihi Figürler <small>8 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="alves-marverun" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Alves Marverun</span></div></td>
+        <td class="desc">Kral'ın eski danışmanı ve en büyük muhalifi - taşaklı senetör - Vask’lı - Lonca fikrini dedemize bu vermiş - ülkenin yarısından fazlasına sahip (servet) - Vask’taki kötü kesimi kurtarmak istiyor - çok güçlü - konuşan kargaları var</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="hector-yundeltolf" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">H</span><span class="name">Hector Yundeltolf</span></div></td>
+        <td class="desc">Dünyayı yarıya bölerek şeytanları karanlığa, insanları ise aydınlığa sürdüğü iddia edilen <strong>Tanrı Kral</strong>, aynı zamanda İmparatorluk'un kurucusudur - ancak bu efsaneye karşı çıkanlar, ortada gerçek şeytanların bulunmadığını, onların da aslında insan olduğunu savunanlar var - fiziksel dünyada bulunmuyor - inanları: hectorist, düşmanları: shahist - <strong>Epoch’u az kalsın şişliyodu - Kızıl Göz</strong></td>
+        <td class="st"></td>
+      </tr>
+      <tr id="samuel-belight" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">S</span><span class="name">Samuel Belight</span></div></td>
+        <td class="desc">Yıldırım Lordu - Shahmeran’lı - Eryndor’un efendisi - Bu adam Aroshin’in kutsal adamı, peygamberi - Belight soyu kutsal kabul edilir</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="azakhel" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">A</span><span class="name">Azakhel</span></div></td>
+        <td class="desc">İblis Lideri - aranıyor</td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      <tr id="kral-ollyvan-polentus" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">K</span><span class="name">Kral Ollyvan Polentus</span></div></td>
+        <td class="desc">Polentus Kralı - Vask’taki kötü kesimi yok etmek istiyor</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="gaddar-olivar-polentus" class="dead" data-status="dead">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">“</span><span class="name">“Gaddar” Olivar Polentus</span></div></td>
+        <td class="desc">Polentus’un eski Kralı - Ayışığı Han’ı hikayesindeki Kral - Ollyvan’ın babası.</td>
+        <td class="st"><span class="tag dead-tag">Ölü</span></td>
+      </tr>
+      <tr id="imparator-descartes-yundeltolf" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">İ</span><span class="name">İmparator Descartes Yundeltolf</span></div></td>
+        <td class="desc">İmparatorluğun Kralı - Hector’un soyundan geliyor - Aroshin’e iblislerle savaşmak için enerjistleri toplayıp geç de olsa yollamış</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="bracken-dravenholt" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">B</span><span class="name">Bracken Dravenholt</span></div></td>
+        <td class="desc">Artris İmparatorluğu’ndaki Dravenholt’un yöneticisi - asgari gücüyle tanınır</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Yeşil Kuyruk Birliği (Dravenholt Ormanı) <small>4 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="hamuk" class="love" data-status="love">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">H</span><span class="name">Hamuk</span></div></td>
+        <td class="desc">Yeşil Kuyruk Birliği Lideri - iyi biri gibi - I AM OBSESSED - hem haydut (badboi) hem yakışıklı (Ifan ben-Mezd) - adına yetim doyurma sözümüz var - <strong>Maya’ya aşık :(</strong></td>
+        <td class="st"><span class="tag love-tag">Aşık</span></td>
+      </tr>
+      <tr id="derek" class="love" data-status="love">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">D</span><span class="name">Derek</span></div></td>
+        <td class="desc">Yeşil Kuyruk Birliği adamı - iyi biri gibi - adına yetim doyurma sözümüz var</td>
+        <td class="st"><span class="tag love-tag">Aşık</span></td>
+      </tr>
+      <tr id="jani" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Jani</span></div></td>
+        <td class="desc">Yeşil Kuyruk Birliği adamı - 20 iq - Liman’da çalışıyor - iyi biri gibi</td>
+        <td class="st"></td>
+      </tr>
+      <tr id="luke" class="" data-status="none">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">L</span><span class="name">Luke</span></div></td>
+        <td class="desc">Belkoran fabrikalarında çalışan bir Yeşil Kuyruk</td>
+        <td class="st"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Bilinmeyenler <small>1 kişi</small></h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>İsim</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody>
+      <tr id="jesse" class="unknown" data-status="unknown">
+        <td class="who"><div class="who-in"><span class="initial" aria-hidden="true">J</span><span class="name">Jesse</span></div></td>
+        <td class="desc">Epoch’un görüsündeki köylü çocuk - ay, kalyon ve kızıl dehşetli hikayeyi dinler - dedesi (?) vardır</td>
+        <td class="st"><span class="tag unknown-tag">Durumu bilinmiyor</span></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+  <p class="empty" id="bos" hidden>Bu aramayla eşleşen kimse yok. Aramayı temizle ya da “Hepsi”ni seç.</p>
+</div>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <span>Crystal Taelin · Fate oyunu karakteri · hikâye devam ediyor</span>
+    <span><a href="index.html">Karakter</a> · <a href="bolumler.html">Bölümler</a> · <a href="tanidiklar.html">Tanıdıklar</a></span>
+  </div>
+</footer>
+<script>
+(function () {
+  var q = document.getElementById('ara');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chips button'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.group'));
+  var empty = document.getElementById('bos');
+  var filter = 'all';
+  function norm(s) { return s.toLocaleLowerCase('tr'); }
+  function apply() {
+    var term = norm(q.value.trim()), shown = 0;
+    rows.forEach(function (r) {
+      var ok = (filter === 'all' || r.dataset.status === filter) && (!term || norm(r.textContent).indexOf(term) !== -1);
+      r.hidden = !ok; if (ok) shown++;
+    });
+    groups.forEach(function (g) { g.hidden = !g.querySelector('tbody tr:not([hidden])'); });
+    empty.hidden = shown > 0;
+  }
+  chips.forEach(function (b) {
+    b.addEventListener('click', function () {
+      filter = b.dataset.filter;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === b); });
+      apply();
+    });
+  });
+  q.addEventListener('input', apply);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sam'in Günlüğü</title>
+<meta name="description" content="Samantha Oakley'nin kendi kaleminden, Central Park'ın yandığı geceden itibaren eksiksiz bölümler.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0;
+    background: linear-gradient(to right, var(--blood), var(--gold));
+    z-index: 200;
+  }
+
+  .page-head { padding: 48px 0 8px; }
+  .page-head h1 { font-size: clamp(48px, 8vw, 88px); margin: 12px 0 10px; }
+  .page-head p { max-width: 640px; color: var(--ink-dim); margin: 0; }
+
+  .toc {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .toc-card {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 22px 22px 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .toc-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); color: var(--ink); }
+  .toc-n { font-family: var(--mono); font-size: 13px; color: var(--blood-bright); }
+  .toc-t { font-family: var(--serif); font-size: 26px; font-weight: 600; line-height: 1.15; }
+  .toc-m { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); }
+
+  .reader {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 56px;
+    margin-top: 40px;
+  }
+  .side {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .side .eyebrow { margin-bottom: 12px; }
+  .side a {
+    display: block;
+    padding: 8px 0 8px 12px;
+    border-left: 1px solid var(--line);
+    color: var(--ink-faint);
+    line-height: 1.4;
+  }
+  .side a span { display: block; color: var(--gold-dim); }
+  .side a:hover { color: var(--ink); }
+  .side a.on { color: var(--ink); border-left-color: var(--gold); }
+  .side a.on span { color: var(--gold); }
+
+  .chapter {
+    max-width: 720px;
+    scroll-margin-top: 80px;
+    padding-top: 24px;
+  }
+  .chapter + .chapter { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 64px; }
+  .ch-n {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blood-bright);
+  }
+  .ch-head h2 { font-size: clamp(36px, 6vw, 56px); margin: 10px 0 16px; }
+  .ch-log {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--term);
+    background: #050506;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .ch-log .k { color: var(--ink-faint); }
+  .ch-log .k::after { content: ":"; }
+
+  .ch-body { margin-top: 36px; }
+  .ch-body p {
+    margin: 0 0 1.15em;
+    font-size: 20px;
+    line-height: 1.75;
+    color: #ddd5c8;
+    hyphens: auto;
+  }
+  .ch-body p.first::first-letter {
+    float: left;
+    font-family: var(--serif);
+    font-size: 4.4em;
+    line-height: 0.82;
+    font-weight: 700;
+    color: var(--blood-bright);
+    padding: 6px 10px 0 0;
+  }
+  .ch-body strong { font-weight: 500; color: var(--ink); }
+  .ch-body a.pn strong { color: var(--gold); }
+  .ch-body a.pn { border-bottom: 1px dotted var(--gold-dim); }
+  .ch-body a.pn:hover strong { color: var(--ink); }
+  .ch-body em { color: var(--ink); font-style: italic; }
+
+  .scene {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scene::before { content: "++"; color: var(--blood-bright); }
+
+  .log {
+    list-style: none;
+    padding: 18px 20px;
+    margin: 0 0 1.2em;
+    background: #050506;
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--term-dim);
+    border-radius: var(--radius);
+    font-size: 18px;
+    color: #cfd8d0;
+  }
+  .log li { position: relative; padding-left: 28px; margin-bottom: 10px; }
+  .log li:last-child { margin-bottom: 0; }
+  .log li::before {
+    content: "[+]";
+    position: absolute; left: 0; top: 3px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--term);
+  }
+
+  .ch-end { text-align: center; color: var(--gold-dim); margin: 40px 0 24px; }
+  .ch-nav {
+    display: flex; justify-content: space-between; gap: 16px;
+    font-family: var(--mono); font-size: 12.5px;
+  }
+  .ch-nav a { color: var(--ink-dim); }
+  .ch-nav a:hover { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .reader { grid-template-columns: 1fr; gap: 0; }
+    .side { display: none; }
+    .ch-body p { font-size: 18.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="bismillah" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="prompt"><span class="user">sam@lagim</span>:<span class="path">~/gunluk</span>$ cat *.md<span class="cursor"></span></div>
+    <nav class="nav">
+      <a class="up" href="../">bahçe</a>
+      <a href="index.html">sam</a>
+      <a href="kisiler.html">kişiler</a>
+      <a href="bolumler.html" aria-current="page">günlük</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="page-head fade-in">
+    <div class="eyebrow">Bölümler · 3 kayıt</div>
+    <h1>Günlük</h1>
+    <p>Her gece, yatmadan önce kazalarımı kılıp Allah'a şükrettikten sonra yazdıklarım. Hiçbir satırı silmedim — utandıklarımı bile.</p>
+    <nav class="toc" aria-label="Bölümler">
+      <a class="toc-card" href="#bolum-1">
+        <span class="toc-n">01</span>
+        <span class="toc-t">Yıkılan Kule ve Kararan Gece</span>
+        <span class="toc-m">30 Haziran 2024 · Central Park · ~3 dk</span>
+      </a>
+      <a class="toc-card" href="#bolum-2">
+        <span class="toc-n">02</span>
+        <span class="toc-t">Çingenenin Sırları ve Prens İle Görüşme</span>
+        <span class="toc-m">1 Temmuz 2024 · Sarah &amp; Ily Club · ~6 dk</span>
+      </a>
+      <a class="toc-card" href="#bolum-3">
+        <span class="toc-n">03</span>
+        <span class="toc-t">Silahlı Şaka ve Sapıklara Sopa</span>
+        <span class="toc-m">1 Temmuz 2024 · Prens’in Malikanesi · ~9 dk</span>
+      </a>
+    </nav>
+  </section>
+
+  <div class="reader">
+    <aside class="side" aria-label="Bölüm gezintisi">
+      <div class="eyebrow">İçindekiler</div>
+      <a href="#bolum-1" data-for="bolum-1"><span>01</span>Yıkılan Kule ve Kararan Gece</a>
+      <a href="#bolum-2" data-for="bolum-2"><span>02</span>Çingenenin Sırları ve Prens İle Görüşme</a>
+      <a href="#bolum-3" data-for="bolum-3"><span>03</span>Silahlı Şaka ve Sapıklara Sopa</a>
+    </aside>
+
+    <div>
+    <article class="chapter" id="bolum-1">
+      <header class="ch-head">
+        <div class="ch-n">Bölüm 1</div>
+        <h2>Yıkılan Kule ve Kararan Gece</h2>
+        <div class="ch-log"><span class="k">tarih</span> 30 Haziran 2024 <span class="k">şehir</span> New York <span class="k">yer</span> Central Park</div>
+      </header>
+      <div class="ch-body">
+<p class="first">Önemli bir duyuru için kandaşlarımızın yarısı Central Park’a çağrılmıştı. Sire’ım tarafından duyuruyu dinlemek için ben <a class="pn" href="index.html"><strong>Samantha Oakley</strong></a> gönderilmiştim. Herkes duyurunun gerçekleşmesi için beklerken bir yandan bankta konuşan körler milletin kafasını şişiriyor, kasıntı kasıntı etrafı izleyen tipler dikkat çekmeye çalışıyor, yerde oturup birbirlerine şaklabanlık yapan orman kaçkınları kimseyi umursamadan yüksek sesle kahkahalar atıyor ve bir takım gereksiz kandaşlar etrafta dolanıyordu. Zaman geçirmek için etrafı incelerken bir grup dikkatimi çekti; sarışın, genç ve hayat dolu bir kız, smokinli bir centilmenle yüksek sesli bir şekilde konuşuyor ve göçmen görünüşlü, esmer, kıvırcık siyah saçlı bir adam onları izliyordu.</p>
+<p>Ben onları izlerken birden uzun pardösülü bir adam hepimize seslenerek dikkatleri üzerine çekti ve daha sonra yerini kısa, kel ve bembeyaz bir adama bıraktı. Bu adam <a class="pn" href="kisiler.html#baykus"><strong>Prensin Habercisi Baykuş</strong></a>’tan başkası değildi.</p>
+<p>Fazlasıyla ilgi çekecek şekilde, son ses yaptığı çığırışı ile batıdan, California’dan, Anarch’ların olay çıkarmak için geleceğini söyledi. Gelen kişi utanmadan diableri yapması ile bilinen, kaslı, kısa-gri saçlı, sol kolunda dövmesi bulunan <a class="pn" href="kisiler.html#mark-pierce"><strong>Mark Pierce</strong></a> adında biriydi. Prens, Mark Pierce adına kan avı başlatmıştı.</p>
+<p>Herkes kan avı coşkusu ile kendinden geçmişken birden gökte ışıklar çakmaya başladı. Herkes ne olduğunu anlamak için etrafına bakınırken birden dört bir yandan ellerinde meşaleleri ve silahları ile birlikte onlarca adam üzerimize doğru koşmaya başladı. Ateşi görenler kendilerinden geçtiler ve her şey kontrolden çıktı.</p>
+<p>Koskoca NY’un ortasında ellerinde meşaleleri ile onlarca insan Central Parka doğru mu koşmuştu? Bu nasıl bir organizasyondu böyle? Gerçek olamayacak kadar saçma bir rüya gibiydi. Ben, göçmen, sarı kız ve centilmen kendimizden geçmemiş nadir kindredlardandık. Ne yapacağımızı düşünürken yanımıza kızıl küt saçlı, adını herkesin çokça duyduğu <a class="pn" href="kisiler.html#sarah"><strong>Sarah</strong></a> geldi. En doğrusunun parktan kaçmak olduğunu düşündük. En yakın çıkışı biliyordum bu yüzden yolu gösterebileceğimi söyledim. Kaçmadan önce yüce Allah’ıma dua ederek, suçsuz günahsız kardeşlerime ve ona iman edenlere yardımcı olmasını istedim. İlginç bir şekilde, fazla kolay olacak şekilde parktan dışarı çıkmayı başardık.</p>
+<p>Göçmen çocuk yakınlarda arabası olduğunu söyledi bu yüzden onun gösterdiği yöne doğru koşturduk. Arkamıza baktığımızda ise tüm parkın alevler altında kaldığını gördük. Sarah’ın sevgilisi olduğu söylentisi dolaşan <a class="pn" href="kisiler.html#ily"><strong>Kör Ily</strong></a> geride kalmıştı. Parkı saran alevleri düşününce, hayatta kalması imkansızdı. Sarah da öyle düşünmüş olacak ki yıkılmıştı. 5 kişi ve göçmen çocuğun köpeği ile birlikte parktan uzaklaştık.</p>
+<p>Sarah, bizi Ily ile birlikte işlettikleri gece kulübü olan Elisium’larına (ya da artık Elisium’u mu demeliyim?) götürdü. Bu sırada diğerlerinin de isimlerini öğrenmiştim. Sarı kız - ve insta influencer’ı - <a class="pn" href="kisiler.html#soli"><strong>Soli</strong></a>, göçmen <a class="pn" href="kisiler.html#james"><strong>James</strong></a> ve jilet çocuk <a class="pn" href="kisiler.html#joyce"><strong>Joyce</strong></a>.</p>
+<p>Sarah’ın uşakları <a class="pn" href="kisiler.html#lamar"><strong>Lamar</strong></a>’ların yönlendirmesi ile birlikte bir odada toplandık. Yanımıza Sarah’ın tanıdığı <a class="pn" href="kisiler.html#jonathan"><strong>Jonathan</strong></a> isimli biri geldi. 1.80 boyunda, rampa saçlı, sarı gözlüklü, büyük bir çanta taşıyan ve çantasıyla konuşan bir deliydi.</p>
+<p>Konuşma sırasında durduk yere Soli’nin “<a class="pn" href="kisiler.html#mina"><strong>Mina</strong></a>” adını sayıklaması yüzünden James kafayı yemişti. Bu Mina nereden çıkmıştı ve kimdi bilmiyorum ama James’in zayıf noktası olduğu kesindi. Sadece bunu bile fark etmek tüylerimi diken diken etmişti. Bu Mina her kimse öğrenmeden huzur bulamayacaktım.</p>
+<p>Konuşma sonunda anladık ki kimsenin olanlar hakkında bir fikri yoktu. Fakat bütün bu olanlar herhangi bir avcı atağından daha fazlasıydı. O ani ışık ve ses patlamaları, birden bire ortaya çıkan 1500’lerden gelmiş gibi görünen insanlar… Bu büyü olabilir miydi? Tremere’lerin işi miydi yoksa o <em>mitlerde geçen büyücülerin mi</em>…</p>
+<p>Sarah bize durumu toparlamak adına yapması gereken işler olduğunu, bu yüzden de hayatta kalanlar olanlar <a class="pn" href="kisiler.html#helen-panar"><strong>Prensimiz Helen Panar</strong></a>’a bilgi vermemiz gerektiğini söyledi. Bu zorlama verilen “görev”den her ne kadar rahatsız olsam da, benden rütbece büyük olan bu kindreda karşı koyamazdım.</p>
+<p>Sabaha karşı yatmadan önce yeni tanıştığım kişiler hakkında DB’de araştırma yaptım fakat belki yorgunluktan, belki de verilerin birileri tarafından kaldırılmasından ötürü dişe dokunur hiçbir şey bulamadım. Bugünün kazalarını kırdım ve Allah’a teşekkürlerimi ederek yattım.</p>
+      </div>
+      <div class="ch-end" aria-hidden="true">✦</div>
+      <nav class="ch-nav"><span></span><a href="#bolum-2">Çingenenin Sırları ve Prens İle Görüşme →</a></nav>
+    </article>
+
+    <article class="chapter" id="bolum-2">
+      <header class="ch-head">
+        <div class="ch-n">Bölüm 2</div>
+        <h2>Çingenenin Sırları ve Prens İle Görüşme</h2>
+        <div class="ch-log"><span class="k">tarih</span> 1 Temmuz 2024 <span class="k">şehir</span> New York <span class="k">yer</span> Sarah &amp; Ily Club</div>
+      </header>
+      <div class="ch-body">
+<p class="first">Ertesi akşam uyandığımda sanki bir asırdır uyuyormuş gibi hissettim. İçimde çok fazla olayı kaçırdığıma ve çok pişman olacağıma dair bir hissiyat vardı. Bu yüzden Prens’in yanına gitmek ve ondan haber almak için acele ediyordum. Beni zorla bir araya koydukları yarım akıllıları acele ettirdim ve Prens’e doğru yola çıktık.</p>
+<p>Yolda Sire’ım <a class="pn" href="kisiler.html#zaynab"><strong>Zaynab</strong></a>’e mesaj attım fakat geri dönmedi. İlla görünce döner dedim ve üzerine düşünmemeye çalıştım. Daha sonra Shrecknet’te vakit geçirerek herhangi bir bilgi var mı diye baktım. Soykırımdan bizim gibi canlı çıkan olmuşsa bile kimse bilgi vermemişti bu yüzden yüzeysel bilgileri ben klandaşlarımla paylaştım.</p>
+<p>James’in köpeği <a class="pn" href="kisiler.html#salvador"><strong>Salvador</strong></a> ile birlikte bir arada olmaktan dolayı rahatsızdım. Köpeğin olduğu yere melekler girmezdi. Fakat Allah zor zamanlar için kullarını yargılamaz ve canlılara merhamet etmeyi öğütlerdi. Bu yüzden köpekle alakalı herhangi bir olay çıkarmadım.</p>
+<p>Yolda Soli’yi incelediğim kadarıyla şu izlenime vardım: Soli iğrenç, iki yüzlü, asla güvenilmez, muhtemelen insanları gülerek arkalarından bıçaklayabilecek biriydi. Bu yüzden onun masum yüzüne asla güvenmemem gerektiğini aklımın bir kenarına not ettim.</p>
+<p>Yolu bilmeyen ama direksiyonu tutan James’in telefonuna Prens’in konumunu yolladım. James olanları anlamadı ve telefonunun hecklendiğini düşündü bu yüzden de telefonuna bana uzattı. Bu enayi teklifi tabii ki geri çevirmedim ve telefona bakma ayağına tüm verilerini kendime aktardım. Bu Mina kimse onu öğrenmeye çok yaklaşmıştım!</p>
+<p>Hemen elde edindiğim bilgilere baktım. James, kesinlikle klandaşlarım tarafından sevilen biriydi. Çok fazlamızla iş yapmıştı ve mesajlardan anladığım kadarıyla hiç sorun çıkarmamıştı. <a class="pn" href="kisiler.html#arthur-nosferatu"><strong>Arthur</strong></a> isimli klandaşımdan birçok kez bilgi almıştı. Aynı zamanda <a class="pn" href="kisiler.html#victor-drake"><strong>Victor</strong></a> <a class="pn" href="kisiler.html#victor-drake"><strong>Drake</strong></a> adında, adı sanı duyulmuş bir şirketin CEO’su olan ama alttan alta bir suikastçı birliği lideri olan bir kandaş ile işbirliği içerisindeydi. Bu adam ona konum ve insan atıyordu. Muhtelemen James onun adamlarından biriydi. Bu kadar eli kolu uzun bir adamdan James gibi birinin çok isteği olsa gerekti değil mi? En son kendisine bu adam tarafından Liberty Park’ta yaşayan bir orman çocuğunun bilgileri atılmıştı, <a class="pn" href="kisiler.html#timothy-hunter"><strong>Timothy</strong></a> <a class="pn" href="kisiler.html#timothy-hunter"><strong>Hunter</strong></a>.</p>
+<p>James aynı zamanda stalklanma sorunları yaşamaktaydı ve arama geçmişinde NYC’deki hırsızlıkları ve Hindistan göçmenlerini fazlasıyla araştırdığı görünüyordu.</p>
+<p>Ve sonunda buradaydı, Mina, James’in albino nişanlısı. Hatta eski nişanlısı. Öldürülmüştü. Gönderilen adam fotoğraflarının acaba kaç tanesinin Mina ile alakası vardı? Resmen edindiğim bilgilerin hazzından ellerim kaşınıyor ve bu konunun nerelere varacağını düşünürken bile ağzım sulanıyordu. <em>Neyse ki kimse çarşafımın altındaki saklayamadığım yüz ifademi görmüyordu.</em></p>
+<p>Prens’in kapısında bekleyen ghoul’u <a class="pn" href="kisiler.html#nathen"><strong>Nathen</strong></a> ile konuştuk ve Helen Panar ile görüşme ayarladık. Prensimizin önüne çıkmadan önce çarşafımın yüz tarafını açtım ve uzun zamandır görmediğim iğrenen bakışlarla karşılaştım. Aynada kendimi görmekten daha korkunç olmayan bu yüzler artık beni üzmüyordu. Hem yıllar içinde alışmıştım hem de artık kabullenmiştim. Allah’ın lanetlediği Kabil’in soyundan gelen bir canavara dönüşmüştüm, bundan daha kötüsü olamazdı. Ne dünyaların en çirkini olmamam, ne sevdiklerimi bir daha görememem, ne de bir daha güneşi göremeyecek olmam beni üzmüyordu. Beni tek üzen dönüştüğüm canavar ve Allah’ın yolundan istemsiz olarak uzaklaşmamdı. Ama Allah insana kaldıramayacağı yükü vermezdi ve sadece sevdiği kullarını sınardı. Bu da benim sınavımdı ve asla yolumdan şaşmayacaktım. Kimse beni doğrularımdan şaşırtamayacaktı.</p>
+<p>Prens’in karşına çıktığımızda konuşmanın çoğunu jilet çocuk Joyce yaptı. Açıkçası çok rahatlamıştım. Prens’in karşısında bu konuşmaları yapmak zorunda kalsam ne kadar kekelerdim bilemiyorum. Prensin karşısına çıkma onurunu her zaman elde edemeyecektim ve bunu batırmak istemezdim.</p>
+<p>Öğrendiğimiz kadarıyla Prens’in son durum hakkında herhangi bir bilgisi yoktu. Biz ona gelip haber veren ilk hayatta kalanlardık. Kendisi tahmini yetmiş küsür kandaşın park katliamında öldüğünü, otuz kandaşın da daha sonrasında teker teker köşeye sıkıştırılarak öldürüldüğünü söyledi. O sırada Sire’ımdan hala cevap gelmediğimi hatırladım. Yoksa onun da başına kötü şeyler gelmiş miydi? Diğer klandaşlarıma sorduracaktım fakat ya yine de cevap alamazsam? Banu-Haqim’lerden yardım istemek zorunda mı kalacaktım?</p>
+<p>Prens konuşma sırasında insanların elinde, eskiden olamayan büyüler ya da ittifaklar olabileceğini söyledi. Prensin de ağzından büyü lafını duyunca daha da emin oldum. Bu işin içerisinde ya Tremere’ler ya mitlerdeki büyücüler ya da önemsiz görülen hikayelerdeki akıl alamaz olaylardan biri vardı. İnsanların elindeki teknoloji, başka cemiyetlerdeki kandaşların oluşturduğu problemlerden daha önemliydi.</p>
+<p>Prens’in yaveri bize <a class="pn" href="kisiler.html#arthur-gangrel"><strong>Arthur</strong></a> adlı bir orman çocuğunun ev adresini verdi ve orasını araştırmamızı söyledi. Haven’ı Liberty Park’ın yakınlarındaydı. Aynı zamanda bize konaklayabileceğimiz bir Haven da tahsil edildi.</p>
+<p>Prens’in malikanesinden ayrıldığımızda telefonumu tekrardan kontrol ettim ama Sire’ımdan bir haber yoktu. Durumu hemen <a class="pn" href="kisiler.html#kalebros"><strong>Primojenimiz Kalebros</strong></a>’a ilettim. Aynı zamanda belki de Shrecknet’in daha önceden olduğu gibi ele geçirilme ihtimali olup olamadığını sordum. Tabii ki hemen bir dönüş olmadı, o yüzden telefonumu cebime atarak bizim kaz kafalıların arkasından gittim.</p>
+<p>James bize köşe başında duran birinin bizi kestiğini söyledi. Adamın telefonuna tracker kurdum ve kaçarsa yakalayabileceğimizi söyledim. Fakat bizimkiler ona saldırıp yakalama kararı verdiler ve üçü birlikte karavandan çıkarak adama doğru koşturdular. Açıkçası böyle bir şansı istesem yakalayamazdım! Hemen James’in karavanını araştırıp geçmişinin eksik parçalarını bulmaya çalıştım. Onlar geri gelene kadar da istediklerimi elde etmiştim.</p>
+<p>Arabada bir sürü sahte kimlik ve bambaşka tarzda kıyafetler vardı. James’in şaklaban olduğunu da böylece kanıtlamış olmuştum. Aynı zamanda 2 adet şırınga vardı. Biri boş biri ise kanla doluydu. Bu kanın içeriğini çok merak etsem de yaptığım araştırmanın fark edilmemesi adına şırıngalara dokunmadım <em>ama bir gün onlar da benim olacak James buna emin olabilirsin</em>…</p>
+<p><a class="pn" href="kisiler.html#priyah"><strong>Priyah</strong></a> isimli birine yazılmış bir sürü mektup elde ettim. Bu Priyah da kimdi şimdi James? Mina’dan sonraki sevgilin falan mı? Hiç durmamışsın maşallah! Mektupların içeriğinde “Mina’nın katillerinden birini bulup öldürdüm ama daha 2 kişi daha olmalı. Onları da Victor’un yardımı ile bulacağım ve öldüreceğim. Tek bildiğim kalanlardan biri Gangrel!” yazmaktaydı. Bazı mektuplar ise Priyah’ya olan özürler ile bitmekteydi. En şoke edici olanı ise James’in, Priyah’ı öldürdüğü için çok pişman olduğunu yazdığı mektuplardı! Aman Allah’ım James, sen nasıl bir manyaksın böyle? Öldürdüğün kadınlara mektuplar yazmak mı? Allah yardımcın olsun, sen iflah olamayacak bir manyaksın!</p>
+<p>Ben okuduğum mektuplardan kusmak üzereyken çocukların adamı yere yıktığını gördüm. Onlar arabaya geri gelmeden önce tüm mektupları geri yerine koydum. James koşarak arabaya geldiğinde ise hiçbir şeyden habersiz bir şekilde arabayı dövdükleri adamın yanına sürdü. Araba yanlarında durduğunda ise adamı hızlıca arabaya soktular ve oradan uzaklaştık.</p>
+<p>Adam sadece dayak yememişti aynı zamanda kurşunlanmıştı da! Kalçalarından akan kanı görmemle birlikte birden bana neler oldu bilmiyorum ama kendimi kaybettim. Utanmaz bir şekilde adamın kalçalarına yapışarak akan pis kanı emmeye başladım. Şu an bu satırları yazarken bile yaptığım ahlaksızlıktan çok utanıyorum. Allah'ım beni affet, nasıl oldu da bu kadar kendimi kaybettim bilmiyorum. Allah'ım lütfen günahlarımı bağışla!</p>
+<p>Soli beni sakinleştirip durduğunda kalktım ama kimseye ne kadar utandığımı belli etmek istemedim. Bu yüzden herkese bağırmaya başladım ve kimseye söz hakkı vermeden adamın telefonunu inceleme bahanesiyle köşeye çekildim. Adamın telefonu bomboştu, sadece <a class="pn" href="kisiler.html#mark-pierce"><strong>Patron</strong></a> diye kayıtlı birinden tek bir mesaj vardı: “Bu adamları takip et”.</p>
+<p>Bu California kodlu telefonun kime ait olduğu öğle güneşi kadar apaçıktı, Mark Pierce. Bizimkiler de bu kanının tadından ghoul olduğunu anladığım adamı sorguladılar ve aynı sonuca vardılar.</p>
+<p>Bu sırada bana Kalebros’dan cevap geldi. Kendisi de Zaynab’den haber alamadığını söyledi fakat yer altında hiçbir Haven’ın basılmamış olduğundan emindi. Network’lerin de hala sızılmamış olduğunu söyledi. Belki de Zaynab hala hayattaydı?</p>
+      </div>
+      <div class="ch-end" aria-hidden="true">✦</div>
+      <nav class="ch-nav"><a href="#bolum-1">← Yıkılan Kule ve Kararan Gece</a><a href="#bolum-3">Silahlı Şaka ve Sapıklara Sopa →</a></nav>
+    </article>
+
+    <article class="chapter" id="bolum-3">
+      <header class="ch-head">
+        <div class="ch-n">Bölüm 3</div>
+        <h2>Silahlı Şaka ve Sapıklara Sopa</h2>
+        <div class="ch-log"><span class="k">tarih</span> 1 Temmuz 2024 <span class="k">şehir</span> New York <span class="k">yer</span> Prens’in Malikanesi</div>
+      </header>
+      <div class="ch-body">
+<h3 class="scene">Arabada Kavga</h3>
+<p class="first">Araba ile uzaklaşırken ben çevredeki tüm güvenlik kameralarının son 1 saatini sildim. Yerdeki ghoul kan kaybından can çekişirken ben Gangrel’in evine gitmemiz gerektiğini söyledim. James Prens’e geri dönmemiz ve kapısına kadar gelen bu adam hakkında onunla konuşmamız gerektiğini söyledi. Prensi bir tane küçücük bilgi verme adına rahatsız etmek kadar aptalca bir karar olmazdı. Ona susup orman çocuğunun evine sürmesini söyledim.</p>
+<p>James ise delirdi.</p>
+<p>Prens’e gitmemizi, olanları anlatmamızı ve Mark Pierce için ajanlık görevine gitmemizi söyledi. HAH! Komik olmaya çalışmıyordu, sadece çok aptaldı. Peşinden adam gönderdiği bizler, Mark ile konuşup, ona katılıp, sonra da Prens için ajanlık yapacakmışız. İlkokul çocuğu musun sen James? Bu nasıl aptal bir plan böyle. Adam da hemen bize güvenecekti ve hemen her şeyini paylaşacaktı değil mi?</p>
+<p>James’in aptal fikirleri ve fikirlerindende de aptal inadı yüzünden arabada hararetli bir kavgaya tutuştuk. Daha sonra orman çocuğunun evine süremeyeceğini söyledi ve arabanın yolunu değiştirdi. Güzergahtan anladığım kadarıyla Central Park’a bizi geri dönüyordu. Bunun için de bol bağrışlı bir kavga ettik. O kimdi de beni yolumdan edecekti? Üç kuruşluk akla sahip bir erkeğin dediklerini yapıp başımı mı yakacaktım? Asla! Arabasını başına yıkardım onun!</p>
+<p>Kavga devam ederken araba durdu. Etrafıma baktığımda ise Liberty Park’ın aşağısındaki orman çocuğunun evindeydik. James benimle dalga geçer gibi bir ifade takılıp bana üstünlük sağlamaya çalışsa da ben onun ne yapmaya çalıştığını anlamıştım. Beni kendisi kadar aptal sanması çok komikti. Ona “Aferin James, olay çıkardın ama en sonunda benim lafıma geldin.” diyerek onu g*t gibi bırakarak arabadan çıktım. Umarım dersini almışsındır James.</p>
+<p>James bize cesedi halledip birazdan geleceğini söyledi. Biz binaya girmeden önce Joyce köşede bir adamın bizi izlediğini söyledi. Fark ettirmeden adamın telefona bir tracker kurdum ve telefonu hecklemeye çalıştım. Fakat nafile, telefonun encryption tipi benim daha önce hiç üzerine uğraşmadığım eski yöntemdi, fakat hepimizi titretecek bir bilgi elde edinmeyi başarmıştım.</p>
+<p>Adamın telefonun bağlı olduğu network; bu sokakta 6, bu mahallede 43, bu bölgede 224 ve bu şehirde 1000+ telefona daha bağlıydı.</p>
+<p>Ben bulduklarımın şokuyla dona kalırken James geldi. Üzerini değiştirmişti ve siyahlara bürünmüştü. Kısacası kendini hırsıza çevirmişti. Tekrar sinirlenmemeye çalıştım ve binaya doğru yola koyuldum. Bu binaya daha önce avcılar baskın atmıştı bu yüzden dikkatli olmalıydık. Belki hala içeride adamlarını tutuyorlardı? <em>Sonuçta tilkinin dönüp dolaşıp geleceği yer kürkçü dükkanıdır değil mi</em>? Buraya araştırma için kinderedların gönderileceğini biliyor olmalıydılar.</p>
+<p>Biz dikkatlice 4. kata doğru merdivenleri çıkarken birden 3. katta bir kapı açıldı. Dökülmüş tüylerim bile korkudan diken diken olmuşken, kapı aralığından yaşlı bir kadın kafasını uzattı. Bizimkiler birden kadınla sohbet etmeye başladılar ve kadın çay ikram etmeyi teklif edince de James ve Soli içeri girmek istediler. Joyce ve ben, iki kafası çalışan kişiler olarak bu teklifi reddettik ve yukarı kata çıktık.</p>
+<p>Bizimkileri beklerken ben Joyce’a, adamın telefon ağının kaç kişiye bağlantılı olduğunu bulduğumu söyledim. Olası bir baskın için neler yapabileceğimizi konuşurken ben en araştırmaktan anlamayacak kişileri yani Soli ve James’i nöbet için bırakabileceğimizi söyledim. Bu konu hakkında tartışırken James ve Soli de geldiler. Kıpkırmızı olmuşlardı, gözleri kocamandı ve nefes nefeselerdi. Yaşlı kadını emmiş olmalıydılar. Umarım ortalığı toplu, kadını da hayatta bırakmışlardır.</p>
+<p>James kapı kilidini kırmak için uğraşırken, Soli bana bir Kur-an’ı Kerim uzattı. Şok olmuş bir şekilde Ku-an’ı aldım. Bana yaşlı kadının adının <a class="pn" href="kisiler.html#ayse"><strong>Ayşe</strong></a> olduğunu ve Müslüman olduğunu, bu Kur-an’ı da ona hediye ettiğini söyledi. Soli de bana hediye etmek istemiş. Daha sonra bana İslam ile ilgilendiğini söyledi ve Nas Suresini okudu. Ben şaşkınca Soli’ye bakarken birden James ayağa kalktı ve arabaya gidip bir şey alması gerektiğini söyledi. Anlamazca arkasından bakarken Soli bağırdı: “Siyah saç boyasını da getir.”</p>
+<p>Gizlice girdiğimiz bu yerde Soli’nin bağırışı yüzünden Joyce ile birlikte tedirgin olduk ve Joyce kilide yöneldi. Onu kurcalamaya çalışırken kilit birden eline düştü. James gitmeden önce kilidi kırmış olmalıydı. Joyce elinde kalan kilit yüzünden sinirden titremeye başladı, ben onu anladığımı ama sakin olması gerektiğini göstermek için sırtına dokundum. Beni anlamıştı ve kendini sakinleştirmeye çalışıyordu ama Soli onun birden kafasına vurmaya başlayınca sinirden köpürdü ve bağırmaya başladı.</p>
+<p>Kafayı yemeden ve komşularla bakışmadan önce Joyce’u ittirip odanın içine girdim. İçerisi tamemen yanmıştı. İçerisi bu haldeyken dışarıya hiç alevlerin sıçramaması imkansızdı. Bu da insanların kullandığı bir büyü olmalıydı.</p>
+<p>Mutfağa girdik ve içeride yarısı yenmiş yemekler vardı. Şerefsiz insanlar burayı yaktıktan sonra bir de utanmadan yemek yemişlerdi!</p>
+<p>Misafir odası ve ana yatak odası darmadumandı. Fakat ana yatak odasının içerisinde çantalar vardı. Çantalara baktığımda ise birçok dine ait figürler ve dini kitaplar olduğunu gördüm. Yerlerde ellerinden düşürdükleri kazıklar zemine dağılmıştı.</p>
+<p>Salonda ise biri duvarda olacak şekilde altı ceset vardı. Nasıl bir kuvvetle adam duvara fırlatıldıysa hala inmemişti. Salona bağlı açık balkondan kuşlar içeri girmişti ve cesetlerden besleniyorlardı.</p>
+<p>Biz cesetleri incelerken birden merdiven tarafından gelen adım sesleri duyduk. Soli ve Joyce bir şeylerin arkasına geçti ve ben de görünmez oldum. Adım sesleri kapıya doğru yaklaştı. Herkes heyecanla beklerden “İnime hoş geldiniz” diyerek James içeri girdi.</p>
+<p>Bu artık Joyce’u taşıran son damlaydı. Joyce sinirle, gülen James’in üzerine atladı. İkisi büyük bir kavgaya giriştiler. James dayağı hak ettiği için karışmak istemedim, Soli de pek ayırmak istiyor gibi değildi, ta ki Joyce silah çekene kadar! Ben daha herhangi bir eylemde bulunamadın Joyce James’i üç kere vurdu.</p>
+<p>NY’un ortasında 3 el silah sesi… Ayvayı yedik! Joyce ateş ettikten sonra kendine geldi ve olanları anlamlandırmaya çalışırken, tekrar kaza yaşanmaması için, silahını aldım. James kan revan içindeyken kalktı ve kapıya doğru hızlıca yürüdü. Gebermek üzereydi ve bu halde hiçbir yere tek başına gitmemeliydi. Arkasından gittim.</p>
+<p>James kapıyı açtı ve karşımızda dev gibi, siyah takım elbiseli, gri saçlı, çok güçlü bir aura sahibi bir adam duruyordu. James adamın yanından geçti gitti. Ben ise bu kimliği belirsiz adamı bizimkilerle baş başa bırakmak istemedim.</p>
+<p>Adama kimliğini sordum ama çok üstten cevaplar verdi. Daha sonra içeri girdi. İçeri girince Joyce ile konuşmaya başladılar. Düşman olmadığını anlayınca onları biraz dinledim. Adı <a class="pn" href="kisiler.html#alexander"><strong>Alexander</strong></a> olan bu adam Prens tarafından yanımıza gönderilmişti. Joyce ile konuşmalarından anladığım kadarıyla adam Fil Dişi Kule’nin önemli bir parçasıydı.</p>
+<p>Onlar konuşurken Soli’ye baktım. Cesetlerin yerlerini değiştirmiş ve kendi kendine sallanarak dualar ediyordu. Hem Joyce kendine gelmişti hem de Alexander denene adam düşman değildi. Bu yüzden Soli’yi onların yanında bırakıp James’in ardından gitme kararı aldım.</p>
+<p>İçimden bir ses onun yine alt kattaki yaşlı kadının evine girdiğini söylüyordu. James’i daha da delirtmemek için eve gizli gizli girmeliydim. Kadının yan komşusunun kapısını çaldım ve görünmez oldum. Adam kapıyı açtı ve kimin çalıdığına bakmaya çalışırken içeri girdim. Balkonundan yan balkona atladım ve kadının evindeydim.</p>
+<p>Fark ettirmeden evin içerisinde gezerken ağlama sesleri duydum. Seslere doğru ilerledim ve Ayşe’yi gördüm. Karanlıkta köşeye çekilmiş, bir elinde oklava ile birlikte sallanarak ağlıyordu. Görünmez olduğuma yemin edebilirim ama o <em>beni gördü</em>!</p>
+<p>Ağlayarak bana doğru gelmeye başlayınca korktum ve olduğum yerde durdum. Bana doğru sürünerek gelmeye başladı, bir yandan da ağlayarak sayıklıyordu: “Özür dilerim, özür dilerim, yüce Rabbim, sadece kendimi korudum, o bir sapıktı, ama öldürmemeliydim, o kadar büyük bir günah mı işledim de bana Azrail’ini yolladın”</p>
+<p>Kadın ayaklarıma kapanıp ağlamaya devam etti. O zaman anladım. Kara çarşafım yüzünden beni Azrail sanmıştı ve dediğine göre James’i <em>öldürmüştü</em>. En başından James’in buraya girmesi ve bu kadına zarar vermeye çalışması bir hataydı. Yaşlı başlı kadına hayatının travmasını yaşatmıştı.</p>
+<p>"Allah seni görüyor, Allah senin içini biliyor. Sen doğru olanı yaptın, sen kendini savundun. Artık senin üstlerden dostların var. Allah'a kulak vermeye devam et, o hep senin yanındaydı, her zaman da olacak. Yolundan sapma, Allah seni görüyor ve koruyor" diyerek kadının kafasına sakince dokundum. Ona Azrail değil Melek gibi yaklaşmak ve onu rahatlatmak istedim. Ardından <strong>Ayet-el Kürsi</strong> okudum.</p>
+<p>Kadın bunun üzerine rahatlamış gibiydi. Onu bırakıp tekrar geri geri balkona gittim ve uzun zıplama yeteneğimi de kullanarak kendimi aşağı bıraktım. Kazasız belasız aşağı inmiştim.</p>
+<p>James’in öldüğünü kimse bilmemeliydi. Hem bizim gözetimimizde öldüğü için sorun yaşardık hem NYC’nin ortasında silah ateşlediğimiz için ceza yerdik hem de bu zavallı kadın Masquerade korunsun diye zarar görürdü. Olan şuydu: James kadına sapıklık yapmıştı ve kadın direnince de camdan atlayıp kaçmıştı. Nereye gitti ya da gelecek mi kimse bilmiyor, nokta.</p>
+<p>Binanın kapısına doğru gittiğimde fark ettim ki James’in aracının arkasına siyah, zırhlı bir araç park etmişti. Hemen binaya siper aldım ve görünmez oldum. Araca doğru ses çıkarmadan ilerlerken arabadan 4 silahlı adam indi ve binanın içine koştular. Cam kapıdan onları izledim. Aralarında konuştular sonra da üçü yukarı çıktı, biri ise arkada gözetimde kaldı.</p>
+<p>Hemen Joyce’un telefonuna bildirimler yolladım. Aptallık yapmayıp baktığını düşündüm ve aşağıda onları beklemey başladım. Tek kalan adamı indirmeli miydim? Hayır, eğer beceremezsem diğerlerine haber verebilirdi ve hepsi üstüme üşüşebilirdi. Hazır benim farkımda değillerken kendimi riske atmamalıydım.</p>
+<p>Ama onların 3 kişi ile baş edememe ihtimallerine karşı ne yapacaktım? Ya baskın haberini almadılarsa? Sonra aklıma güzel bir fikir geldi. Adamların telefonlarından birinin içine girdim ve aşırı yüksek sesle müzik açtım. Böylece bizimkiler hem yerlerini anlamış olacaklardı hem de diğerlerinin dikkati dağılacaktı.</p>
+<p>Peki ya kaçmak istediğimizde? Onların arabasında başka biri var mıydı? Arabanın camından içeri bakmaya çalıştım ama filmliydi. Sonra araba akıllı araba mı diye baktım ve bingo! Arabayı ele geçirdim.</p>
+<p>Hala gizliyken telefonum ile arabayı kontrol ettim ve yüksek ses çıkartarak (buna yanlışlıkla James’in arabasının arka farına vurmamın da katkısı olmuştu) arabayı sürdüm. Arkada kalan adam arabaya bakmak için yola çıktı. Arabayla onu ezebilir miyim acaba diye düşündüm ama pek mümkün değil gibiydi. Bu yüzden o savunmasızken ve ben hala görünmezken onu etkisiz hale getirmeliydim.</p>
+<p>Elime bir demir sopa aldım ve adamın arkasından giderek ense köküne bir tane salladım. Adam yere yığıldı. Siyah arabayı getirttim ve arabanın içine adamı kodum. Bu sırada Joyce, Soli ve Alexander da indiler. Beni arabanın içerisinde görünce çok şaşırdılar ama onlara hemen gitmemiz gerektiğini söyledim.</p>
+<p>Joyce ve Soli James’in arabasıyla giderken; Alexander, ben ve baygın adam da çalıntı kamyonetle gitmeye başladık. Araba sürmeyi bilmesem de yarış oyunu oynamış biri olarak telefondan araba sürmek konusunda iyiydim.</p>
+<p>Prens’in bize tahsil ettiği Haven’a girdik ve adamı Joyce yukarı taşıdı. Ben adamın telefonunu karıştırırken bunlar da adamı korkutarak ve işkence ederek bilgi edinmeye çalıştılar.</p>
+<p>Elde ettiğimiz bilgiler is şunlar:</p>
+<ul class="log">
+  <li>Telefonunda kindred isim listesi, haven mekanlarının fotoğrafları, kutsal mekan fotoğrafları vardı. ⇒ Bu fotoğrafları önemli kişilere yolladım.</li>
+  <li>Telefonunun bağlı olduğu ağ, bizim peşleyen ghoul’lardan farklıydı. Sinyal kesiciler yüzünden ağ incelemesi yapamadım.</li>
+  <li>Adam istese bile bazı bilgileri veremiyordu. Akıl manipülasyon güçleri bile işe yaramıyordu. Tremere’lerin böyle kan büyüleri bildikleri hep söylenirdi. <em>Yine bu işin içine Tremere’leri dahil edecek bir ipucu elde etmiştik</em>.</li>
+</ul>
+<p>Yarın <a class="pn" href="kisiler.html#qadir"><strong>Şerif Qadir</strong></a>’e giderek tüm bildiklerimizi anlatma kararı aldık. Böylece belki o da bizi bir yerlere yönlendirebilirdi. Tabii benim ek olarak yapacaklarım da vardı.</p>
+      </div>
+      <div class="ch-end" aria-hidden="true">✦</div>
+      <nav class="ch-nav"><a href="#bolum-2">← Çingenenin Sırları ve Prens İle Görüşme</a><a href="kisiler.html">Dosyalara git →</a></nav>
+    </article>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>// <a href="index.html">sam</a> · <a href="kisiler.html">kişiler</a> · Allah'ım, günahlarımı bağışla</span>
+    <button class="tesbih" type="button" title="Tesbih çek"><span class="bead"></span><span class="label">Estağfirullah</span><span class="count">0</span></button>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  (function () {
+    var bar = document.getElementById("progress");
+    var links = document.querySelectorAll(".side a");
+    var chapters = document.querySelectorAll(".chapter");
+
+    function onScroll() {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+
+      var current = null;
+      chapters.forEach(function (c) {
+        if (c.getBoundingClientRect().top < window.innerHeight * 0.35) current = c.id;
+      });
+      links.forEach(function (a) { a.classList.toggle("on", a.dataset.for === current); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+</body>
+</html>

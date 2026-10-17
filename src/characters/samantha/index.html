@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samantha Oakley</title>
+<meta name="description" content="Samantha Oakley — Nosferatu, hacker, Allah'ın yolundan şaşmamaya yemin etmiş bir Kindred.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: center;
+    padding: 48px 0 24px;
+  }
+  .hero h1 {
+    font-size: clamp(52px, 9vw, 104px);
+    letter-spacing: -0.01em;
+    margin: 14px 0 6px;
+  }
+  .hero h1 em {
+    display: block;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--blood-bright);
+  }
+  .hero .handle {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--term);
+    margin-bottom: 26px;
+  }
+  .hero blockquote {
+    margin: 0 0 30px;
+    padding: 4px 0 4px 20px;
+    border-left: 2px solid var(--blood);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .hero blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  /* portrait under the çarşaf */
+  .portrait {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    aspect-ratio: 761 / 954;
+    background: #000;
+    box-shadow: 0 30px 80px -30px rgba(158, 27, 34, 0.55);
+  }
+  .portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: blur(14px) brightness(0.55) saturate(0.5);
+    transform: scale(1.08);
+    transition: filter 0.9s ease, transform 0.9s ease;
+  }
+  .portrait::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(100deg, rgba(0,0,0,0.0) 0 18px, rgba(0,0,0,0.35) 18px 36px),
+      linear-gradient(to bottom, rgba(5,4,6,0.75), rgba(5,4,6,0.35) 45%, rgba(5,4,6,0.85));
+    z-index: 1;
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .portrait.unveiled img { filter: none; transform: none; }
+  .portrait.unveiled::before { opacity: 0; transform: translateY(-100%); }
+  .veil-hint {
+    position: absolute;
+    left: 50%; bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(8,7,10,0.75);
+    border: 1px solid var(--gold-dim);
+    padding: 8px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .veil-warning {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink-dim);
+    width: 80%;
+    transition: opacity 0.5s;
+  }
+  .portrait.unveiled .veil-warning { opacity: 0; }
+
+  /* ---------- quick stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+  .stat {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .stat:nth-child(odd) { border-right: 1px solid var(--line); }
+  .stat:nth-last-child(-n+2) { border-bottom: 0; }
+  .stat dt {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .stat dd {
+    margin: 2px 0 0;
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  /* ---------- story timeline ---------- */
+  .timeline { position: relative; }
+  .era {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 40px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+  }
+  .era-head .year {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .era-head h3 {
+    font-size: 30px;
+    margin-top: 6px;
+  }
+  .era-head .mood {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-dim);
+    margin-top: 8px;
+    font-size: 18px;
+  }
+  .era-body p { margin: 0 0 1em; color: #d8d0c3; }
+  .era-body p:last-child { margin-bottom: 0; }
+  .era-body strong { color: var(--ink); font-weight: 500; }
+  .era-body a.person {
+    color: var(--gold);
+    border-bottom: 1px dotted var(--gold-dim);
+  }
+  .era.turned .era-head h3 { color: var(--blood-bright); }
+
+  .figure-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 28px 0 4px;
+  }
+  .figure-row a {
+    display: block;
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 1;
+    background: #000;
+  }
+  .figure-row img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(0.55) brightness(0.8);
+    transition: filter 0.4s, transform 0.6s;
+  }
+  .figure-row a:hover img { filter: none; transform: scale(1.04); }
+  .figure-row span {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 28px 12px 10px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .figure-row small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ---------- creed ---------- */
+  .creed {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .creed-card {
+    position: relative;
+    padding: 30px 26px 26px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .creed-card::before {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border: 1px solid var(--gold-dim);
+    opacity: 0.25;
+    transform: rotate(45deg);
+  }
+  .creed-card .eyebrow { color: var(--gold); }
+  .creed-card p {
+    margin: 12px 0 0;
+    font-family: var(--serif);
+    font-size: 23px;
+    line-height: 1.3;
+  }
+  .creed-card.touch p a { color: var(--ink); border-bottom: 1px solid var(--blood); }
+
+  /* ---------- terminal ---------- */
+  .terminals {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .term {
+    background: #050506;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.7;
+    overflow: hidden;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 12px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-size: 11px;
+  }
+  .term-bar i {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--line); display: inline-block;
+  }
+  .term-bar i:first-child { background: var(--blood); }
+  .term-bar b { margin-left: 8px; font-weight: 400; }
+  .term-body { padding: 16px 18px 18px; color: #c9d6cc; }
+  .term-body .cmd { color: var(--term); }
+  .term-body .cmd::before { content: "$ "; color: var(--ink-faint); }
+  .term-body ul { list-style: none; padding: 0; margin: 10px 0 0; }
+  .term-body li { padding-left: 22px; position: relative; margin-bottom: 8px; }
+  .term-body li::before { position: absolute; left: 0; }
+  .term.ok li::before { content: "[+]"; color: var(--term); font-size: 11px; top: 2px; }
+  .term.warn li::before { content: "[!]"; color: var(--blood-bright); font-size: 11px; top: 2px; }
+  .term.warn .cmd { color: var(--blood-bright); }
+  .term .wip { color: var(--gold); }
+
+  /* ---------- life ---------- */
+  .life {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .life-card {
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+  }
+  .life-card svg { width: 30px; height: 30px; color: var(--blood-bright); }
+  .life-card h3 { font-size: 26px; margin: 14px 0 8px; }
+  .life-card p { margin: 0; color: #d0c8bb; font-size: 17.5px; }
+
+  /* ---------- doors ---------- */
+  .doors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .door {
+    display: block;
+    padding: 34px 30px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--ink);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .door:hover { border-color: var(--gold-dim); transform: translateY(-3px); color: var(--ink); }
+  .door h3 { font-size: 34px; margin: 10px 0 8px; }
+  .door p { margin: 0; color: var(--ink-dim); font-size: 17px; }
+  .door .go { display: inline-block; margin-top: 18px; font-family: var(--mono); font-size: 13px; color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; }
+    .portrait { max-width: 360px; width: 100%; }
+    .era { grid-template-columns: 1fr; gap: 14px; }
+    .creed, .life { grid-template-columns: 1fr; }
+    .terminals, .doors { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .figure-row { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .stat:nth-child(odd) { border-right: 0; }
+    .stat:nth-last-child(2) { border-bottom: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bismillah" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="prompt"><span class="user">sam@lagim</span>:<span class="path">~/</span>$ whoami<span class="cursor"></span></div>
+    <nav class="nav">
+      <a class="up" href="../">bahçe</a>
+      <a href="index.html" aria-current="page">sam</a>
+      <a href="kisiler.html">kişiler</a>
+      <a href="bolumler.html">günlük</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero fade-in">
+    <div class="portrait" data-veil>
+      <img src="assets/portrait.png" alt="Samantha Oakley'nin portresi: kel, sivri kulaklı, solgun tenli, siyah elbiseli bir Nosferatu">
+      <div class="veil-warning">Bu yüzü görenler genelde bakışlarını kaçırır.</div>
+      <div class="veil-hint">çarşafı aç</div>
+    </div>
+
+    <div>
+      <div class="eyebrow">Nosferatu · Kindred · New York</div>
+      <h1>Samantha <em>Oakley</em></h1>
+      <div class="handle">// a.k.a. Sam — lağımdaki sinyal, kimsenin izleyemediği göz</div>
+
+      <blockquote>
+        “Bu da benim sınavımdı ve asla yolumdan şaşmayacaktım. Kimse beni doğrularımdan şaşırtamayacaktı.”
+        <cite>— günlük, 1 Temmuz 2024</cite>
+      </blockquote>
+
+      <dl class="stats">
+        <div class="stat"><dt>Doğum</dt><dd>1990, Pensilvanya</dd></div>
+        <div class="stat"><dt>Yaş / Dönüşüm</dt><dd>29 / 23</dd></div>
+        <div class="stat"><dt>Cinsiyet</dt><dd>Kadın</dd></div>
+        <div class="stat"><dt>Klan</dt><dd>Nosferatu</dd></div>
+        <div class="stat"><dt>Sire</dt><dd><a href="kisiler.html#zaynab">Zaynab Shah</a></dd></div>
+        <div class="stat"><dt>Touchstone</dt><dd><a href="kisiler.html#muhammed">Muhammed</a></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <div class="section-title"><span class="num">01</span><h2>Hikâyesi</h2></div>
+
+  <div class="timeline">
+    <article class="era">
+      <div class="era-head">
+        <div class="year">1990 — 2008</div>
+        <h3>Gençliği</h3>
+        <div class="mood">Ekranın arkasındaki kız.</div>
+      </div>
+      <div class="era-body">
+        <p>Samantha Oakley, Pensilvanya'da ana şehre yakın bir kasaba 1990'da dünyaya geldi. Teknolojinin çok hızlı geliştiği dönemde gençliğini yaşayan Sam, sevmediği insanları zorbalamak ve ilgisini çeken insanları stalklamak için birçok zamane sosyal medya platformunu aktif olarak kullandı.</p>
+        <p>İnsanlar hakkında internet sayesinde bu kadar bilgi elde etmek, ergenlik ile birlikte Sam'in kafasını kırmasına sebep oldu. Bir yerden sonra bu edindiği bilgileri insanları tehdit etmek için kullanmaya başladı. Üniversite yıllarında bu yeteneğini paraya çevirdi.</p>
+      </div>
+    </article>
+
+    <article class="era">
+      <div class="era-head">
+        <div class="year">~2008 — 2013</div>
+        <h3>Üniversite Dönemi</h3>
+        <div class="mood">Şantaj, scriptler ve bir adam.</div>
+      </div>
+      <div class="era-body">
+        <p>Arkadaşlık sitelerinden erkeklerle görüşmeye başladı ve bu erkeklerin bilgileri internette bularak onların sevgililerine ya da karılarına ulaşıyor, daha sonra aralarında geçen her şeyi eşlerine anlatmakla erkekleri tehdit ediyordu.</p>
+        <p>Üniversitede kendi evine çıkmıştı ve bütün gününü evde geçiriyordu. Kendini internete o kadar çok kaptırmıştı ki artık derslerini bile ihmal ediyordu. Kendi küçük işlerini daha rahat yapmak için yazılım öğrenip küçük çaplı scriptler oluşturuyordu. Oynadığı dolandırıcılık oyunu, bir gün onu <a class="person" href="kisiler.html#muhammed">Muhammed</a> ile tanıştırdı. Muhammed ile onun açıklarını bulmak için görüşmeye başlamıştı ama zaman geçtikçe onun çok iyi biri olduğuna ve gerçekten ciddi bir şeyler düşündüğüne inandı. İkisinin de birbirine karşı bir ilgisi var gibiydi ve bu ikili sürekli birlikte takılmaya başladılar.</p>
+        <p>Bir süre sonra Muhammed, Sam'in yaptığı para kazanma yöntemini öğrendi ve bunun ne kadar yanlış olduğunu, çok fazla kul hakkına girdiğini ve yaptığı kötülüklerin dönüp dolaşıp onu bulacağını söyledi. Sam çok dindar bir çevrede büyümüştü ama zamanla dinden uzaklaşmıştı. Çok sevdiği adamın ona böyle şeyler söylemesi, unuttuğu inançlarını tekrar gün yüzüne çıkardı. Muhammed ile vakit geçire geçire, kötü stalk dönemlerini geride bıraktı. Artık daha mutluydu ve stabil bir hayatı vardı. Sevdiği adam ona sürekli evlilikten bahsediyordu. Gözü kör olmuştu. Muhammed onu bir gün, New York'ta Müslümanların toplandığı bir hidayet toplantısına götürdü. Orada insanlarla konuştukça, Sam Müslümanlığı sevdiğini düşünmeye başladı. Zamanla yavaş yavaş onların adetlerini uyguluyor, birçok söyleşilere katılıyor ve Allah lafını ağzından düşürmüyordu.</p>
+        <p>Bir gün söyleşideki kızlarla otururken, kızlar biri hakkında konuşmaya başladı. Sam onlara bu kişiye dair son kayıtları bulabileceğini söyledi. İnternette nereye bakması gerektiğini bildiği için, konuşulan kişinin telefonunun sinyallerinin yaklaşık yerini buldu. Kızların ağızları açık kalmıştı ve tabii ki bu hüner alttan alta tüm grup arasında yayıldı, bazılarının ilgisi fazlasıyla Sam'e kaydı.</p>
+        <p>Bir süre sonra Muhammed'in apar topar Mısır'a gitmesi gerekti. Yalnız kalan Sam, gruptaki kızlara sığındı ama bilmiyordu ki bu sadece büyük bir oyundu. Bir gece, evinde yalnızken odaya Nosferatu klanından <a class="person" href="kisiler.html#zaynab">Zaynab Shah</a> girdi. Sam uyurken onu kanını son damlasına kadar emdi ve ona kendi kanından bahşetti.</p>
+      </div>
+    </article>
+
+    <article class="era turned">
+      <div class="era-head">
+        <div class="year">2013 — bugün</div>
+        <h3>Kindred Olduktan Sonra</h3>
+        <div class="mood">Lanetli bir beden, inatçı bir iman.</div>
+      </div>
+      <div class="era-body">
+        <p>Sam zorla sokulduğu bu dünyadan nefret etmişti. Onun kurmaya çalıştığı dine dönük, aileye yönelik, sakin hayatı elinden alınmıştı. Artık Allah tarafından lanetlenmiş, kimse tarafından sevilmeyecek, eciş bücüş bir canavara dönüşmüştü. Kendini hem Allah'a, hem de sevgilisi Muhammed'e karşı suç işlemiş gibi görüyordu.</p>
+        <p>Fakat Zaynab bu kızı nasıl idare edeceğini önceden planlamıştı. Zaynab köken olarak Pakiydi. Bu yüzden kültürünü ve dini kullanarak Sam'in aklına giriyordu. Ona, kindred olmanın Allah'a hakaret olmadığını, hala Allah'ın izinden gidebileceğini hatta Müslümanlık uğruna çok daha büyük adımlar atıp, din karşıtlarını engelleyebileceğini söylüyordu.</p>
+        <p>Zaynab aslında bu konuda tam olarak yalan söylemiyordu. Kendisinin kökenlerinden dolayı Banu Haqim klanı ile bağlantıları vardı. Banu Haqim klanı ile birçok ortak proje içerisinde bulunuyorlardı. Bunlardan birkaçı; orta doğudaki eski mabetlerde bulunan antik eşyaların ele geçirilmesi, antik mezarların sakladıkları sırların araştırılması ve eski yazıtlarda bahsedilen gizli bilgilerin deşifre edilmesi ile alakalıydı.</p>
+        <p>Zaynab, Sam'i kendine bağlayabilmek ve bilgisini aktif kullanabilmek için onu orta doğu projelerine yönlendirdi. Bu sayede Banu Haqim klanı ile sağlam bağlantılar kuran Sam, zamanla gerçekten İslam adına büyük yardımları dokunduğuna inandı ve durumuna olan büyük nefretini azalttı. Bu süreçte Banu Haqim'lerden en yakın bağlantısı <a class="person" href="kisiler.html#leila">Leila Halabi</a> adlı Arap kökenli bir kadındı.</p>
+        <p>Fakat hala namazlarını kılmamak ve suçsuz günahsız insanlara bu uğurda zarar vermek ona kötü hissettiriyordu. Bu yüzden işlerini kimseyi öldürmeden, kaçak oynayarak yapmaya özen gösteriyor ve öldürdüğü herkes için günlerce Allah'tan af diliyordu. Durumunu kabullendikten sonra Zaynab ona Muhammed ile iletişim kurma izni vermişti. Sadece geceleri konuştukları için ilişkilerinde sorunlar yaşansa da Muhammed ile hala iletişimlerini devam ettiriyorlardı. Muhammed işlerinin biteceğini ve tekrardan Amerika'ya geleceğini söylese de yok vize sıkıntısı yok iş uzaması derken bir türlü gelememişti. Ama Sam'in ona karşı tutkusu asla azalmadı. Bu deforme olmuş bedenine ve dönüştüğü canavara rağmen hala Muhammed ile bir hayat kurmak istiyordu. Eğer yeterince yükselebilirse, belki Muhammed'i yanında tutabilirdi ve belki de Muhammed ona bu haliyle de aşık kalmaya devam edebildi…</p>
+
+        <div class="figure-row">
+          <a href="kisiler.html#muhammed"><img src="assets/Muhammed.png" alt="Muhammed"><span><small>Touchstone</small>Muhammed</span></a>
+          <a href="kisiler.html#zaynab"><img src="assets/Zaynab.png" alt="Zaynab Shah"><span><small>Sire</small>Zaynab Shah</span></a>
+          <a href="kisiler.html#leila"><img src="assets/Leila.png" alt="Leila Halabi"><span><small>Banu Haqim</small>Leila Halabi</span></a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- CREED -->
+  <div class="section-title"><span class="num">02</span><h2>Yemini</h2></div>
+
+  <div class="creed">
+    <div class="creed-card">
+      <div class="eyebrow">Conviction</div>
+      <p>Asla suçsuz günahsız çocuklara zarar vermem. Allah'ın öğretilerinden şaşmam.</p>
+    </div>
+    <div class="creed-card touch">
+      <div class="eyebrow">Touchstone</div>
+      <p><a href="kisiler.html#muhammed">Muhammed</a> — gece konuşmaları, gelmeyen vizeler ve hiç sönmeyen bir tutku.</p>
+    </div>
+    <div class="creed-card">
+      <div class="eyebrow">Ambition</div>
+      <p>İslam'ın düşmanlarının planlarını yıkmak ve Allah katında af görecek kadar doğru yolda olmak.</p>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section-title"><span class="num">03</span><h2>Yetenekler &amp; Açıklar</h2></div>
+
+  <div class="terminals">
+    <div class="term ok">
+      <div class="term-bar"><i></i><i></i><i></i><b>sam@lagim — güçlü_yönler.sh</b></div>
+      <div class="term-body">
+        <div class="cmd">./skills --list</div>
+        <ul>
+          <li>İnternet araştırmaları</li>
+          <li>Tracking uygulamalarını devre dışı bırakmak</li>
+          <li>Scriptler kullanarak cihazları, uygulamaları ve siteleri istediği şekilde manipüle etmek</li>
+          <li class="wip">Şu anda kendisini yapay zeka kullanımı üzerine geliştirmeye çalışıyor <span class="dim">[yükleniyor…]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="term warn">
+      <div class="term-bar"><i></i><i></i><i></i><b>sam@lagim — zayıf_yönler.log</b></div>
+      <div class="term-body">
+        <div class="cmd">./scan --self</div>
+        <ul>
+          <li>Günah işlemekten korktuğu için, İslam destekçisi birine zarar veremiyor.</li>
+          <li>Din ile alakalı konularda mantığını kaybediyor.</li>
+          <li>Hala iç karışıklığını çözemediği için dini konularda kolay kandırılıyor.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIFE -->
+  <div class="section-title"><span class="num">04</span><h2>Gece Hayatı</h2></div>
+
+  <div class="life">
+    <div class="life-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M3 20h18"/><path d="M9 20v-5h6v5"/></svg>
+      <h3>Haven</h3>
+      <p>Evsizlere barınak sağlayan bir hayır kurumunun altındaki lağımda yaşıyor. Kendine kaçak elektrik ve internet çekmiş. Kullandığı bilgisayar sistemine yaptığı eklentilerden dolayı tracklenemiyor.</p>
+    </div>
+    <div class="life-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2 3-2s3 .7 3 2-1.3 1.8-3 2.3-3 1-3 2.4 1.3 2 3 2 3-.6 3-2"/></svg>
+      <h3>Geliri</h3>
+      <p>Banu Haqim'lerdeki tanıdıkları için küçük bilgiler ediniyor ve onlara para ya da bilgi karşılığı verebiliyor. Ama çok para ile işi yok.</p>
+    </div>
+    <div class="life-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3c3 4.5 6 7.7 6 11a6 6 0 0 1-12 0c0-3.3 3-6.5 6-11z"/></svg>
+      <h3>Beslenme</h3>
+      <p>Üstündeki barınakta yaşayan evsizlerden besleniyor. Kimseyi öldürmemeye ve kirli kana sahip (alkollü ya da uyuşturuculu) insanlardan içmemeye özen gösteriyor.</p>
+    </div>
+  </div>
+
+  <div class="ornament" aria-hidden="true">✦</div>
+
+  <!-- DOORS -->
+  <div class="doors">
+    <a class="door" href="kisiler.html">
+      <div class="eyebrow">./kişiler</div>
+      <h3>Dosyalar</h3>
+      <p>Sevdikleri, sire'ı, koterisindeki "yarım akıllılar" ve hakkında fazla şey bildiği herkes.</p>
+      <span class="go">dosyaları aç →</span>
+    </a>
+    <a class="door" href="bolumler.html">
+      <div class="eyebrow">./günlük</div>
+      <h3>Günlük</h3>
+      <p>Central Park'ın yandığı geceden itibaren kendi kaleminden, eksiksiz bölümler.</p>
+      <span class="go">okumaya başla →</span>
+    </a>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>// bağlantı şifreli · konum: bilinmiyor · iz bırakılmadı</span>
+    <button class="tesbih" type="button" title="Tesbih çek"><span class="bead"></span><span class="label">Estağfirullah</span><span class="count">0</span></button>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

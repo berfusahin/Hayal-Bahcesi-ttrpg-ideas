@@ -18,7 +18,15 @@ permalink: /characters/
     {%- endfor %}
 
     {%- for character in upcomingCharacters %}
-    {%- if not (collections.characters | profileFor(character.folder)) %}
+    {%- if collections.characters | profileFor(character.folder) %}
+    {%- elif character.url %}
+    <a class="character-card" href="{{ character.url }}">
+        {%- if character.image %}
+        <img src="{{ character.image }}" alt="">
+        {%- endif %}
+        <h2>{{ character.name }}</h2>
+    </a>
+    {%- else %}
     <div class="character-card character-card--soon{% if not character.image %} character-card--text-only{% endif %}">
         {%- if character.image %}
         <img src="{{ character.image }}" alt="">

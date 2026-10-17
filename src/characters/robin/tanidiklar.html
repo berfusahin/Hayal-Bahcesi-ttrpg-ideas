@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pembe Panter'in Tanıdıkları</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Big+Shoulders+Display:wght@700;900&family=Caveat+Brush&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+  :root { padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px); }
+  .intro { padding-block: 48px 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+  .intro h1 {
+    font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(3rem, 10vw, 6.5rem); line-height: .85; margin-block: 8px 16px;
+  }
+  .intro h1 em { font-style: normal; color: var(--pink); }
+  .intro p { margin: 0; max-width: 58ch; color: var(--mute); }
+  .me { display: flex; gap: 14px; align-items: center; text-decoration: none; color: var(--bone); border: 1px solid var(--rope); padding: 8px 16px 8px 8px; }
+  .me img { width: 56px; height: 56px; object-fit: cover; object-position: 50% 15%; }
+  .me b { display: block; font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 1.2rem; line-height: 1; }
+  .me small { font-family: var(--f-mono); font-size: .68rem; color: var(--pink); letter-spacing: .08em; text-transform: uppercase; }
+  .me:hover { border-color: var(--pink); }
+
+  /* legend + filters */
+  .tools { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; justify-content: space-between; border-block: 1px solid var(--rope); padding-block: 14px; margin-top: 32px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips button {
+    font: 600 .74rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+    background: transparent; color: var(--mute); border: 1px solid var(--rope); padding: 8px 12px; cursor: pointer;
+  }
+  .chips button:hover { color: var(--bone); border-color: var(--mute); }
+  .chips button[aria-pressed="true"] { background: var(--pink); border-color: var(--pink); color: var(--ink); }
+  .chips button span { opacity: .65; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--f-mono); font-size: .7rem; color: var(--mute); letter-spacing: .06em; text-transform: uppercase; }
+
+  /* verdict stamps: Robin's one-word call on each person */
+  .v { font: 600 .68rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: 5px 8px; border: 1px solid currentColor; white-space: nowrap; }
+  .v-dost { color: var(--bone); }
+  .v-dikkat { color: var(--warn); }
+  .v-guvenme { color: var(--warn); border-style: dashed; }
+  .v-hedef { background: var(--pink); color: var(--ink); border-color: var(--pink); }
+  .v-koru { color: var(--pink); }
+  .v-bilinmez { color: var(--mute); border-style: dotted; }
+  .v-olu { color: var(--dead); }
+
+  /* groups */
+  .group { padding-block: 44px 0; }
+  .group > header { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; margin-bottom: 18px; }
+  .group h2 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1; }
+  .group header p { margin: 0; color: var(--mute); font-size: .95rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+  .card {
+    background: var(--ink-2); border: 1px solid var(--rope); padding: 18px;
+    display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-content: start;
+    scroll-margin-top: 80px;
+  }
+  .card:target { border-color: var(--pink); box-shadow: 0 0 0 1px var(--pink); }
+  .card .ph {
+    width: 64px; height: 64px; display: grid; place-items: center;
+    background: var(--ink); border: 1px solid var(--rope);
+    font-family: var(--f-display); font-weight: 900; font-size: 1.9rem; color: var(--mute);
+  }
+  .card img.ph { object-fit: cover; object-position: 50% 20%; padding: 0; }
+  .card .top { display: flex; gap: 10px; justify-content: space-between; align-items: start; }
+  .card h3 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 1.6rem; line-height: 1; }
+  .card .aka { display: block; font-family: var(--f-mono); font-size: .72rem; color: var(--pink); letter-spacing: .06em; margin-top: 4px; }
+  .card .role { font-family: var(--f-mono); font-size: .72rem; color: var(--mute); letter-spacing: .06em; text-transform: uppercase; margin-top: 8px; }
+  .card p { margin: 10px 0 0; font-size: .98rem; }
+  .card .note { font-family: var(--f-scrawl); color: var(--pink); font-size: 1.25rem; line-height: 1.2; margin-top: 12px; }
+  .card .margin { display: block; font-family: var(--f-scrawl); color: var(--warn); font-size: 1.05rem; transform: rotate(-1.5deg); margin-top: 8px; }
+  .card a { color: var(--bone); text-decoration-color: var(--pink); }
+
+  .card.dead { background: transparent; border-style: dashed; }
+  .card.dead h3 { color: var(--dead); text-decoration: line-through; text-decoration-color: var(--pink); text-decoration-thickness: 3px; }
+  .card.dead .ph { filter: grayscale(1); opacity: .6; }
+
+  .card.big { grid-column: span 2; grid-template-columns: 140px minmax(0, 1fr); }
+  .card.big .ph { width: 140px; height: 180px; }
+
+  .empty { color: var(--mute); font-family: var(--f-mono); font-size: .85rem; padding-block: 24px; }
+
+  @media (max-width: 720px) {
+    .intro { grid-template-columns: 1fr; }
+    .card.big { grid-column: auto; grid-template-columns: 96px minmax(0, 1fr); }
+    .card.big .ph { width: 96px; height: 124px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="tag" href="index.html">Pembe Panter</a>
+    <nav aria-label="Sayfa">
+      <a href="../">← Bahçe</a>
+      <a href="index.html">← Robin</a>
+      <a href="index.html#hikaye">Hikâye</a>
+      <a href="index.html#yemin">Yemin</a>
+      <a href="tanidiklar.html" aria-current="page">Tanıdıklar</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <div>
+      <div class="eyebrow">Robin'in defteri · Writopia</div>
+      <h1>Kim kimdir,<br><em>kime güvenilir</em></h1>
+      <p>Sürgünde yalnız kalan biri insanları not eder. Bunlar Robin'in yolunun kesiştiği insanlar, onun gözünden. Pembe karalamalar onun kendi notları.</p>
+    </div>
+    <a class="me" href="index.html">
+      <img src="assets/alternate.jpg" alt="">
+      <span><b>Robin</b><small>Bu benim →</small></span>
+    </a>
+  </section>
+
+  <div class="tools">
+    <div class="chips" role="group" aria-label="Gruba göre süz">
+      <button type="button" id="f-hepsi" data-f="hepsi" aria-pressed="true">Hepsi<span></span></button>
+      <button type="button" id="f-ekip" data-f="ekip" aria-pressed="false">Ekip<span></span></button>
+      <button type="button" id="f-writopia" data-f="writopia" aria-pressed="false">Writopia<span></span></button>
+      <button type="button" id="f-buyuk" data-f="buyuk" aria-pressed="false">Büyük oyuncular<span></span></button>
+      <button type="button" id="f-neonova" data-f="neonova" aria-pressed="false">Neo-Nova<span></span></button>
+      <button type="button" id="f-olu" data-f="olu" aria-pressed="false">Ölüler<span></span></button>
+    </div>
+    <div class="legend" aria-label="Robin'in hükümleri">
+      <span class="v v-dost">Dost</span>
+      <span class="v v-koru">Koru</span>
+      <span class="v v-dikkat">Dikkat</span>
+      <span class="v v-guvenme">Güvenme</span>
+      <span class="v v-hedef">Hedef</span>
+      <span class="v v-olu">Öldü</span>
+    </div>
+  </div>
+
+  <!-- ===== EKİP ===== -->
+  <section class="group" data-group="ekip">
+    <header><h2>Ekip</h2><p>Writopia'da birlikte iş tuttuklarım.</p></header>
+    <div class="cards">
+      <article class="card" id="anya">
+        <div class="ph" aria-hidden="true">A</div>
+        <div>
+          <div class="top"><h3>Anya</h3><span class="v v-koru">Koru</span></div>
+          <div class="role">Doktor</div>
+          <p>Kafayı <a href="#mars">Mars</a>'a takmış durumda. Kandırılmış, ama henüz kabul etmiyor.</p>
+          <p class="note">Bebe. Biri ona göz kulak olmalı.</p>
+        </div>
+      </article>
+
+      <article class="card" id="switch">
+        <div class="ph" aria-hidden="true">S</div>
+        <div>
+          <div class="top"><h3>Switch</h3><span class="v v-guvenme">Güvenme</span></div>
+          <div class="role">Ekipte</div>
+          <p>Hiçbir şeyi ciddiye almıyor. Ortak parayı çarçur ediyor.</p>
+          <p class="note">Cüzdanı ondan uzak tut.</p>
+        </div>
+      </article>
+
+      <article class="card" id="leon">
+        <div class="ph" aria-hidden="true">L</div>
+        <div>
+          <div class="top"><h3>Leon</h3><span class="v v-dikkat">Dikkat</span></div>
+          <div class="role"><a href="#osia">Osia</a>'nın yardımcısı</div>
+          <p>Dev gibi, kalın kafalı. Başkalarını günah keçisi yapmaktan çekinmeyen bir pislik. <a href="#anya">Anya</a>'ya abisi gibi davranıyor.</p>
+          <p class="note">Beni bir kere günah keçisi yaptılar. İkinciye izin yok.</p>
+        </div>
+      </article>
+
+      <article class="card dead" id="tom" data-dead>
+        <div class="ph" aria-hidden="true">T</div>
+        <div>
+          <div class="top"><h3>Tom</h3><span class="v v-olu">Öldü</span></div>
+          <div class="role">Eski polis</div>
+          <p><a href="#david">David</a>'in eski polis arkadaşıydı. <a href="#dr-do">Dr. Do</a>'nun adamları peşindeydi. Bir zamanlar <a href="#rick">Rick</a>'i yakalamıştı.</p>
+        </div>
+      </article>
+
+      <article class="card dead" id="kamu" data-dead>
+        <div class="ph" aria-hidden="true">K</div>
+        <div>
+          <div class="top"><h3>Kamü</h3><span class="v v-olu">Öldü</span></div>
+          <div class="role">Ekipteydi</div>
+          <p class="note">Öldü. Haha.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== WRITOPIA ===== -->
+  <section class="group" data-group="writopia">
+    <header><h2>Writopia</h2><p>Taverna, mahalle, sokaktaki tanıdıklar.</p></header>
+    <div class="cards">
+      <article class="card" id="stuard">
+        <div class="ph" aria-hidden="true">S</div>
+        <div>
+          <div class="top"><h3>Stuard</h3><span class="v v-dost">Dost</span></div>
+          <div class="role">Ev sahibim sayılır</div>
+          <p>Evini kullandığım arkadaşım. Ben10'daki o hızlı uzaylı gibi bir şey.</p>
+          <p class="note">Başımı sokacak bir yer verdi. Unutmam.</p>
+        </div>
+      </article>
+
+      <article class="card" id="rick">
+        <div class="ph" aria-hidden="true">R</div>
+        <div>
+          <div class="top"><h3>Rick</h3><span class="v v-bilinmez">Bilinmiyor</span></div>
+          <div class="role"><a href="#stuard">Stuard</a>'ın arkadaşı</div>
+          <p>Bir zamanlar <a href="#tom">Tom</a> tarafından yakalanmışlığı var.</p>
+        </div>
+      </article>
+
+      <article class="card" id="jhon">
+        <div class="ph" aria-hidden="true">J</div>
+        <div>
+          <div class="top"><h3>Jhon abi</h3><span class="v v-dost">Dost</span></div>
+          <div class="role">Patron · Jhon'un Tavernası</div>
+          <p>Çalıştığım tavernanın sahibi.</p>
+          <p class="note">Maaşı veren adama abi denir.</p>
+        </div>
+      </article>
+
+      <article class="card" id="medeline">
+        <div class="ph" aria-hidden="true">M</div>
+        <div>
+          <div class="top"><h3>Medeline</h3><span class="v v-dost">Dost</span></div>
+          <div class="role"><a href="#jhon">Jhon</a>'un kızı</div>
+          <p class="note">İyi kız. Bana karşı hep çok nazik, herkese böyle herhalde.</p>
+          <span class="margin">(Sana kesik, Robin. Herkes görüyor bir sen görmüyorsun.)</span>
+        </div>
+      </article>
+
+      <article class="card" id="adam">
+        <div class="ph" aria-hidden="true">A</div>
+        <div>
+          <div class="top"><h3>Adam</h3><span class="v v-dost">Dost</span></div>
+          <div class="role">Makineci</div>
+          <p>Makinelerle uğraşan çocuk.</p>
+        </div>
+      </article>
+
+      <article class="card" id="sinek">
+        <div class="ph" aria-hidden="true">S</div>
+        <div>
+          <div class="top"><h3>Sinek</h3><span class="v v-bilinmez">Tanıdık</span></div>
+          <div class="role">Kaçakçı</div>
+          <p>1.30'luk kaçakçı. Tanıdık bir surat.</p>
+        </div>
+      </article>
+
+      <article class="card dead" id="oliver" data-dead>
+        <div class="ph" aria-hidden="true">O</div>
+        <div>
+          <div class="top"><h3>Oliver</h3><span class="v v-olu">Öldü</span></div>
+          <div class="role">Jhon'un belalı müşterisi</div>
+          <p><a href="#david">David</a>'lere saldırdı. Biz de onu öldürdük.</p>
+        </div>
+      </article>
+
+      <article class="card dead" id="david" data-dead>
+        <div class="ph" aria-hidden="true">D</div>
+        <div>
+          <div class="top"><h3>David</h3><span class="v v-olu">Öldü</span></div>
+          <span class="aka">nam-ı diğer Martin</span>
+          <div class="role">Gizli silahçı</div>
+          <p><a href="#tom">Tom</a>'un eski polis arkadaşıymış. Buralarda kılık değiştirip silahçı dükkânı işletiyordu.</p>
+        </div>
+      </article>
+
+      <article class="card dead" id="eugine" data-dead>
+        <div class="ph" aria-hidden="true">E</div>
+        <div>
+          <div class="top"><h3>Eugine</h3><span class="v v-olu">Öldü</span></div>
+          <div class="role">Tanıdık</div>
+          <p><a href="#mars">Mars</a>'ın ve <a href="#leon">Leon</a>'un tanıdığıydı.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== BÜYÜK OYUNCULAR ===== -->
+  <section class="group" data-group="buyuk">
+    <header><h2>Büyük oyuncular</h2><p>Yapay zekâlar, cyborg yapıcılar, gen sıvısı. Ringden büyük işler.</p></header>
+    <div class="cards">
+      <article class="card" id="mars">
+        <div class="ph" aria-hidden="true">M</div>
+        <div>
+          <div class="top"><h3>Mars</h3><span class="v v-dikkat">Dikkat</span></div>
+          <div class="role">Dijital bilinç · <a href="#anya">Anya</a>'nın aşkı</div>
+          <p>Galiba eskiden insanmış. Gen sıvısı için kaçırılmış, bedenini kaybedip dijitalleşmiş. Eskiden <a href="#aras">A.R.A.S.</a>'ın içindeymiş.</p>
+          <p class="note">Bize karşı dürüst değil.</p>
+        </div>
+      </article>
+
+      <article class="card" id="aras">
+        <div class="ph" aria-hidden="true">A</div>
+        <div>
+          <div class="top"><h3>A.R.A.S.</h3><span class="v v-dikkat">Dikkat</span></div>
+          <div class="role">Dünyayı yöneten yapay zekâ</div>
+          <p>Eskiden <a href="#mars">Mars</a>'tı. Onu dışarı atmışlar, şimdi öldürmeye çalışıyorlar.</p>
+        </div>
+      </article>
+
+      <article class="card" id="dr-do">
+        <div class="ph" aria-hidden="true">D</div>
+        <div>
+          <div class="top"><h3>Dr. Do</h3><span class="v v-dikkat">Dikkat</span></div>
+          <div class="role">Cyborg yapıcı</div>
+          <p>Adamları <a href="#tom">Tom</a>'un peşindeydi.</p>
+          <p class="note">Benim kolumda krom yok. Öyle de kalacak.</p>
+        </div>
+      </article>
+
+      <article class="card" id="osia">
+        <div class="ph" aria-hidden="true">O</div>
+        <div>
+          <div class="top"><h3>Osia</h3><span class="v v-bilinmez">Bilinmiyor</span></div>
+          <div class="role">Cyborg yapıcı</div>
+          <p>Gen sıvısı için kaçırıldı. <a href="#leon">Leon</a> onun yardımcısı.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== NEO-NOVA ===== -->
+  <section class="group" data-group="neonova">
+    <header><h2>Neo-Nova</h2><p>Geride kalanlar. <a href="index.html#hikaye">Hikâyenin tamamı →</a></p></header>
+    <div class="cards">
+      <article class="card big dead" id="laban" data-dead>
+        <img class="ph" src="assets/Billy.png" alt="Laban: siyah takım elbiseli, sigara içen koyu saçlı genç adam.">
+        <div>
+          <div class="top"><h3>Laban</h3><span class="v v-olu">Öldü</span></div>
+          <span class="aka">Uzun Burun Billy</span>
+          <div class="role">Eski sevgilim</div>
+          <p>Bir turnuvada tanıştık. Kim olduğu hakkında her seferinde başka bir yalan söylerdi; tarikat öyle istiyordu. Üç yıl gizli gizli birlikte olduk. Tarikat onu <a href="#asiel">Asiel</a>'le evlendirdi, <a href="#hamath">Hamath</a> onu öldürdü.</p>
+          <p class="note">Her gece. Her gece senin için.</p>
+        </div>
+      </article>
+
+      <article class="card big" id="asiel">
+        <img class="ph" src="assets/Asiel.png" alt="Asiel: dalgalı turuncu saçlar, çiller, gerdanlık ve koyu kırmızı elbise.">
+        <div>
+          <div class="top"><h3>Asiel</h3><span class="v v-bilinmez">Bilinmiyor</span></div>
+          <div class="role">Ex'imin karısı · Hamath'ın kardeşi</div>
+          <p>Tarikat onu 13 yaşında, hayattan habersizken Laban'la evlendirdi. Bir yıl sonra durumu ablalarına anlatan oydu. Gerisini ablaları ve ağabeyi getirdi.</p>
+          <p class="note">Onu suçlayamıyorum. O da tarikatın kurbanı.</p>
+        </div>
+      </article>
+
+      <article class="card big" id="hamath">
+        <img class="ph" src="assets/Hamath.png" alt="Hamath: dağınık beyaz saçlı, sakallı, yeşil gözlü, sinsice gülümseyen adam.">
+        <div>
+          <div class="top"><h3>Hamath</h3><span class="v v-hedef">Hedef</span></div>
+          <div class="role">Ex'imin karısının ağabeyi</div>
+          <p>Haftalarca Laban'ı takip etti. Liderden izin alıp diğer müritlerle birlikte onu vahşice öldürdü ve cinayeti bana yıktı. Mahkemede tarikat onun arkasını kolladı.</p>
+          <p class="note">Sıradaki raunt seninle.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <p class="empty" id="empty" hidden>Bu grupta kimse yok.</p>
+
+  <footer class="foot">
+    <a href="index.html">← Robin · Pembe Panter</a>
+    <span>Kaydı tutan: Robin. Hatalar da onun.</span>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    var chips = document.querySelectorAll(".chips button");
+    var groups = document.querySelectorAll(".group");
+    var cards = document.querySelectorAll(".card");
+    var empty = document.getElementById("empty");
+
+    function count(f) {
+      if (f === "hepsi") return cards.length;
+      if (f === "olu") return document.querySelectorAll(".card[data-dead]").length;
+      var g = document.querySelector('.group[data-group="' + f + '"]');
+      return g ? g.querySelectorAll(".card").length : 0;
+    }
+    chips.forEach(function (b) { b.querySelector("span").textContent = count(b.dataset.f); });
+
+    function apply(f) {
+      chips.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.f === f)); });
+      var shown = 0;
+      groups.forEach(function (g) {
+        var any = false;
+        g.querySelectorAll(".card").forEach(function (c) {
+          var on = f === "hepsi" || f === g.dataset.group || (f === "olu" && c.hasAttribute("data-dead"));
+          c.hidden = !on;
+          if (on) { any = true; shown++; }
+        });
+        g.hidden = !any;
+      });
+      empty.hidden = shown > 0;
+      try { sessionStorage.setItem("robin-filter", f); } catch (e) {}
+    }
+    chips.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.f); }); });
+
+    // A deep link to a person always shows everyone so the card is visible.
+    var saved = null;
+    try { saved = sessionStorage.getItem("robin-filter"); } catch (e) {}
+    if (!location.hash && saved) apply(saved);
+  })();
+</script>
+</body>
+</html>
