@@ -155,7 +155,13 @@ What you want to say. *Markdown* works, and a single Enter is a new line.
 Posts written before this lived only in your browser. The first time you open the main page with
 `npm start`, they're moved into `src/posts/` files automatically.
 
-## Putting it online later
+## The online site
+
+The site is published at **https://berfusahin.github.io/Hayal-Bahcesi-ttrpg-ideas/**. Every push to
+`main` rebuilds it by itself (`.github/workflows/pages.yml`, watch it under the "Actions" tab on
+GitHub); it's updated a minute or two later.
+
+## Building it by hand
 
 `npm run build` creates the finished site in `_site/`. Those files can go to any static host
 (Netlify, GitHub Pages, Cloudflare Pages...). If the site will live in a sub-folder, such as
