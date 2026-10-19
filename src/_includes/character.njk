@@ -29,24 +29,23 @@
         {%- endif %}
     </head>
     <body class="character-page character-{{ characterId }} page-{{ pageKind }}{% if storyCategory %} category-{{ storyCategory }}{% endif %}">
-        <div class="wrapper">
-            <header class="character-header">
-                <div class="character-icon" aria-hidden="true">{{ c.icon or "✦" }}</div>
-                <h1><a href="{{ profile.url }}">{{ c.name }}</a></h1>
-                {%- if c.subtitle %}
-                <p class="subtitle">{{ c.subtitle }}</p>
-                {%- endif %}
-                <nav class="character-links" aria-label="Karakter gezinme">
-                    {%- if pageKind == "profile" %}
-                    <a href="/characters/">← Bahçeye geri dön</a>
-                    {%- if groups.length %}<a href="{{ profile.url }}hikayeler/">Hikâyeler →</a>{% endif %}
-                    {%- else %}
-                    <a href="{{ profile.url }}">← {{ c.name }}</a>
-                    <a href="/characters/">Bahçe</a>
+        <header class="topbar">
+            <div class="topbar-inner">
+                <a class="topbar-back" href="/characters/">← Bahçe</a>
+                <a class="topbar-name" href="{{ profile.url }}"><span aria-hidden="true">{{ c.icon or "✦" }}</span> {{ c.name }}</a>
+                <nav class="topbar-links" aria-label="Karakter gezinme">
+                    <a href="{{ profile.url }}"{% if pageKind == "profile" %} aria-current="page"{% endif %}>Karakter</a>
+                    {%- if groups.length %}
+                    <a href="{{ profile.url }}hikayeler/"{% if pageKind != "profile" %} aria-current="page"{% endif %}>Hikâyeler</a>
                     {%- endif %}
                 </nav>
-            </header>
+            </div>
+            {%- if pageKind == "story" %}
+            <span class="reading-progress" aria-hidden="true"></span>
+            {%- endif %}
+        </header>
 
+        <div class="wrapper">
             <main>
                 {%- if pageKind == "profile" %}
                 {%- include "partials/profile.njk" %}
@@ -55,7 +54,10 @@
                 {%- endif %}
             </main>
 
-            <footer class="character-footer">{{ c.footer or "✦" }}</footer>
+            <footer class="character-footer">
+                <span>{{ c.footer or "✦" }}</span>
+                <a href="/characters/">Hayal Bahçesi'ne dön</a>
+            </footer>
         </div>
 
         <dialog class="lightbox" aria-label="Büyütülmüş resim"><img alt=""></dialog>

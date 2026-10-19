@@ -4,9 +4,9 @@ name: Claween
 icon: 🐾
 subtitle: keeper of forgotten stories
 portrait: assets/portrait.png     # karakterler sayfasındaki kart + profildeki büyük resim
-order: 1                          # karakterler sayfasındaki sıra
-cardTags: [Tabaxi, Keşiş]           # karakter kartındaki etiketler
 footer: 🐾 ✦ 🐾
+quote: "E, Claween’in girdiği bir delikten kaçamama ihtimali olamaz zaten!"   # profilin üstündeki alıntı (istersen sil)
+quoteSource: Bölüm 1, Zindandan Kaçış
 
 # ── Karakter kartı (istediğin kadar satır ekleyebilirsin) ──
 stats:
@@ -25,23 +25,29 @@ categories:
 storiesIntro: Soldaki menüyü kullanarak Claween'in maceralarına veya şiirlerine göz atabilirsin.
 
 # ── Tema ─────────────────────────────────────────
-fonts: https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Quicksand:wght@300;400;500;600;700&display=swap
+fonts: https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap
 theme:
-  background: "#fff7f1"
-  paper: "#fffdfb"
-  border: "#e8c9b5"
-  title: "#a45a2a"
-  text: "#654640"
-  light: "#a87b68"
-  accent: "#d0783c"
-  accent-hover: "#b45b2f"
-  note: "#ffe0a8"
-  border-note: "#ff7504"
-  heading-font: "'Fredericka the Great', cursive"
-  body-font: "Quicksand, sans-serif"
+  background: "#fbf2e8"     # kum
+  paper: "#fffaf3"
+  border: "#ecd2bb"
+  title: "#8a3a17"          # pişmiş toprak
+  text: "#5a3b31"
+  light: "#9a7262"
+  accent: "#d0652b"         # Claween'in kürkü
+  accent-hover: "#a8481a"
+  note: "#ffe6ad"
+  border-note: "#eaa23a"
+  jade: "#2f7d6d"           # Maztica ormanı
+  deep: "#2a1913"
+  night: "#1c2142"          # Anukai bölümü: gece
+  moon: "#ece6d6"
+  blood: "#5e1b19"          # Belthar bölümü: kanlı ay
+  heading-font: "Fraunces, Georgia, serif"
+  body-font: "Nunito, 'Segoe UI', sans-serif"
+  hand-font: "Caveat, 'Segoe Print', cursive"
 ---
 
-## ✨Maztica ve Yaşayanları✨
+## Maztica ve Yaşayanları
 
 {% panel %}
 Maztica kıtasına tabaxilerin ve anukailerin (köpek adamlar) nasıl geldiği hala tartışılan bir konudur.
@@ -55,9 +61,8 @@ Devler ise topluluk hâlinde yaşamadıkları ve hikâyelerini anlatmadıkları 
 İnandıkları tanrılar da farklıdır, üstelik bu tanrıların gerçekten olup olmadığı ya da güç verip vermediği bile kesin değildir. Her iki ırkın da kutsal hikâyeleri vardır, fakat kimse bu tanrıların kudretine doğrudan şahit olmamıştır. Yine de başka tanrıların varlığı bilinmediği için, inanmaya devam ederler.
 {% endpanel %}
 
----
-
-## ✨Tabaxi Tanrıları✨
+{% realm "gunes", "Güneşin çocukları" %}
+## Tabaxi Tanrıları
 
 {% panel "assets/Sunara.png" %}
 ### 🌞Sunara🌞
@@ -93,9 +98,24 @@ Ruh ren sürecine geçtikten sonra Renara’da ruh bekler, ne zaman geri dönece
 Cenaze ritüellerinin bir başka yönü de bedenle ilgilidir. Ölünün kuyruğu ve patileri mumyalanır ve küçük charmlar hâline getirilir, yakınları bu parçaları üzerlerinde taşır. Bunun, ruhun yeniden doğuş sürecine yardımcı olduğuna inanılır. Ölünün bedeninin geri kalan kısmı ise gömülmez, yaşam döngüsüne geri dönmesi için uzak yerlere bırakılır.
 {% endpanel %}
 
----
+{% panel "assets/sembol.png"%}
+### Tabaxi Kutsal İnanışlar
 
-## ✨Anukai Tanrıları✨
+- 3 ve katları kutsal kabul edilir. Tanırlarının 3 tane olması bunu etkiler.
+- 3’lü inanış sembolü (**Üç Büyük**): Birbirine bağlı 3 kedigil başıdır; birinin arkasında güneş vardır, diğeri su gibi değişkendir, diğeri de saldırmaya hazırdır. Bu 3 özellik, bir tabaxide olması gereken ideal özelliklerdir.
+- Büyük dini törenler sadece 3’lü yıllarda yapılır. Bu yıllara “**Düğün Yılı**” denir.
+- Düğünler de aynı şekilde sadece 3’lü yıllarda yapılabilir, bu yüzden düğün yığılması yaşanır ve tüm yıl şenlik gibi geçer. Düğünün amacı, tüm diyara haberi yaymak olduğu için kutlamalar büyük çaplı olur. Ana amaç; doğacak çocukların ebeveynlerini duyurmak ve olası akraba evliliklerini azaltmaktır.
+Eğer 3’lü yıllarda değilsek ama çocuk doğmuşsa, nüfus kaydı olması için evlilik yapılır ama evliliğin duyurulması uğursuz olacağı için çocuklar ve evlilik düğün yılına kadar saklanır.
+- Tabaxi takviminde her 333 yılda 1 yeni bir kedi takvimine başlanır. Günümüzde Panter takviminde 55. yıldayız. Kedigillerin isimlerinin asırların iyiliği/kötülüğü ile alakası yoktur, sadece o 3 asrın kutsal hayvanı sayıldıkları için avlanmaları yasaklanır.
+- Çocukların doğum sırası önemlidir, 3’ün katları sırasıyla doğan çocuklar “**Güneş Çocuk**” kabul edilir ve tanrılar tarafından kutsanıldığına inanılır. Diğer kardeşlerinden daha iyi muamele görürler ve el üstünde tutulurlar.
+
+
+{% endpanel %}
+
+{% endrealm %}
+
+{% realm "ay", "Ayın sürüsü" %}
+## Anukai Tanrıları
 
 {% panel "assets/Anpura.png" %}
 ### 🌕Anpura🌕
@@ -134,10 +154,10 @@ Kha için ise kokunun korunması büyük önem taşır. Anukailer bir varlığı
 
 Kemikler ise kabile içinde saklanır ve çoğu zaman materyal olarak kullanılır, böylece ölen kişinin varlığının bir parçasının her zaman soyunun yanında kaldığı kabul edilir. Ayrıca şamanlar atalarla iletişime geçmek istediklerinde bu kemikleri kullanırlar çünkü kemiklerin hâlâ Kha’nın kokusunu taşıdığına ve bu sayede ataların ruhlarıyla bağlantı kurulabildiğine inanılır.
 {% endpanel %}
+{% endrealm %}
 
----
-
-## ✨Maztica'nın Güncel Durumu✨
+{% realm "kan", "Yeni çağ"%}
+## Maztica'nın Güncel Durumu
 
 {% panel "assets/Belthar.png" %}
 Maztica’nın bilinen tarihi aslında insanların kıtayı keşfetmesiyle başlar. Binyıllarca süren tabaxi-anukai-dev kavgası, gemilerle gelen tarikatçılarla birlikte değişim sürecine girer. Bu insanlar, eski kıtalarından kaçmış, güç uğruna suç işlemiş kişilerdir. İnandıkları Belthar, onlara güç verir, ama karşılığında kan ve vahşet talep eder.
@@ -161,11 +181,11 @@ Onlar daha kaçma planı yapamadan, Anpura ve Dumaresh’in laneti anukailerin �
 
 {% panel "assets/Calvior.png" %}
 Wepkar’ın yokluğunda kıtadaki av sayısı çok azalır ve kıtlık başlar. Toplumun çok acil yeni, gelişime açık ve köklerine bağlı bir lidere ihtiyacı vardır, yoksa açtıktan sadece Anukai’ler değil tüm kıta yok olacaktır. Anukailer kendilerine yeni bir lider seçer, bu kurt, insanlar gelmeden önceki liderin soyundan gelen Calvior’dur. Calvior’un önderliğinde köklerine dönmeyi hedeferler, Tanrılar olmadan da eski öğretileri uygularlar ve bir gün affedileceklerine inanırlar. Yeni lider, tabaxileri ve devleri serbest bırakır, onlardan af diler ve kuracakları yeni şehirde her zaman kapıların onlara açık olduğunu belirtir.
+
+Hedef, küllerden yeni bir şehir kurmaktır ve insanların öğrettiği tarım ile hayvancılığı kullanarak kıtlığı minimum düzeye indirmektir fakat adadaki tüm türler etebur olduğu için hızları yeterli gelmeyecektir. Bu yüzden, binyıllardır yapılmamışı yapmak zorunda kalırlar, başka adaları keşfetmek. Calvior’un ilk işi limanlar ve uzun yola dayanıklı gemiler inşa ettirmek olur. Keşif ve balıkçılık çalışmalarına öncelik verir. Belthar Tarikatı onları buluysa insanlar çok uzakta olmamalıdır diye düşünür, adada keşif dönemi başlar.
 {% endpanel %}
 
 {% panel %}
-Hedef, küllerden yeni bir şehir kurmaktır ve insanların öğrettiği tarım ile hayvancılığı kullanarak kıtlığı minimum düzeye indirmektir fakat adadaki tüm türler etebur olduğu için hızları yeterli gelmeyecektir. Bu yüzden, binyıllardır yapılmamışı yapmak zorunda kalırlar, başka adaları keşfetmek. Calvior’un ilk işi limanlar ve uzun yola dayanıklı gemiler inşa ettirmek olur. Keşif ve balıkçılık çalışmalarına öncelik verir. Belthar Tarikatı onları buluysa insanlar çok uzakta olmamalıdır diye düşünür, adada keşif dönemi başlar.
-
 Yeni kurulan anukai medeniyeti, eskisi gibi kabile düzeninde değildir. İnsanlardan kalma mimari düzen korunur, bu farklı yaşam tarzı tabaxilerin ilgisini çeker. Tabaxilerden bir kısmı, eski düşmanlarına şans vererek şehirde yaşamaya başlar. Günahlarının farkında olan anukailer, tabaxilere el üstünde tutar, hatta meclise bile sokarlar. Bu pozitif ayrımcılık, tabaxilerin göklerdeki egosunu okşadığı için zamanla anukai nüfusunu aşacak kadar şehir tabaxi dolar.
 
 Tabaxiler daha bireysel varlıklardır; anukai liderini her zaman dinlemezler ve çoğunlukla kafalarına göre hareket ederler. Anukailer ise bunu günahlarının bedeli olarak görür ve büyük bir felaket olmadığı sürece göz yumarlar. Devler ise bu teklifi kabul etmez ve dağlarına geri dönerler. Dar şehirlerde yaşayıp bina inşa etmekle uğraşacak kadar kendilerine olan saygılarını kaybetmemişlerdir.
@@ -174,15 +194,20 @@ Fakat bu üç tarafın da bilmediği bir şey vardır. Devlerin ve tabaxilerin k
 
 Gözden kaçanlar, anukai olmadıkları için eski tanrıların lanetinden etkilenmemişlerdir. Hayatta kalıp fark edilmedikleri için içlerinde hala Belthar’ın bir parçasını taşırlar. Belthar varlığını hissettirmez, yalnızca arzularıyla ilgili küçük bir oynama yapar; tohuma sahip olanlar sürekli çocuk yapmak ve tohumlarını yaymak isterler. Davranışlarında bir tuhaflık sezilmez, çünkü çevredekiler onların yalnızca yüksek libidolu olduklarını düşünüp geçer. Bu şekilde, tohumlar nesiller boyunca fark edilmeden aktarılmaya devam eder.
 {% endpanel %}
-
----
+{% endrealm %}
 
 {% panel "assets/Claween.png" %}
-## ✨Claween’in Hikayesi✨
+## Claween’in Hikayesi
 
 Bu tohumlardan biri de ana karakterimiz Claween’in içindedir. Claween ergenliğe girdiğinden beri kendini tutamayan, hınzır bir erkek çocuk olarak görülmüştür ve azgınlığı üzerinde durulmamıştır. Aynı şekilde, tohuma sahip babasının annelerini (ve komşu kadınları) sürekli hamile bırakması ya da kız kardeşlerinin sürekli hamile kalmaya çalışması tabaxilerde normal bir davranış olarak karşılanmıştır. Sonuçta tabaxiler böyledir: yer, içer, yatar ve çocuk yaparlar.
 
 Claween ergenliğinde kendini tutamayınca, çocukluk aklıyla, komşu kızını hamile bırakır. Hamilelik durumu ortaya çıkınca ailesi, geleneğe uygun olarak kızla evlenmesini ve çocuklara babalık yapmasını ister (tabaxilerde evlilikler polydir, eşler birbirleri için değil çocuklar için evlenir) ancak Claween babalığa hazır hissetmediği için kaçar. Bir süre evinden ayrı kalan Claween’in ailesi, geri döneceğine emin oldukları için peşine düşmez. Kalacak yer bulmakta zorlanan Claween’in aklında tek bir şey vardır, gidebildiği kadar uzağa kaçmak. Bu yüzden keşif için yola çıkacak bir gemiye katılır ve Maztica’ya bir daha dönmemek üzere uzaklaşır. (İstese de dönemeyecektir, çünkü Maztica haritalarda olmayan, bilinmeyen bir yerdedir. Tek bilenler adadan gelenlerdir, onlara da denk gelmek imkansızdır.)
 
 Bindiği gemide hiç kadın olmadığı için erkeklerle birliktelikler yaşar ancak hamilelik yaşanmadığı için içindeki tohumun gücünü keşfedemez. Yıllarca gemide tayfa ile birlikte haritalar oluşturarak oradan oraya giderler. Bir gün denk geldikleri korsan gemisi tarafından gemileri ele geçirilir ve Claween köle düşer. Ana kıtaya satılmak üzere götürülür.
+{% endpanel %}
+
+{% panel %}
+- Kendisi annesinin 21 çocuğunun 17.’si. Annesi 3’ün katı olan sayıyı tutturunca çocuk yapmayı kesiyor. Baba tarafından sayısını bile bilmediği çok fazla kardeşi var. Doğum sırası 17 olduğu için umursanmayan çocuklardan biri, bu yüzden çocukluğu daha çok sokaklarda takılarak geçiyor.
+- Küçükken, yaşça büyük diğer sokak çocukları tarafından çok zorbalanıyor. O zamanlar “karşı koymam anlamsız, koyarsam daha çok döverler” diyerek hep susuyor, sonucunda da işler daha iyiye gitmiyor. Yaşının büyümesi ile birlikte yaptığı hatayı anlıyor ve tehlike tespiti ile kaçma konusunda uzmanlaşıyor. → Hala bazı geceler o “pasif” halini kabuslarında görüyor ve çocukluğundan nefret ediyor. Kendi çocukluğuna duyduğu nefret sebebiyle yetişkinlik hayatında bile çocuklardan haz etmiyor. Hiçbir zaman kendisi adına bir çocuk sahibi olmak istemedi. → Yanlışıkla bir kadını hamile bırakınca kaçmak istemesi de bu yüzden.
+- İnsan yaşına göre 16, Tabaxi yaşına göre 32 yaşında. Yaşına göre hiç olgun biri değil; bu yüzden de ya genç yaşta, daha aklı başına gelmemiş tabaxi kadınlar ondan hoşlanıyor ya da çok daha olgun yaştaki tabaxi erkekler.
 {% endpanel %}

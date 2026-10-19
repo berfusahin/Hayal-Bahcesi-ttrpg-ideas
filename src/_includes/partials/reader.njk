@@ -3,7 +3,7 @@
     <aside class="reader-nav" aria-label="Hikâyeler">
         {%- for group in groups %}
         <details class="menu-category"{% if not storyCategory or group.key == storyCategory %} open{% endif %}>
-            <summary class="menu-title">{{ group.label }}</summary>
+            <summary class="menu-title">{{ group.label }} <span class="menu-count">{{ group.stories.length }}</span></summary>
             <ol class="menu-list">
                 {%- for story in group.stories %}
                 <li><a href="{{ story.url }}"{% if story.url == page.url %} aria-current="page"{% endif %}>{{ story.data.title }}</a></li>
@@ -15,25 +15,34 @@
 
     <article class="story-card">
         {%- if pageKind == "stories-home" %}
-        <h2>{{ title }}</h2>
-        <div class="story-body">
-            {%- if c.storiesIntro %}<p>{{ c.storiesIntro }}</p>{% endif %}
-        </div>
+        <header class="story-head">
+            <p class="story-kicker">{{ c.name }}</p>
+            <h1>{{ title }}</h1>
+        </header>
+        {%- if c.storiesIntro %}<p class="story-intro">{{ c.storiesIntro }}</p>{% endif %}
         <div class="story-index">
             {%- for group in groups %}
             <section>
-                <h3>{{ group.label }}</h3>
+                <h2>{{ group.label }}</h2>
                 <ol>
                     {%- for story in group.stories %}
-                    <li><a href="{{ story.url }}">{{ story.data.title }}</a> <span class="meta">~{{ story.content | readingMinutes }} dk</span></li>
+                    <li>
+                        <a href="{{ story.url }}">
+                            <span class="index-num">{{ loop.index }}</span>
+                            <span class="index-title">{{ story.data.title }}</span>
+                            <span class="meta">~{{ story.content | readingMinutes }} dk</span>
+                        </a>
+                    </li>
                     {%- endfor %}
                 </ol>
             </section>
             {%- endfor %}
         </div>
         {%- else %}
-        <p class="story-kicker">{{ currentGroup.label }} · ~{{ content | readingMinutes }} dk okuma</p>
-        <h2>{{ title }}</h2>
+        <header class="story-head">
+            <p class="story-kicker">{{ currentGroup.label }} · ~{{ content | readingMinutes }} dk okuma</p>
+            <h1>{{ title }}</h1>
+        </header>
         <div class="story-body">
             {{ content | safe }}
         </div>

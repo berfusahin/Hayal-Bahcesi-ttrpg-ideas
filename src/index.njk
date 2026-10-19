@@ -2,7 +2,7 @@
 layout: base.njk
 ---
 {%- from "partials/cards.njk" import bloom -%}
-{%- set garden = collections.characters | garden(upcomingCharacters) %}
+{%- set garden = collections.characters | garden(characterCards) %}
 
 <section class="garden-strip" aria-labelledby="garden-title">
     <header class="strip-head">
@@ -25,7 +25,10 @@ layout: base.njk
     </div>
 </section>
 
-<div class="journal">
+{#- Posts are files in src/posts/. The form (and the delete buttons) only show on your
+    computer while `npm start` runs; the online site just shows the posts. #}
+<div class="journal{% if not isDev %} journal--read-only{% endif %}">
+    {%- if isDev %}
     <section class="note-card post-composer" aria-labelledby="post-form-title">
         <span class="pin" aria-hidden="true"></span>
         <p class="eyebrow">aklına bir şey mi geldi?</p>
@@ -36,13 +39,28 @@ layout: base.njk
             <p class="post-status" id="post-status" role="status" aria-live="polite"></p>
         </form>
     </section>
+    {%- endif %}
 
     <section class="posts" aria-labelledby="posts-title">
         <p class="eyebrow">bahçe günlüğü</p>
         <h2 id="posts-title">Paylaşımlar</h2>
-        <div class="post-list" id="post-list" aria-live="polite"></div>
+        <div class="post-list" id="post-list">
+            {%- for post in posts %}
+            <article class="post-item">
+                <time datetime="{{ post.iso }}">{{ post.date | postDate(site.posts.dateLocale, site.posts.dateFormat) }}</time>
+                <div class="post-body">{{ post.html | safe }}</div>
+                {%- if isDev %}
+                <button class="post-delete" type="button" data-post="{{ post.id }}" aria-label="{{ site.posts.messages.deleteLabel }}">{{ site.posts.messages.deleteButton }}</button>
+                {%- endif %}
+            </article>
+            {%- else %}
+            <p>{{ site.posts.messages.emptyPosts }}</p>
+            {%- endfor %}
+        </div>
     </section>
 </div>
 
+{%- if isDev %}
 <script>window.HayalBahcesiConfig = {{ site.posts | dump | safe }};</script>
 <script src="/assets/js/posts.js" defer></script>
+{%- endif %}

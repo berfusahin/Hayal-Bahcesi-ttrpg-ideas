@@ -5,7 +5,7 @@ pageClass: characters
 permalink: /characters/
 ---
 {%- from "partials/cards.njk" import polaroid, seedling -%}
-{%- set garden = collections.characters | garden(upcomingCharacters) %}
+{%- set garden = collections.characters | garden(characterCards) %}
 
 <section class="intro">
     <p class="eyebrow">bahçede dolaşan</p>

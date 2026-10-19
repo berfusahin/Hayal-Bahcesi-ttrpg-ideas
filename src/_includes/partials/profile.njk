@@ -1,12 +1,18 @@
 {%- set sections = content | tableOfContents %}
 <section class="hero">
-    {%- if c.portrait %}
-    <figure class="hero-portrait">
-        <img src="{{ c.portrait }}" alt="{{ c.name }}" class="zoomable" loading="eager">
-    </figure>
-    {%- endif %}
+    <div class="hero-text">
+        {%- if c.subtitle %}
+        <p class="hero-eyebrow">{{ c.subtitle }}</p>
+        {%- endif %}
+        <h1 class="hero-name">{{ c.name }}</h1>
 
-    <div class="hero-sheet">
+        {%- if c.quote %}
+        <blockquote class="hero-quote">
+            <p>{{ c.quote }}</p>
+            {%- if c.quoteSource %}<cite>{{ c.quoteSource }}</cite>{% endif %}
+        </blockquote>
+        {%- endif %}
+
         {%- if c.stats %}
         <dl class="stats">
             {%- for stat in c.stats %}
@@ -18,25 +24,32 @@
         </dl>
         {%- endif %}
 
-        {%- if sections.length > 1 %}
-        <nav class="toc" aria-labelledby="toc-title">
-            <h2 id="toc-title" class="toc-title">Bu sayfada</h2>
-            <ol>
-                {%- for section in sections %}
-                <li><a href="#{{ section.id }}">{{ section.label }}</a></li>
-                {%- endfor %}
-            </ol>
-        </nav>
-        {%- endif %}
-
         {%- if groups.length %}
-        <a class="stories-button" href="hikayeler/">
-            <span>Hikâyeleri oku</span>
-            <small>{% for group in groups %}{{ group.label }} ({{ group.stories.length }}){% if not loop.last %} · {% endif %}{% endfor %}</small>
-        </a>
+        <div class="hero-actions">
+            <a class="stories-button" href="hikayeler/">Hikâyeleri oku <span aria-hidden="true">→</span></a>
+            <span class="stories-count">{% for group in groups %}{{ group.label }} ({{ group.stories.length }}){% if not loop.last %} · {% endif %}{% endfor %}</span>
+        </div>
         {%- endif %}
     </div>
+
+    {%- if c.portrait %}
+    <figure class="hero-portrait">
+        <span class="hero-glow" aria-hidden="true"></span>
+        <img src="{{ c.portrait }}" alt="{{ c.name }}" class="zoomable" loading="eager">
+    </figure>
+    {%- endif %}
 </section>
+
+{%- if sections.length > 1 %}
+<nav class="toc" aria-labelledby="toc-title">
+    <h2 id="toc-title" class="toc-title">Bu sayfada</h2>
+    <ol>
+        {%- for section in sections %}
+        <li><a href="#{{ section.id }}">{{ section.label }}</a></li>
+        {%- endfor %}
+    </ol>
+</nav>
+{%- endif %}
 
 <div class="lore">
     {{ content | safe }}

@@ -1,12 +1,14 @@
 import fs from "node:fs";
 
-// Characters that don't have an index.md profile. They show on the Characters page as
-// "yakında" cards. When characters/<folder>/index.html exists (a hand-made page), the card
-// links to it. When you create characters/<folder>/index.md, the card turns into a real
-// profile by itself; you can then delete the line here.
+// Every character card on the Characters page and the main page, in this order.
+// A card links to the character's page when characters/<folder>/ has an index.md (a profile
+// like Claween's) or an index.html (a hand-made page). Without one it shows as "yakında".
 // `portrait` is only needed when the picture isn't assets/portrait.<png, jpg...>.
 // `tagline`, `tags` and `accent` (the card's tape colour) are optional and show on the cards.
+// For index.md profiles, a missing tagline falls back to `subtitle` and accent to the theme's.
 const list = [
+    { name: "Claween", folder: "claween",
+      tagline: "keeper of forgotten stories", tags: ["Tabaxi", "Keşiş"], accent: "#d0652b" },
     { name: "Crystal Taelin", folder: "crystal", portrait: "img/crystal.jpg",
       tagline: "Taelin hanesinin en büyük çocuğu", tags: ["Güç Enerjisti", "Kafası Karışık"], accent: "#5e3596" },
     { name: "Robin", folder: "robin",
@@ -40,6 +42,8 @@ export default list
     .map(({ portrait, ...character }) => ({
         ...character,
         image: portrait ? `/characters/${character.folder}/${portrait}` : findPortrait(character.folder),
-        url: fs.existsSync(`src/characters/${character.folder}/index.html`) ? `/characters/${character.folder}/` : null
+        url: ["index.md", "index.html"].some((file) => fs.existsSync(`src/characters/${character.folder}/${file}`))
+            ? `/characters/${character.folder}/`
+            : null
     }))
     .sort((a, b) => Boolean(b.url) - Boolean(a.url));

@@ -3,6 +3,7 @@ import { HtmlBasePlugin } from "@11ty/eleventy";
 import markdownIt from "markdown-it";
 import markdownItAnchor from "markdown-it-anchor";
 import { slug } from "./lib/slug.js";
+import { postsApi } from "./lib/posts-api.js";
 
 export default function (eleventyConfig) {
     // ── Markdown ─────────────────────────────────────────────
@@ -28,6 +29,13 @@ export default function (eleventyConfig) {
     // {% note %} ... {% endnote %} → highlighted side note
     eleventyConfig.addPairedShortcode("note", (content) =>
         `<aside class="lore-note">${renderBlock(content)}</aside>`);
+    // {% realm "ay", "Ayın sürüsü" %} ... {% endrealm %} → a full-width band around a whole
+    // section (headings, panels, notes). The name picks its look in the character's theme.css;
+    // the second text is an optional small line above the heading.
+    eleventyConfig.addPairedShortcode("realm", (content, name = "", kicker = "") => {
+        const label = kicker ? `<p class="realm-kicker">${kicker}</p>` : "";
+        return `<section class="realm${name ? ` realm--${slug(name)}` : ""}">${label}${renderBlock(content)}</section>`;
+    });
 
     // ── Files copied as they are ─────────────────────────────
     eleventyConfig.addPassthroughCopy("src/assets");
@@ -60,7 +68,19 @@ export default function (eleventyConfig) {
             .filter((item) => !item.inputPath.includes("/assets/"))
             .sort(byPath));
 
+    // ── Posting (only on your computer, with npm start) ──────
+    // The form and delete buttons show only in the dev server; they save files in src/posts/.
+    const isDev = process.env.ELEVENTY_RUN_MODE === "serve";
+    eleventyConfig.addGlobalData("isDev", isDev);
+    // Posts are read as data by src/_data/posts.js, not built as pages of their own.
+    eleventyConfig.ignores.add("src/posts/**");
+    eleventyConfig.addWatchTarget("src/posts/");
+    if (isDev) eleventyConfig.setServerOptions({ middleware: [postsApi] });
+
     // ── Filters ──────────────────────────────────────────────
+    eleventyConfig.addFilter("postDate", (date, locale = "tr-TR", format = {}) =>
+        new Intl.DateTimeFormat(locale, format).format(date));
+
     eleventyConfig.addFilter("profileFor", (profiles, id) =>
         profiles.find((item) => item.data.characterId === id));
 
@@ -78,20 +98,33 @@ export default function (eleventyConfig) {
             .map(([key, items]) => ({ key, label: labels[key] || key, stories: items }));
     });
 
-    // Every character as one card list: { planted: has a page, sprouting: "yakında" }.
-    eleventyConfig.addFilter("garden", (profiles = [], upcoming = []) => {
-        const planted = profiles.map((p) => ({
-            name: p.data.name,
+    // Every character card (src/_data/characterCards.js) sorted into
+    // { planted: has a page, sprouting: "yakında" }. index.md profiles fill in what the card leaves out.
+    eleventyConfig.addFilter("garden", (profiles = [], cards = []) => {
+        const fromProfile = (p, card = {}) => ({
+            ...card,
+            name: card.name || p.data.name,
             url: p.url,
-            image: p.data.portrait ? p.url + p.data.portrait : null,
-            tagline: p.data.subtitle,
-            tags: p.data.cardTags || [],
-            accent: p.data.theme?.accent
-        }));
+            image: card.image || (p.data.portrait ? p.url + p.data.portrait : null),
+            tagline: card.tagline ?? p.data.subtitle,
+            tags: card.tags || [],
+            accent: card.accent || p.data.theme?.accent
+        });
+        const planted = [];
         const sprouting = [];
-        for (const c of upcoming) {
-            if (profiles.some((p) => p.data.characterId === c.folder)) continue;
-            (c.url ? planted : sprouting).push(c);
+        const listed = new Set();
+        for (const card of cards) {
+            const profile = profiles.find((p) => p.data.characterId === card.folder);
+            if (profile) {
+                listed.add(profile);
+                planted.push(fromProfile(profile, card));
+            } else {
+                (card.url ? planted : sprouting).push(card);
+            }
+        }
+        // A new index.md profile shows up even before it has a card line.
+        for (const profile of profiles) {
+            if (!listed.has(profile)) planted.push(fromProfile(profile));
         }
         return { planted, sprouting };
     });
@@ -130,6 +163,9 @@ export default function (eleventyConfig) {
                 content = content.replace(/(src|href)="assets\//g, `$1="${"../".repeat(depth)}assets/`);
             }
         }
+
+        // A paragraph that is all italics (*Yazar burada...*) is an aside to the reader.
+        content = content.replace(/<p><em>((?:(?!<\/?em>)[^])*)<\/em><\/p>/g, '<p class="aside"><em>$1</em></p>');
 
         // Pictures load only when you scroll to them.
         return content.replace(/<img(?![^>]*\bloading=)/g, '<img loading="lazy" decoding="async"');

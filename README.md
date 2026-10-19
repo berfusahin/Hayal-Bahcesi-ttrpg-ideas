@@ -32,7 +32,7 @@ src/
       siirler/          ← one file per poem
   _data/
     site.js             ← site title, menu, main page texts
-    upcomingCharacters.js ← the "yakında" cards
+    characterCards.js   ← every character card: order, tagline, tags, tape colour
   assets/               ← site-wide CSS, scripts, logo
 ```
 
@@ -93,7 +93,20 @@ Picture on the left, text on the right.
 
 Text...
 {% endnote %}
+
+{% realm "ay", "Ayın sürüsü" %}
+## Anukai Tanrıları
+...headings, panels and notes...
+{% endrealm %}
 ```
+
+A `realm` turns a whole section into a full-width colour band. The name ("gunes", "ay", "kan" for
+Claween) picks its colours in the character's `theme.css`; the second text is an optional small
+line above the heading. `quote` and `quoteSource` at the top of `index.md` add a line under the
+name.
+
+In chapters, a paragraph that is entirely in italics (`*Yazar burada...*`) is shown as an aside
+(in Claween's handwriting).
 
 Every picture on a character page can be clicked to see it bigger.
 
@@ -105,19 +118,42 @@ Every picture on a character page can be clicked to see it bigger.
 2. Put pictures in `src/characters/<name>/assets/`. Name the main picture `portrait.png`
    (or .jpg, etc.).
 3. Optional: `theme.css` in the same folder for character-only styling.
-4. Remove the name from `src/_data/upcomingCharacters.js`. (If you forget, it's fine: the card
-   switches to the real page as soon as `index.md` exists.)
+4. Add (or keep) the character's line in `src/_data/characterCards.js`: it sets the card's place,
+   tagline, tags and tape colour. The card links to the page as soon as `index.md` exists.
 
 ## Hand-made character pages
 
 Anu, Crystal, Ekin, Robin and Samantha have their own fully designed pages instead of an
 `index.md` profile: plain `.html`, `.css` and `.js` files in `src/characters/<name>/`. They are
-copied to the site exactly as they are (no shared layout), and their Characters card links to
-`index.html` automatically. Edit them like normal web pages. Every page has a "← Bahçe" link back.
+copied to the site exactly as they are (no shared layout), and their card in
+`src/_data/characterCards.js` links to `index.html` automatically. Edit them like normal web pages. Every page has a "← Bahçe" link back.
 
 Pictures they expect but that aren't in the folder yet (drop them into that character's `assets/`):
 Ekin `Zehra.png`; Robin `Billy.png`, `Asiel.png`, `Hamath.png`; Samantha `Muhammed.png`,
 `Zaynab.png`, `Leila.png`.
+
+## Posts on the main page
+
+Posts are files in `src/posts/`, one `.md` file per post, so they're part of your code: they go
+into git and everyone who visits the site sees them.
+
+- While `npm start` runs, the main page shows the "Paylaşım Yap!" form and a Delete button on
+  each post. Publishing writes a new file into `src/posts/`, Delete removes it, and the page
+  refreshes by itself. Commit the files like any other change.
+- The built site (`npm run build`, the online version) has no form and no Delete buttons, so only
+  you can post.
+- You can also write a post by hand: make a file like `src/posts/2026-10-19-214000.md`:
+
+```markdown
+---
+date: 2026-10-19T21:40:00+03:00
+---
+
+What you want to say. *Markdown* works, and a single Enter is a new line.
+```
+
+Posts written before this lived only in your browser. The first time you open the main page with
+`npm start`, they're moved into `src/posts/` files automatically.
 
 ## Putting it online later
 
@@ -129,5 +165,3 @@ Ekin `Zehra.png`; Robin `Billy.png`, `Asiel.png`, `Hamath.png`; Samantha `Muhamm
 $env:PATH_PREFIX="/hayal-bahcesi/"; npm run build     ← in PowerShell (Windows)
 ```
 
-Note: posts on the main page are saved only in the browser you wrote them in. Friends visiting
-the online site won't see them.

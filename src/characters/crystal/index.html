@@ -71,7 +71,7 @@
   .flaws { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .5rem; }
 
   /* ---------- yetenekler ---------- */
-  .power { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .power { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
   .skills { display: grid; gap: 1rem; }
   .skill { border: 1px solid var(--line); border-radius: 6px; padding: 1.3rem 1.4rem; display: grid; gap: .6rem; background: var(--surface); }
   .skill h3 { font-family: var(--f-label); font-size: 1.05rem; letter-spacing: .06em; line-height: 1.3; color: var(--ember); }
@@ -168,7 +168,6 @@
           <div><dt>Yaş</dt><dd>24</dd></div>
           <div><dt>Boy</dt><dd>1.75 m</dd></div>
           <div><dt>Enerji</dt><dd>Güç</dd></div>
-          <div><dt>Rol</dt><dd>Tank / DPS</dd></div>
           <div><dt>Atı</dt><dd>Warrior</dd></div>
         </dl>
       </div>
@@ -195,15 +194,15 @@
       <div class="ages">
         <article class="age">
           <div class="age-n">0<small>doğum</small></div>
-          <div><h3>Taelinlerin ilk çocuğu</h3><p>Babası Elvar, annesi Hars milletinden Marcia. Küçük yaştan itibaren ham büyü enerjisini kendi fiziksel gücüne çevirebildiği görülür: bir güç enerjisti.</p></div>
+          <div><h3>Taelinlerin ilk çocuğu</h3><p>Babası Elvar ve annesi Marcia. Küçük yaşta güç enerjisti olduğu anlaşıldı.</p></div>
         </article>
         <article class="age">
           <div class="age-n">2<small>Sylvia doğar</small></div>
-          <div><h3>Bir kız kardeş</h3><p>Evdeki huzursuzluk bir çocuğun bile fark edeceği kadar belirgindir. Babası annesini “aşağılık” bulduğu ailesinden koparıp Vask'a tecrit eder.</p></div>
+          <div><h3>Bir kız kardeş</h3><p>Evdeki huzursuzluk bir çocuğun daha eklemesiyle belirginleşir.</p></div>
         </article>
         <article class="age">
-          <div class="age-n">6<small>anne kapanır</small></div>
-          <div><h3>Karanlık odanın sırdaşı</h3><p>Annesi kahve ve sigara dumanı arasında odasına kapanır; kapalı kapılar ardında ağlayarak dertleştiği tek kişi Crystal'dır. Hizmetçiler artık altı yaşındaki bir kıza hesap verir. Kardeşlerinin bakımı, yaraları, korkuları onda. Duygularını bastırır, ağlamayı zayıflık sayar ve kardeşlerine karşı duvar örer.</p></div>
+          <div class="age-n">6<small>Epoch doğar, anne kapanır</small></div>
+          <div><h3>Karanlık odanın sırdaşı</h3><p>Üçüncü çocuk sonrası annesi kahve ve sigara dumanı arasında kendisini odasına kapatır; kapalı kapılar ardında ağlayarak dertleştiği tek kişi Crystal'dır. Hizmetçiler artık altı yaşındaki bir kıza hesap verir. Kardeşlerinin bakımı, yaraları, korkuları onda.</p></div>
         </article>
         <article class="age">
           <div class="age-n">16<small>annenin ölümü</small></div>
@@ -225,21 +224,20 @@
     <div class="wrap">
       <div class="block-head">
         <p class="eyebrow">Kişilik</p>
-        <h2>Ketum, olgun, soğuk. Öyle görünüyor.</h2>
+        <h2>Ketum, olgun, soğuk, sinirli.</h2>
       </div>
       <div class="mask">
         <div>
-          <p class="eyebrow">Dışarıdan görünen</p>
+          <p class="eyebrow">Yansıttığı</p>
           <ul>
             <li>Kardeşlerine abla gibi değil, her işlerine burnunu sokan bir anne gibi davranır. Onlar buna “kendini beğenmişlik” der.</li>
             <li>Kardeşleri adına karar verir, onları çok iyi tanıdığını düşünür. “Ben yardım etmezsem bir boku beceremezler.”</li>
             <li>Dobra görünür ama söylediği her şey kendi bencil isteklerinden beslenir.</li>
-            <li>Kampta herkes uyurken nöbeti o tutar, grubun lojistiğini hep o düşünür. Ev işlerinde de ilkyardımda da çok iyidir.</li>
-            <li>Biri “hayır” dediğinde bağırır; biri ısrar ettiğinde hayır diyemez.</li>
+            <li>Dediğim dediktir ama kardeşlerinin ısrarlarına dayanamaz.</li>
           </ul>
         </div>
         <div>
-          <p class="eyebrow">Altında yatan</p>
+          <p class="eyebrow">Yansıtmadığı</p>
           <ul>
             <li>Mayın tarlası gibi bir evde büyüdü; ses tonuna, ortamdaki ufak değişikliğe karşı hep tetikte.</li>
             <li>Kötü giden her şeyin suçunu, yeterince iyi plan yapamadığı için kendinde bulur.</li>
@@ -258,9 +256,7 @@
       </div>
       <div class="flaws" aria-label="Zaafları">
         <span class="tag ember">Otoriter olma bağımlısı</span>
-        <span class="tag ember">Israra “hayır” diyemez</span>
         <span class="tag ember">Manipülasyona açık</span>
-        <span class="tag">Toksik ex'lerini atamaz</span>
         <span class="tag">“I can fix him”</span>
         <span class="tag">Kardeşlerine çemkirmeyi sever</span>
         <span class="tag gold">Babasının adı bile sinirini bozar</span>
@@ -275,10 +271,10 @@
         <h2>Ham büyüyü kas gücüne çevirir</h2>
       </div>
       <div class="power">
-        <div class="prose">
-          <p>Crystal'ın enerjisi mor bir alev gibi kollarını sarar. Bacaklarına topladığında hareket halindeki bir teleferiğe atlar, kollarına topladığında yerden kaptığı bir kayayı bir adamın karnından geçirecek hızla fırlatır.</p>
-          <p>Yalnızca kendi iç enerjisiyle dövüşmez; etrafındakilerin aurasını da kanalize eder. Küçük Gölet'te ve Lonca saldırısında Epoch'un yıldız enerjisinden çekip birkaç saniye sonrasını görmüş, avludaki sisin herkesi yutacağını önceden haykırmıştı.</p>
-          <p>Tavrı tank: kardeşlerinin önüne duvar gibi dikilir. Ama gerekirse savaştan da kaçar. Lonca avlusunda canavarın karşısına çıkmadı; iki kardeşini sırtlayıp sokaklara koştu. <em>Onlar ölebilir, ama Sylvia ölmeyecek.</em></p>
+        <div class="prose" style="text-align: center;">
+          <p>Enerjisi mor bir alev gibi kollarını sardığında normal bir insandan daha güçlü hale gelir.</p>
+          <p>Enerjisi bacaklarında toplandığında insan üstü zıplayışlar yapabilir ya da tazı gibi hızlı koşabilir.</p>
+          <p>Başka enerjileri çekebilir ve onları kullanabilir (tabi diğerleri izin verdiği sürece)</p>
         </div>
         <div class="skills">
           <article class="skill">
@@ -312,63 +308,21 @@
         </figure>
         <div class="sib-list">
           <article class="sib">
-            <header><h3>Sylvia</h3><span class="tag">22 · 1.50 m</span><span class="tag violet">Sis · henüz açılmadı</span></header>
+            <header><h3>Sylvia</h3><span class="tag">22 · 1.50 m</span><span class="tag violet">Henüz gücü açılmadı</span></header>
             <p class="sees">Dünyanın karanlığından korunması gereken hayalperest küçük kız.</p>
-            <p>Diplomatik, inek, senatoya girmeye çalışıyor. Ablasını “baskıcı, işine karışan abla” olarak görür. Crystal babanın şiddetli yüzünü ondan saklayıp masum kalmasını sağladı. Mernos'un şifa ikonası ve mağaradan aldığı lanetli saat ikonası onda.</p>
+            <p>Diplomatik, inek, senatoya girmeye çalışıyor. Ablasını “baskıcı, işine karışan abla” olarak görür. Crystal, anne ve babasının ilişkisini ondan saklayıp etkilenmemesini sağladı.</p>
           </article>
           <article class="sib">
-            <header><h3>Ephraim “Epoch”</h3><span class="tag">18 · 1.69 m</span><span class="tag violet">Yıldız · kâhin</span></header>
-            <p class="sees">“Benim kardeşim asla babam kadar davar olmayacak. Asla!”</p>
-            <p>Deha, yurtdışında okudu, ailesine mesafeli. Görüleri ve gizli bağlantıları Crystal'ı deli eder; gece kapısını tekmeyle açtığı da oldu, alnından öptüğü de.</p>
+            <header><h3>Ephraim “Epoch”</h3><span class="tag">18 · 1.69 m</span><span class="tag violet">Yıldız enerjisti</span></header>
+            <p class="sees">Uzun yıllar yurtdışındaydı, tüm milliyetçi duygularını kaybetti</p>
+            <p>Yurtdışında okudu, ailesine mesafeli. Paylaşmadığı görüleri ve gizli bağlantıları Crystal'ı deli eder; gece kapısını tekmeyle açtığı da oldu, alnından öptüğü de.</p>
           </article>
           <article class="sib gone">
             <header><h3>Riddley</h3><span class="tag">12</span><span class="tag ember">Hayatını kaybetti · Bölüm 8</span></header>
-            <p class="sees">Dünyanın en şapşal, en çekilmez ama bizim olan küçük bücür.</p>
-            <p>Enerjist değildi. Pembe sincapla zengin olacağına inanıyordu. Harçlığı 4 altını asla geçmeyecekti; Crystal öyle demişti.</p>
+            <p class="sees">Dünyanın en şapşal, en çekilmez ama benim mükemmel küçük kerdeşim.</p>
+            <p>Enerjist değildi. Pembe sincapla zengin olacağına inanıyordu, keşke hayat da onun kadar temiz olsaydı.</p>
           </article>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="cevre">
-    <div class="wrap">
-      <div class="block-head">
-        <p class="eyebrow">Çevresi</p>
-        <h2>Nefret ettiği, sevdiği, yanıp tutuştuğu</h2>
-        <p><a href="tanidiklar.html">Bütün tanıdıkların listesi →</a></p>
-      </div>
-      <div class="circle">
-        <article class="person bad">
-          <h3>Elvar Taelin</h3>
-          <span class="tag gold">Babası · ağır yaralı</span>
-          <p>Lonca reisi. Annesine yaptıklarını asla affetmedi; mezarlıkta “Babam gibi biriyle asla evlenmeyeceğim” diye bağırdı. Aynı gece çalışma odasında ona iki saniyelik bir sarılma verip kaçtı. Kendi hayatı pahasına çocuklarını güvenli bir yere ışınlattı; şimdi uyanmayan bir uykuda.</p>
-        </article>
-        <article class="person">
-          <h3 class="dead">Marcia Taelin</h3>
-          <span class="tag">Annesi · öldü</span>
-          <p>Hars milletinden. Kırgınlıklarıyla öldü. Kadife saçlarını okşadığı geceler hâlâ Crystal'ın aklında. Aşıklar Tepesi masalını onlara o anlatırdı.</p>
-        </article>
-        <article class="person heart">
-          <h3>Armest</h3>
-          <span class="tag ember">Hoşlandığı · 28</span>
-          <p>Babasının kallavi adamlarından, Hars'lı bir ışık enerjisti, serseri tebessümlü. Rüyasında gördüğü o geceden sonra Crystal'ın yüzü kızarıyor. Lonca saldırısında bir bacağını ve bir gözünü kaybetti.</p>
-        </article>
-        <article class="person heart">
-          <h3>Hamuk</h3>
-          <span class="tag ember">I AM OBSESSED</span>
-          <p>Yeşil Kuyruk Birliği'nin keçi sakallı, yara izli lideri. Hem haydut hem yakışıklı. Adına yetim doyurma sözleri var. Ne yazık ki Maya'ya, yani Sylvia'ya âşık.</p>
-        </article>
-        <article class="person">
-          <h3>Juspen Taelin</h3>
-          <span class="tag">Dedesi · senatör</span>
-          <p>Kraliyet senatosunda üst rütbe, Vask'ın aslanı. Dönüşte üçünü birden kollarına aldı ve kötü haberi verdi.</p>
-        </article>
-        <article class="person bad">
-          <h3>Kinigar</h3>
-          <span class="tag">Fiskar Çetesi · kayıp</span>
-          <p>Yıldız enerjisti, şehrin gayriresmi ikinci lideri. Crystal'a göre arz var diye her talebi karşılayan bir leş kargası. Kayıplara karıştı.</p>
-        </article>
       </div>
     </div>
   </section>
@@ -406,8 +360,8 @@
     <div class="wrap to-chapters">
       <div class="prose">
         <p class="eyebrow">Hikâye</p>
-        <h2>Hikâye devam ediyor</h2>
-        <p>Oyunda yaşananların tamamı, Crystal'ın anlatımıyla. Her oturumdan sonra yeni bir bölüm ekleniyor.</p>
+        <h2>Hikâye devam ediyor!</h2>
+        <p>Oyunda yaşananların tamamı, Crystal'ın anlatımıyla! Her oturumdan sonra yeni bir bölüm ekleniyor, kaçırmayın ;)</p>
       </div>
       <a class="btn" href="bolumler.html">Bölümleri oku →</a>
       <img src="img/asiklar-tepesi.jpg" alt="Aşıklar Tepesi: anıt taşın yanında Crystal ve Kaelor, önde Sylvia ile Epoch, aşağıda Vask ve okyanus">
@@ -417,7 +371,7 @@
 
 <footer class="foot">
   <div class="wrap">
-    <span>Crystal Taelin · Fate oyunu karakteri · hikâye devam ediyor</span>
+    <span>Crystal Taelin · hikâye devam ediyor</span>
     <span><a href="index.html">Karakter</a> · <a href="bolumler.html">Bölümler</a> · <a href="tanidiklar.html">Tanıdıklar</a></span>
   </div>
 </footer>

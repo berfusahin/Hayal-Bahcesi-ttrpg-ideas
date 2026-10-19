@@ -1,86 +1,311 @@
-/* Claween's extras on top of the shared character look. */
+/* Claween's extras on top of the shared character look.
+   Maztica: sun-baked sand and terracotta for the tabaxi, a starry night for the anukai,
+   a blood moon for Belthar's age. Colours live in index.md's `theme:` block. */
 
-/* Faint paw prints wandering across the page */
+:root {
+    /* Maztica step pattern (greca), used as borders and dividers */
+    --steps: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='14' viewBox='0 0 32 14'%3E%3Cpath d='M0 13h4V9h4V5h4V1h8v4h4v4h4v4h4' fill='none' stroke='%23d0652b' stroke-width='2'/%3E%3C/svg%3E");
+    --steps-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='14' viewBox='0 0 32 14'%3E%3Cpath d='M0 13h4V9h4V5h4V1h8v4h4v4h4v4h4' fill='none' stroke='%23ece6d6' stroke-opacity='.55' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* Faint paw prints wandering across the sand */
 body {
     background-color: var(--background);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='%23d0783c' fill-opacity='0.06'%3E%3Cg transform='translate(30 40) rotate(-20)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3Cg transform='translate(120 120) rotate(15)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image:
+        radial-gradient(ellipse 1100px 600px at 75% -200px, rgba(255, 196, 120, .35), transparent 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='%23d0652b' fill-opacity='0.05'%3E%3Cg transform='translate(30 40) rotate(-20)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3Cg transform='translate(120 120) rotate(15)'%3E%3Cellipse cx='0' cy='10' rx='9' ry='7.5'/%3E%3Ccircle cx='-9' cy='-3' r='3.6'/%3E%3Ccircle cx='-3' cy='-8' r='3.6'/%3E%3Ccircle cx='4' cy='-8' r='3.6'/%3E%3Ccircle cx='10' cy='-3' r='3.6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Sunara's warm glow behind the name */
-.character-header {
-    background: radial-gradient(ellipse 420px 180px at 50% 55%, rgba(255, 180, 110, .22), transparent 70%);
+.topbar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 7px;
+    background: var(--steps) repeat-x center / 16px 7px;
+    opacity: .45;
+    pointer-events: none;
 }
 
-.character-header h1 {
-    text-transform: uppercase;
-}
-
-.character-icon {
+.topbar-name span {
     display: inline-block;
     transition: transform .4s ease;
 }
 
-.character-header:hover .character-icon {
-    transform: rotate(-12deg) scale(1.08);
+.topbar-name:hover span { transform: rotate(-14deg) scale(1.15); }
+
+/* ── Hero: the sun behind the cat ───────────────────────── */
+
+.hero-name {
+    background: linear-gradient(100deg, var(--title) 20%, var(--accent) 60%, var(--title) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.lore hr::after {
-    content: "······ 🐾 ······";
+.hero-glow {
+    inset: -14%;
+    background:
+        radial-gradient(circle, rgba(255, 214, 140, .75) 0 22%, rgba(255, 190, 110, .25) 42%, transparent 66%),
+        repeating-conic-gradient(from 0deg, rgba(232, 140, 60, .20) 0 6deg, transparent 6deg 15deg);
+    -webkit-mask: radial-gradient(circle, #000 35%, transparent 70%);
+    mask: radial-gradient(circle, #000 35%, transparent 70%);
+    animation: sun-turn 120s linear infinite;
 }
 
-/* The "Evet, peki neden?" notes look like pinned scraps of paper */
-.lore-note {
-    transform: rotate(-.4deg);
-    box-shadow: 0 6px 18px rgba(164, 90, 42, .08);
+@keyframes sun-turn {
+    to { transform: rotate(360deg); }
 }
 
-.lore-note strong:first-child {
-    color: var(--title);
+.hero-portrait img {
+    border-color: var(--paper);
+    box-shadow: 0 0 0 2px var(--accent), 0 24px 50px rgba(120, 50, 20, .22);
+}
+
+.hero-portrait::after {
+    /* a paw stamp on the frame */
+    content: "🐾";
+    position: absolute;
+    right: 6%;
+    bottom: -18px;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 0 3px var(--accent), 0 0 0 9px var(--background);
+    font-size: 28px;
+    transform: rotate(12deg);
+}
+
+.stat {
+    border-color: transparent;
+    background:
+        linear-gradient(var(--paper), var(--paper)) padding-box,
+        linear-gradient(135deg, var(--accent), var(--border-note), var(--jade)) border-box;
+    border: 1.5px solid transparent;
+}
+
+/* ── Lore ───────────────────────────────────────────────── */
+
+.lore h2::after {
+    content: "";
+    display: block;
+    width: 160px;
+    height: 10px;
+    margin: 14px auto 0;
+    background: var(--steps) repeat-x center / 22px 10px;
+}
+
+.lore-panel h2::after { margin-left: 0; }
+
+/* The first story panel opens like a book */
+.lore > .lore-panel:first-of-type > p:first-child::first-letter {
+    float: left;
+    margin: 8px 12px 0 0;
+    color: var(--accent);
     font-family: var(--heading-font);
-    font-size: 22px;
-    font-weight: normal;
+    font-size: 70px;
+    font-weight: 900;
+    line-height: .8;
 }
 
-/* Torn-paper edges on the reading card */
+.lore-figure {
+    background: var(--paper);
+    border: 1px solid var(--border);
+}
+
+/* "Evet, peki neden?" notes: taped scraps of paper */
+.lore-note {
+    position: relative;
+    max-width: 760px;
+    transform: rotate(-.6deg);
+    box-shadow: 0 10px 26px rgba(164, 90, 42, .12);
+}
+
+.lore-note::before {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    width: 120px;
+    height: 26px;
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .3) 0 6px, transparent 6px 12px), rgba(47, 125, 109, .55);
+    transform: translateX(-50%) rotate(-3deg);
+}
+
+.lore-note strong:first-child { font-weight: 700; }
+
+/* Tabaxi realm: hot afternoon sun */
+.realm--gunes {
+    --realm-bg: #f9dfbd;
+    background-image:
+        radial-gradient(circle at 88% 40px, rgba(255, 236, 190, .95) 0 70px, rgba(255, 210, 140, .5) 120px, transparent 260px),
+        linear-gradient(#f9dfbd, #f6d2a8);
+}
+
+.realm--gunes::before,
+.realm--ay::before,
+.realm--kan::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: var(--steps) repeat-x center / 28px 12px;
+    opacity: .5;
+}
+
+/* Anukai realm: night, stars and the moon; pictures sit on the other side */
+.realm--ay {
+    --realm-bg: var(--night);
+    --realm-title: var(--moon);
+    --realm-accent: #a9bdf0;
+    --realm-text: var(--moon);
+    background-image:
+        radial-gradient(circle at 10% 60px, #fffbe9 0 46px, rgba(236, 230, 214, .35) 52px, transparent 160px),
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, .8), transparent),
+        radial-gradient(1px 1px at 90px 80px, rgba(255, 255, 255, .7), transparent),
+        radial-gradient(1.5px 1.5px at 150px 20px, rgba(255, 255, 255, .6), transparent),
+        radial-gradient(1px 1px at 60px 140px, rgba(255, 255, 255, .7), transparent),
+        radial-gradient(1px 1px at 170px 120px, rgba(255, 255, 255, .5), transparent),
+        linear-gradient(#1c2142, #262c5a);
+    background-size: auto, 200px 170px, 200px 170px, 200px 170px, 200px 170px, 200px 170px, auto;
+}
+
+.realm--ay::before { background-image: var(--steps-light); }
+
+.realm--ay .lore-split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+}
+
+.realm--ay .lore-figure { order: 2; }
+
+.realm--ay .lore-panel,
+.realm--ay .lore-figure {
+    background: #f6f2e8;
+    border-color: transparent;
+    box-shadow: 0 0 0 1px rgba(169, 189, 240, .25), 0 18px 40px rgba(0, 0, 0, .35);
+}
+
+.realm--ay .lore-panel h3 { color: #2b3270; }
+
+.realm--ay .lore-note {
+    background: #dfe5fb;
+    border-color: #9aa9e0;
+}
+
+.realm--ay .lore-note strong:first-child { color: #2b3270; }
+
+/* Belthar's age: the blood moon */
+.realm--kan {
+    --realm-bg: var(--blood);
+    --realm-title: #f8d9c8;
+    --realm-accent: #ff9a76;
+    --realm-text: #f8d9c8;
+    background-image:
+        radial-gradient(circle at 85% 70px, #c2392b 0 44px, rgba(194, 57, 43, .35) 54px, transparent 180px),
+        linear-gradient(#5e1b19, #2a1913);
+}
+
+.realm--kan::before { background-image: var(--steps-light); }
+
+.realm--kan .lore-panel,
+.realm--kan .lore-figure {
+    background: #fbf1ea;
+    border-color: transparent;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+}
+
+/* ── Stories ────────────────────────────────────────────── */
+
 .story-card {
-    box-shadow: 0 10px 30px rgba(164, 90, 42, .05);
-    clip-path: polygon(
-        0% 0%, 100px 15px, 200px 0px, 300px 20px, 400px 0px, 500px 15px, 600px 0px, 700px 20px, 800px 5px, 900px 15px, 100% 0%,
-        99% 10%, 100% 20%, 99% 30%, 100% 40%, 99% 50%, 100% 60%, 99% 70%, 100% 80%, 99% 90%, 100% 100%,
-        calc(100% - 100px) calc(100% - 15px), calc(100% - 200px) 100%, calc(100% - 300px) calc(100% - 20px), calc(100% - 400px) 100%, calc(100% - 500px) calc(100% - 15px), calc(100% - 600px) 100%, calc(100% - 700px) calc(100% - 20px), calc(100% - 800px) calc(100% - 5px), calc(100% - 900px) calc(100% - 15px), 0% 100%,
-        1% 90%, 0% 80%, 1% 70%, 0% 60%, 1% 50%, 0% 40%, 1% 30%, 0% 20%, 1% 10%
-    );
-    padding-top: 55px;
-    padding-bottom: 55px;
+    position: relative;
+    border-radius: 4px;
+}
+
+.story-card::before {
+    /* a strip of jade tape holding the page */
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 130px;
+    height: 26px;
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .3) 0 6px, transparent 6px 12px), rgba(47, 125, 109, .5);
+    transform: translateX(-50%) rotate(-2deg);
+}
+
+.story-head {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.story-head::after {
+    content: "";
+    display: block;
+    height: 10px;
+    margin-top: 18px;
+    background: var(--steps) repeat-x left center / 22px 10px;
+    opacity: .7;
 }
 
 /* Chapters open with a big storybook letter and end with a paw */
 .category-bolumler .story-body > p:first-child::first-letter {
     float: left;
-    margin: 6px 10px 0 0;
+    margin: 8px 12px 0 0;
     color: var(--accent);
     font-family: var(--heading-font);
-    font-size: 64px;
-    line-height: .9;
+    font-size: 74px;
+    font-weight: 900;
+    line-height: .8;
 }
 
 .category-bolumler .story-body::after,
 .category-siirler .story-body::after {
     display: block;
-    margin-top: 30px;
+    margin-top: 34px;
     color: var(--accent);
     content: "🐾";
+    font-size: 22px;
     text-align: center;
 }
 
-/* Poems: italic, in a narrower column like a page of verse */
+/* Claween loves talking to his readers in italics: make those asides his handwriting */
+.story-body p.aside em {
+    color: var(--accent-hover);
+    font-family: var(--hand-font);
+    font-size: 1.3em;
+    font-style: normal;
+    line-height: 1.4;
+}
+
+/* Poems: a narrower column like a page of verse */
 .category-siirler .story-body {
-    max-width: 640px;
-    margin-inline: auto;
+    max-width: 620px;
     font-style: italic;
 }
 
 .category-siirler .story-body p {
     font-size: 18.5px;
     line-height: 2;
+}
+
+.character-footer {
+    border-top: 0;
+    background: var(--steps) repeat-x top center / 22px 10px;
+    padding-top: 40px;
+}
+
+@media (max-width: 950px) {
+    .realm--ay .lore-split { grid-template-columns: minmax(0, 1fr); }
+    .realm--ay .lore-figure { order: 0; }
+}
+
+@media (max-width: 600px) {
+    .hero-portrait::after { width: 52px; height: 52px; font-size: 22px; }
+    .lore-note { transform: none; }
 }

@@ -517,6 +517,24 @@ main {
     margin-top: 64px;
 }
 
+/* the online site: no form, the posts get the whole width */
+.journal--read-only {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 780px;
+    margin-inline: auto;
+}
+
+.dev-note {
+    margin-top: 6px;
+    color: var(--color-date);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dev-note code {
+    font-size: 12.5px;
+}
+
 .note-card {
     position: sticky;
     top: 24px;
@@ -655,13 +673,21 @@ main {
     line-height: 1.2;
 }
 
-.post-item p {
+.post-body {
     grid-column: 1;
-    margin: 0;
     font-size: 16px;
     line-height: 1.7;
-    white-space: pre-wrap;
     overflow-wrap: anywhere;
+}
+
+.post-body > * + * { margin-top: 10px; }
+
+.post-body ul,
+.post-body ol { padding-left: 22px; }
+
+.post-body img {
+    display: block;
+    border-radius: 8px;
 }
 
 .post-delete {

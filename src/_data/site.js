@@ -12,18 +12,21 @@ export default {
         // { label: "Ideas", url: "/ideas/" }
     ],
 
-    // The "Post an Update" box on the main page.
+    // Posts on the main page. They are files in src/posts/; the form that writes them
+    // only shows on your computer while `npm start` runs.
     posts: {
+        // Where older versions kept posts in the browser; they're moved into files once.
         postsStorageKey: "hayal-bahcesi-posts",
         postMaxLength: 5000,
         dateLocale: "tr-TR",
-        dateFormat: { dateStyle: "long", timeStyle: "short" },
+        dateFormat: { dateStyle: "long", timeStyle: "short", timeZone: "Europe/Istanbul" },
         messages: {
             emptyPosts: "OMG dry as my vagina!",
             invalidPost: "Write something first bitch!",
-            loadError: "Yazılar yüklenemedi. Tarayıcı depolama alanını kontrol edin.",
-            saveError: "Yazı kaydedilemedi. Tarayıcı depolama alanını kontrol edin.",
-            deleteError: "Yazı silinemedi. Tarayıcı depolama alanını kontrol edin.",
+            saveError: "Yazı kaydedilemedi. npm start hâlâ açık mı?",
+            deleteError: "Yazı silinemedi. npm start hâlâ açık mı?",
+            deleteConfirm: "Bu yazı silinsin mi? Dosyası da silinecek.",
+            migrated: "Tarayıcıdaki eski yazılar dosyalara taşındı.",
             published: "Posted!",
             deleted: "Sent to hell!",
             deleteButton: "Delete",
